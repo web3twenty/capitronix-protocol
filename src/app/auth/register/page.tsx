@@ -1,6 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 import { toast } from "react-toastify";
@@ -11,13 +14,24 @@ import { AxiosError } from "axios";
 import Image from "next/image";
 import Link from "next/link";
 
-interface SignupFormData {
-  name: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-  referCode?: string;
-}
+// 1️⃣ Zod schema
+const signupSchema = z
+  .object({
+    name: z.string().min(2, { message: "Name must be at least 3 characters" }),
+    email: z.string().email({ message: "Invalid email address" }),
+    password: z
+      .string()
+      .min(6, { message: "Password must be at least 6 characters" }),
+    confirmPassword: z.string().min(6, { message: "Confirm your password" }),
+    referCode: z.string().optional(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  });
+
+// 2️⃣ TypeScript type
+type SignupFormData = z.infer<typeof signupSchema>;
 
 interface SignupResponse {
   success: boolean;
@@ -25,15 +39,18 @@ interface SignupResponse {
 }
 
 export default function SignupForm() {
-  const [formData, setFormData] = useState<SignupFormData>({
-    name: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-    referCode: "",
-  });
   const router = useRouter();
 
+  // 3️⃣ React Hook Form setup
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<SignupFormData>({
+    resolver: zodResolver(signupSchema),
+  });
+
+  // 4️⃣ Mutation
   const signupMutation = useMutation<
     SignupResponse,
     AxiosError<{ message: string }>,
@@ -43,25 +60,16 @@ export default function SignupForm() {
       api.post("/auth/signup", formData).then((res) => res.data),
     onSuccess: (response) => {
       toast(response.message, { type: "success" });
-      router.replace("/login");
+      router.replace("/auth/login");
     },
     onError: (error) => {
       toast(error.response?.data?.message || error.message, { type: "error" });
     },
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (formData.password !== formData.confirmPassword) {
-      toast("Passwords do not match", { type: "error" });
-      return;
-    }
-    signupMutation.mutate(formData);
+  // 5️⃣ Form submit
+  const onSubmit = (data: SignupFormData) => {
+    signupMutation.mutate(data);
   };
 
   return (
@@ -78,61 +86,52 @@ export default function SignupForm() {
           Enter your information to create an account
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4 mt-6">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 mt-6">
           <Input
             label="Full Name"
             type="text"
-            name="name"
-            required
-            value={formData.name}
-            onChange={handleChange}
             placeholder="Enter your full name"
+            {...register("name")}
+            error={errors.name?.message}
           />
 
           <Input
             label="Email Address"
             type="email"
-            name="email"
-            required
-            value={formData.email}
-            onChange={handleChange}
             placeholder="Enter your email"
+            {...register("email")}
+            error={errors.email?.message}
           />
 
           <Input
             label="Password"
             type="password"
-            name="password"
-            required
-            value={formData.password}
-            onChange={handleChange}
             placeholder="Enter your password"
+            {...register("password")}
+            error={errors.password?.message}
           />
 
           <Input
             label="Confirm Password"
             type="password"
-            name="confirmPassword"
-            required
-            value={formData.confirmPassword}
-            onChange={handleChange}
             placeholder="Confirm your password"
+            {...register("confirmPassword")}
+            error={errors.confirmPassword?.message}
           />
 
           <Input
             label="Referral Code (Optional)"
             type="text"
-            name="referCode"
-            value={formData.referCode}
-            onChange={handleChange}
             placeholder="Enter referral code"
+            {...register("referCode")}
+            error={errors.referCode?.message}
           />
 
           <Button
             type="submit"
             variant="primary"
             size="lg"
-            loading={signupMutation.isPending}
+            loading={isSubmitting || signupMutation.isPending}
             className="w-full"
           >
             Signup

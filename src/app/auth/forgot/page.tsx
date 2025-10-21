@@ -1,6 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 import { toast } from "react-toastify";
@@ -11,9 +14,13 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 
-interface ForgotPasswordFormData {
-  email: string;
-}
+// 1️⃣ Zod schema for email
+const forgotPasswordSchema = z.object({
+  email: z.string().email({ message: "Invalid email address" }),
+});
+
+// 2️⃣ TypeScript type
+type ForgotPasswordFormData = z.infer<typeof forgotPasswordSchema>;
 
 interface ForgotPasswordResponse {
   success: boolean;
@@ -21,9 +28,18 @@ interface ForgotPasswordResponse {
 }
 
 export default function ForgotPasswordForm() {
-  const [email, setEmail] = useState("");
   const router = useRouter();
 
+  // 3️⃣ React Hook Form setup
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<ForgotPasswordFormData>({
+    resolver: zodResolver(forgotPasswordSchema),
+  });
+
+  // 4️⃣ Mutation for API call
   const forgotPasswordMutation = useMutation<
     ForgotPasswordResponse,
     AxiosError<{ message: string }>,
@@ -33,16 +49,16 @@ export default function ForgotPasswordForm() {
       api.post("/auth/forgot-password", data).then((res) => res.data),
     onSuccess: (response) => {
       toast(response.message, { type: "success" });
-      router.replace("/login");
+      router.replace("/auth/login");
     },
     onError: (error) => {
       toast(error.response?.data?.message || error.message, { type: "error" });
     },
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    forgotPasswordMutation.mutate({ email });
+  // 5️⃣ Form submit
+  const onSubmit = (data: ForgotPasswordFormData) => {
+    forgotPasswordMutation.mutate(data);
   };
 
   return (
@@ -59,22 +75,20 @@ export default function ForgotPasswordForm() {
           Enter your email to reset your password
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4 mt-6">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 mt-6">
           <Input
             label="Email Address"
             type="email"
-            name="email"
-            required
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
             placeholder="Enter your email"
+            {...register("email")}
+            error={errors.email?.message}
           />
 
           <Button
             type="submit"
             variant="primary"
             size="lg"
-            loading={forgotPasswordMutation.isPending}
+            loading={isSubmitting || forgotPasswordMutation.isPending}
             className="w-full"
           >
             Send Reset Link

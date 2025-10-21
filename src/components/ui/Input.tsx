@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { Eye, EyeOff } from "lucide-react";
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
@@ -10,9 +11,22 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   (
-    { label, required, icon, error, helperText, className = "", ...rest },
+    {
+      label,
+      required,
+      icon,
+      error,
+      helperText,
+      type = "text",
+      className = "",
+      ...rest
+    },
     ref
   ) => {
+    const [showPassword, setShowPassword] = useState(false);
+
+    const isPassword = type === "password";
+
     return (
       <div className="w-full">
         {label && (
@@ -32,18 +46,29 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           <input
             ref={ref}
             required={required}
+            type={isPassword ? (showPassword ? "text" : "password") : type}
             className={`
               w-full px-3 py-2 rounded-lg
               bg-[#25262A] text-gray-100
               border border-[#666666]
-              focus:outline-none focus:ring-2 focus:ring-[#E6B800] focus:border-transparent
+              focus:outline-none focus:ring-2 focus:ring-[#bfa30a] focus:border-transparent
               disabled:bg-[#2f3035] disabled:cursor-not-allowed
               ${icon ? "pl-10" : ""}
+              ${isPassword ? "pr-10" : ""}
               ${error ? "border-red-500" : ""}
               ${className}
             `}
             {...rest}
           />
+
+          {isPassword && (
+            <div
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 cursor-pointer"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+            </div>
+          )}
         </div>
 
         {error && <p className="mt-1 text-sm text-red-400">{error}</p>}

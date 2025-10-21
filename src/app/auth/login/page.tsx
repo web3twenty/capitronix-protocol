@@ -1,6 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 import { toast } from "react-toastify";
@@ -12,10 +15,14 @@ import { AxiosError } from "axios";
 import Image from "next/image";
 import Link from "next/link";
 
-interface LoginFormData {
-  email: string;
-  password: string;
-}
+// 1️⃣ Zod schema
+const loginSchema = z.object({
+  email: z.string().email({ message: "Invalid email address" }),
+  password: z.string({ message: "Password is required" }),
+});
+
+// 2️⃣ TypeScript type inferred from schema
+type LoginFormData = z.infer<typeof loginSchema>;
 
 interface LoginResponse {
   success: boolean;
@@ -26,9 +33,18 @@ interface LoginResponse {
 }
 
 export default function LoginForm() {
-  const [formData, setFormData] = useState({ email: "", password: "" });
   const router = useRouter();
 
+  // 3️⃣ React Hook Form with Zod resolver
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<LoginFormData>({
+    resolver: zodResolver(loginSchema),
+  });
+
+  // 4️⃣ Mutation for API call
   const loginMutation = useMutation<
     LoginResponse,
     AxiosError<{ message: string }>,
@@ -46,14 +62,9 @@ export default function LoginForm() {
     },
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    loginMutation.mutate(formData);
+  // 5️⃣ Form submit handler
+  const onSubmit = (data: LoginFormData) => {
+    loginMutation.mutate(data);
   };
 
   return (
@@ -69,26 +80,23 @@ export default function LoginForm() {
         <div className="text-center text-gray-400">
           Enter your credentials to access your account
         </div>
-        <form onSubmit={handleSubmit} className="space-y-4 mt-8">
+
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 mt-8">
           <Input
             label="Email Address"
             type="email"
-            name="email"
-            required
-            value={formData.email}
-            onChange={handleChange}
+            {...register("email")}
             placeholder="Enter your email"
+            error={errors.email?.message}
           />
 
           <div>
             <Input
               label="Password"
               type="password"
-              name="password"
-              required
-              value={formData.password}
-              onChange={handleChange}
+              {...register("password")}
               placeholder="Enter your password"
+              error={errors.password?.message}
             />
             <div className="text-right mt-1">
               <Link
@@ -104,7 +112,7 @@ export default function LoginForm() {
             type="submit"
             variant="primary"
             size="lg"
-            loading={loginMutation.isPending}
+            loading={isSubmitting || loginMutation.isPending}
             className="w-full"
           >
             Login

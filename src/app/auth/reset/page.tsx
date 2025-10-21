@@ -1,6 +1,9 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 import { toast } from "react-toastify";
@@ -11,11 +14,22 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 
-interface ResetPasswordFormData {
-  password: string;
-  confirmPassword: string;
-  token: string;
-}
+// 1️⃣ Zod schema
+const resetPasswordSchema = z
+  .object({
+    password: z
+      .string()
+      .min(6, { message: "Password must be at least 6 characters" }),
+    confirmPassword: z.string().min(6, { message: "Confirm your password" }),
+    token: z.string().min(1, { message: "Invalid or missing token" }),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  });
+
+// 2️⃣ TypeScript type
+type ResetPasswordFormData = z.infer<typeof resetPasswordSchema>;
 
 interface ResetPasswordResponse {
   success: boolean;
@@ -27,17 +41,23 @@ export default function ResetPasswordForm() {
   const searchParams = useSearchParams();
   const token = searchParams.get("token") || "";
 
-  const [formData, setFormData] = useState<ResetPasswordFormData>({
-    password: "",
-    confirmPassword: "",
-    token,
+  // 3️⃣ React Hook Form setup
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors, isSubmitting },
+  } = useForm<ResetPasswordFormData>({
+    resolver: zodResolver(resetPasswordSchema),
+    defaultValues: { token },
   });
 
+  // Update token if URL changes
   useEffect(() => {
-    // Update token in state if URL changes
-    setFormData((prev) => ({ ...prev, token }));
-  }, [token]);
+    setValue("token", token);
+  }, [token, setValue]);
 
+  // 4️⃣ Mutation
   const resetPasswordMutation = useMutation<
     ResetPasswordResponse,
     AxiosError<{ message: string }>,
@@ -54,22 +74,9 @@ export default function ResetPasswordForm() {
     },
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (formData.password !== formData.confirmPassword) {
-      toast("Passwords do not match", { type: "error" });
-      return;
-    }
-    if (!formData.token) {
-      toast("Invalid or missing token", { type: "error" });
-      return;
-    }
-    resetPasswordMutation.mutate(formData);
+  // 5️⃣ Form submit
+  const onSubmit = (data: ResetPasswordFormData) => {
+    resetPasswordMutation.mutate(data);
   };
 
   return (
@@ -84,32 +91,28 @@ export default function ResetPasswordForm() {
         />
         <div className="text-center text-gray-400">Enter your new password</div>
 
-        <form onSubmit={handleSubmit} className="space-y-4 mt-6">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 mt-6">
           <Input
             label="New Password"
             type="password"
-            name="password"
-            required
-            value={formData.password}
-            onChange={handleChange}
             placeholder="Enter new password"
+            {...register("password")}
+            error={errors.password?.message}
           />
 
           <Input
             label="Confirm Password"
             type="password"
-            name="confirmPassword"
-            required
-            value={formData.confirmPassword}
-            onChange={handleChange}
             placeholder="Confirm new password"
+            {...register("confirmPassword")}
+            error={errors.confirmPassword?.message}
           />
 
           <Button
             type="submit"
             variant="primary"
             size="lg"
-            loading={resetPasswordMutation.isPending}
+            loading={isSubmitting || resetPasswordMutation.isPending}
             className="w-full"
           >
             Reset Password
