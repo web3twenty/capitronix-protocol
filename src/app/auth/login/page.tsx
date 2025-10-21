@@ -29,7 +29,11 @@ export default function LoginForm() {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const router = useRouter();
 
-  const loginMutation = useMutation<LoginResponse, AxiosError, LoginFormData>({
+  const loginMutation = useMutation<
+    LoginResponse,
+    AxiosError<{ message: string }>,
+    LoginFormData
+  >({
     mutationFn: (formData) =>
       api.post("/auth/login", formData).then((res) => res.data),
     onSuccess: (response) => {
@@ -37,7 +41,7 @@ export default function LoginForm() {
       Cookies.set("accessToken", response.data.accessToken, { expires: 30 });
       router.replace("/");
     },
-    onError: (error: any) => {
+    onError: (error) => {
       toast(error.response?.data?.message || error.message, { type: "error" });
     },
   });

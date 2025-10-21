@@ -26,7 +26,7 @@ export default function ForgotPasswordForm() {
 
   const forgotPasswordMutation = useMutation<
     ForgotPasswordResponse,
-    AxiosError,
+    AxiosError<{ message: string }>,
     ForgotPasswordFormData
   >({
     mutationFn: (data) =>
@@ -35,7 +35,7 @@ export default function ForgotPasswordForm() {
       toast(response.message, { type: "success" });
       router.replace("/login");
     },
-    onError: (error: any) => {
+    onError: (error) => {
       toast(error.response?.data?.message || error.message, { type: "error" });
     },
   });

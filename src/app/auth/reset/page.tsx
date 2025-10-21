@@ -40,7 +40,7 @@ export default function ResetPasswordForm() {
 
   const resetPasswordMutation = useMutation<
     ResetPasswordResponse,
-    AxiosError,
+    AxiosError<{ message: string }>,
     ResetPasswordFormData
   >({
     mutationFn: (data) =>
@@ -49,7 +49,7 @@ export default function ResetPasswordForm() {
       toast(response.message, { type: "success" });
       router.replace("/auth/login");
     },
-    onError: (error: any) => {
+    onError: (error) => {
       toast(error.response?.data?.message || error.message, { type: "error" });
     },
   });

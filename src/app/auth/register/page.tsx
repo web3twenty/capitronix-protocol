@@ -22,7 +22,6 @@ interface SignupFormData {
 interface SignupResponse {
   success: boolean;
   message: string;
-  data?: any;
 }
 
 export default function SignupForm() {
@@ -37,7 +36,7 @@ export default function SignupForm() {
 
   const signupMutation = useMutation<
     SignupResponse,
-    AxiosError,
+    AxiosError<{ message: string }>,
     SignupFormData
   >({
     mutationFn: (formData) =>
@@ -46,7 +45,7 @@ export default function SignupForm() {
       toast(response.message, { type: "success" });
       router.replace("/login");
     },
-    onError: (error: any) => {
+    onError: (error) => {
       toast(error.response?.data?.message || error.message, { type: "error" });
     },
   });
