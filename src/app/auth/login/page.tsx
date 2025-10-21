@@ -18,7 +18,9 @@ import Link from "next/link";
 // 1️⃣ Zod schema
 const loginSchema = z.object({
   email: z.string().email({ message: "Invalid email address" }),
-  password: z.string({ message: "Password is required" }),
+  password: z
+    .string({ message: "Password is required" })
+    .min(6, { message: "Password must be at least 6 characters" }),
 });
 
 // 2️⃣ TypeScript type inferred from schema
@@ -27,7 +29,7 @@ type LoginFormData = z.infer<typeof loginSchema>;
 interface LoginResponse {
   success: boolean;
   message: string;
-  data: {
+  payload: {
     accessToken: string;
   };
 }
@@ -54,8 +56,8 @@ export default function LoginForm() {
       api.post("/auth/login", formData).then((res) => res.data),
     onSuccess: (response) => {
       toast(response.message, { type: "success" });
-      Cookies.set("accessToken", response.data.accessToken, { expires: 30 });
-      router.replace("/");
+      Cookies.set("accessToken", response.payload.accessToken, { expires: 30 });
+      router.replace("/dashboard");
     },
     onError: (error) => {
       toast(error.response?.data?.message || error.message, { type: "error" });
