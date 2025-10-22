@@ -23,8 +23,8 @@ export default function Deposit() {
 
   return (
     <section className="p-4 md:p-6">
-      <div className="max-w-xl border border-[#2A2A2A] rounded-lg mx-auto">
-        <div className="bg-[#13171E] px-[20px] py-[10px]">
+      <div className="max-w-xl border border-[#2A2A2A] rounded-lg mx-auto mb-8">
+        <div className="bg-[#13171E] px-[20px] py-[10px] rounded-tl-lg rounded-tr-lg">
           <h2 className="text-xl text-white font-semibold">Deposit USDT</h2>
           <small className="text-[#E6E6E7]">
             Receive any amount of USDT fund using BEP-20 network
