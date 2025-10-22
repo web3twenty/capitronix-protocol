@@ -13,6 +13,7 @@ import { useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import Image from "next/image";
 import Link from "next/link";
+import Cookies from "js-cookie";
 
 // 1️⃣ Zod schema
 const signupSchema = z
@@ -23,7 +24,7 @@ const signupSchema = z
       .string()
       .min(6, { message: "Password must be at least 6 characters" }),
     confirmPassword: z.string().min(6, { message: "Confirm your password" }),
-    referCode: z.string().optional(),
+    referralCode: z.string().optional(),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords do not match",
@@ -36,6 +37,9 @@ type SignupFormData = z.infer<typeof signupSchema>;
 interface SignupResponse {
   success: boolean;
   message: string;
+  payload: {
+    accessToken: string;
+  };
 }
 
 export default function SignupForm() {
@@ -57,10 +61,11 @@ export default function SignupForm() {
     SignupFormData
   >({
     mutationFn: (formData) =>
-      api.post("/auth/signup", formData).then((res) => res.data),
+      api.post("/auth/register", formData).then((res) => res.data),
     onSuccess: (response) => {
       toast(response.message, { type: "success" });
-      router.replace("/auth/login");
+      Cookies.set("accessToken", response.payload.accessToken, { expires: 30 });
+      router.replace("/dashboard");
     },
     onError: (error) => {
       toast(error.response?.data?.message || error.message, { type: "error" });
@@ -74,18 +79,21 @@ export default function SignupForm() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#03070D] px-4 py-10">
-      <div className="w-full max-w-md bg-[#13171E] border border-[#2A2A2A] rounded-lg p-4 md:p-8 pt-2">
-        <Image
-          src="/icon-300x100.png"
-          alt="Logo"
-          width={300}
-          height={100}
-          className="w-50 mx-auto"
-        />
+      <div className="w-full max-w-md bg-[#13171E] border border-[#2A2A2A] rounded-lg p-4 md:p-6 pt-2">
+        <Link href="/">
+          <Image
+            src="/icon-300x100.png"
+            alt="Logo"
+            width={300}
+            height={100}
+            className="w-40 lg:w-48 h-auto mx-auto"
+            priority
+          />
+        </Link>
+
         <div className="text-center text-gray-400">
           Enter your information to create an account
         </div>
-
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 mt-6">
           <Input
             label="Full Name"
@@ -123,8 +131,8 @@ export default function SignupForm() {
             label="Referral Code (Optional)"
             type="text"
             placeholder="Enter referral code"
-            {...register("referCode")}
-            error={errors.referCode?.message}
+            {...register("referralCode")}
+            error={errors.referralCode?.message}
           />
 
           <Button
@@ -137,7 +145,6 @@ export default function SignupForm() {
             Signup
           </Button>
         </form>
-
         <div className="mt-6 text-center text-sm text-gray-400">
           Already have an account?{" "}
           <Link href="/auth/login" className="text-[#FFC200] hover:underline">

@@ -8,7 +8,7 @@ const roboto = Roboto({
 });
 
 export const metadata = {
-  title: "Dashboard",
+  title: "3Twentycoin | Your Digital Bridge To The Future",
   description: "Control panel for Dashboard",
 };
 

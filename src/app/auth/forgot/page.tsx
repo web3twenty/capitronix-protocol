@@ -63,14 +63,18 @@ export default function ForgotPasswordForm() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#03070D] px-4">
-      <div className="w-full max-w-md bg-[#13171E] border border-[#2A2A2A] rounded-lg p-4 md:p-8 pt-2">
-        <Image
-          src="/icon-300x100.png"
-          alt="Logo"
-          width={300}
-          height={100}
-          className="w-50 mx-auto"
-        />
+      <div className="w-full max-w-md bg-[#13171E] border border-[#2A2A2A] rounded-lg p-4 md:p-6 pt-2">
+        <Link href="/">
+          <Image
+            src="/icon-300x100.png"
+            alt="Logo"
+            width={300}
+            height={100}
+            className="w-40 lg:w-48 h-auto mx-auto"
+            priority
+          />
+        </Link>
+
         <div className="text-center text-gray-400">
           Enter your email to reset your password
         </div>
