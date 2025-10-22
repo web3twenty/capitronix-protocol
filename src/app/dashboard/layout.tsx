@@ -220,7 +220,7 @@ export default function Layout({ children }: LayoutProps) {
       {/* Main area */}
       <div className="flex-1 flex flex-col overflow-hidden bg-[#03070D]">
         {/* Fixed Header */}
-        <header className="fixed top-0 left-0 right-0 z-30 flex items-center h-[68px] md:h-[85px] border-b border-[#2A2A2A] bg-[#13171E] px-2">
+        <header className="sticky top-0 z-30 flex items-center h-[68px] md:h-[85px] border-b border-[#2A2A2A] bg-[#13171E] px-2">
           <div className="flex items-center gap-3 me-auto flex-shrink-0">
             <button
               onClick={() => setSidebarOpen(true)}
@@ -234,6 +234,7 @@ export default function Layout({ children }: LayoutProps) {
                 alt="Logo"
                 width={75}
                 height={37}
+                className="block lg:hidden w-8 h-8 overflow-hidden"
               />
             </Link>
           </div>
@@ -250,11 +251,11 @@ export default function Layout({ children }: LayoutProps) {
             <DropdownMenu.Trigger asChild>
               <div className="flex items-center gap-3 p-0.5 border border-[#2A2A2A] rounded-lg hover:bg-[#2A2A2A] cursor-pointer max-w-[200px] md:max-w-[350px] min-w-0">
                 <Image
-                  src="/default-avatar.png"
-                  alt="Image"
-                  width={34}
-                  height={34}
-                  className="flex-shrink-0"
+                  src={account?.profilePicture ?? "/default-avatar.png"}
+                  alt="Profile"
+                  width={40}
+                  height={40}
+                  className="rounded-full object-cover w-10 h-10 border-2 border-brand-accent/30"
                 />
                 <div className="min-w-0 flex-1">
                   <p className="text-[14px] text-white font-semibold truncate">
@@ -292,7 +293,7 @@ export default function Layout({ children }: LayoutProps) {
         </header>
 
         {/* Content */}
-        <main className="flex-1 overflow-y-auto bg-[#03070D] mt-[68px] md:mt-[85px]">
+        <main className="flex-1 overflow-y-auto bg-[#03070D]">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center p-4 md:p-6 gap-4">
             {/* Greeting */}
             <h1 className="text-2xl text-white font-semibold text-left w-full md:w-auto">
