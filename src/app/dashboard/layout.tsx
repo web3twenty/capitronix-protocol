@@ -8,6 +8,7 @@ import api from "@/lib/api";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import Cookies from "js-cookie";
 import Link from "next/link";
+import Button from "@/components/ui/Button";
 
 type NavigationItem = {
   name: string;
@@ -256,7 +257,6 @@ export default function Layout({ children }: LayoutProps) {
                 <span className="mgc_down_line text-white text-[24px] flex-shrink-0"></span>
               </div>
             </DropdownMenu.Trigger>
-
             <DropdownMenu.Content
               side="bottom"
               align="end"
@@ -290,12 +290,10 @@ export default function Layout({ children }: LayoutProps) {
             </h1>
 
             {/* Buttons grid */}
-            <div className="grid grid-cols-3 gap-3 w-full md:w-auto">
+            <div className="grid grid-cols-4 gap-3 w-full md:w-auto">
               <button className="flex text-[#121213] cursor-pointer flex-col md:flex-row items-center justify-center bg-[#25262A] hover:bg-[#3a3a3f] transition-colors duration-200 p-3 rounded gap-2">
-                <i className="mgc_coin_3_line text-[20px] bg-[#FFC200] rounded-full w-8 h-8 flex items-center justify-center"></i>
-                <span className="text-white text-sm text-center">
-                  Buy Tokens
-                </span>
+                <i className="mgc_cash_2_line text-[20px] bg-[#FFC200] rounded-full w-8 h-8 flex items-center justify-center"></i>
+                <span className="text-white text-sm text-center">Deposit</span>
               </button>
 
               <button className="flex text-[#121213] cursor-pointer flex-col md:flex-row items-center justify-center bg-[#25262A] hover:bg-[#3a3a3f] transition-colors duration-200 p-3 rounded gap-2">
@@ -304,8 +302,13 @@ export default function Layout({ children }: LayoutProps) {
               </button>
 
               <button className="flex text-[#121213] cursor-pointer flex-col md:flex-row items-center justify-center bg-[#25262A] hover:bg-[#3a3a3f] transition-colors duration-200 p-3 rounded gap-2">
-                <i className="mgc_cash_2_line text-[20px] bg-[#FFC200] rounded-full w-8 h-8 flex items-center justify-center"></i>
-                <span className="text-white text-sm text-center">Deposit</span>
+                <i className="mgc_coin_3_line text-[20px] bg-[#FFC200] rounded-full w-8 h-8 flex items-center justify-center"></i>
+                <span className="text-white text-sm text-center">Tokens</span>
+              </button>
+
+              <button className="flex text-[#121213] cursor-pointer flex-col md:flex-row items-center justify-center bg-[#25262A] hover:bg-[#3a3a3f] transition-colors duration-200 p-3 rounded gap-2">
+                <i className="mgc_coin_2_line text-[20px] bg-[#FFC200] rounded-full w-8 h-8 flex items-center justify-center"></i>
+                <span className="text-white text-sm text-center">Staking</span>
               </button>
             </div>
           </div>
