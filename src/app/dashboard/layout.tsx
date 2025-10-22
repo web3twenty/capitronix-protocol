@@ -3,6 +3,9 @@
 import { useState, useEffect, ReactNode } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import Image from "next/image";
+import { useQuery } from "@tanstack/react-query";
+import api from "@/lib/api";
+import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import Cookies from "js-cookie";
 
 type NavigationItem = {
@@ -19,8 +22,8 @@ interface LayoutProps {
 export default function Layout({ children }: LayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [openSubmenus, setOpenSubmenus] = useState<Record<string, boolean>>({});
-  const router = useRouter();
   const pathname = usePathname();
+  const router = useRouter();
 
   const navigation: NavigationItem[] = [
     { name: "Overview", href: "/dashboard", icon: "mgc_open_door_line" },
@@ -83,8 +86,16 @@ export default function Layout({ children }: LayoutProps) {
     });
   }, [pathname]);
 
+  const { data: account } = useQuery({
+    queryKey: ["account"],
+    queryFn: async () => {
+      const response = await api.get("/account");
+      return response.data.payload.account;
+    },
+  });
+
   return (
-    <div className="h-screen flex bg-gray-100 overflow-hidden">
+    <div className="h-screen flex bg-[#03070D] overflow-hidden">
       {/* Sidebar */}
       <aside
         className={`fixed inset-y-0 left-0 z-50 w-64 bg-[#13171E] text-gray-200 flex flex-col transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0 ${
@@ -203,7 +214,7 @@ export default function Layout({ children }: LayoutProps) {
       )}
 
       {/* Main area */}
-      <div className="flex-1 flex flex-col overflow-hidden">
+      <div className="flex-1 flex flex-col overflow-hidden bg-[#03070D]">
         {/* Fixed Header */}
         <header className="fixed top-0 left-0 right-0 z-30 flex items-center justify-between h-[68px] md:h-[85px] border-b border-[#2A2A2A] bg-[#13171E] px-2">
           <div className="flex items-center gap-3 flex-shrink-0">
@@ -216,22 +227,50 @@ export default function Layout({ children }: LayoutProps) {
             <Image src="/icon-300x100.png" alt="Logo" width={75} height={37} />
           </div>
 
-          <div className="flex items-center gap-3 p-0.5 border border-[#2A2A2A] rounded-lg hover:bg-[#2A2A2A] cursor-pointer max-w-[200px] md:max-w-[350px] min-w-0">
-            <Image
-              src="/default-avatar.png"
-              alt="Image"
-              width={34}
-              height={34}
-              className="flex-shrink-0"
-            />
-            <div className="min-w-0 flex-1">
-              <p className="text-[14px] text-white font-semibold truncate">
-                this is a big big big name
-              </p>
-              <p className="text-[10px] text-[#AEAFB2] truncate">Member</p>
-            </div>
-            <span className="mgc_down_line text-white text-[24px] flex-shrink-0"></span>
-          </div>
+          <DropdownMenu.Root>
+            <DropdownMenu.Trigger asChild>
+              <div className="flex items-center gap-3 p-0.5 border border-[#2A2A2A] rounded-lg hover:bg-[#2A2A2A] cursor-pointer max-w-[200px] md:max-w-[350px] min-w-0">
+                <Image
+                  src="/default-avatar.png"
+                  alt="Image"
+                  width={34}
+                  height={34}
+                  className="flex-shrink-0"
+                />
+                <div className="min-w-0 flex-1">
+                  <p className="text-[14px] text-white font-semibold truncate">
+                    {account?.name || "Loading..."}
+                  </p>
+                  <p className="text-[10px] text-[#AEAFB2] truncate">
+                    {account?.rank || "..."}
+                  </p>
+                </div>
+                <span className="mgc_down_line text-white text-[24px] flex-shrink-0"></span>
+              </div>
+            </DropdownMenu.Trigger>
+
+            <DropdownMenu.Content
+              side="bottom"
+              align="end"
+              className="bg-[#13171E] border border-[#2A2A2A] rounded-md py-1 mt-2 w-40 shadow-lg"
+            >
+              <DropdownMenu.Item
+                className="px-4 py-2 text-sm text-white focus:outline-none hover:bg-[#2A2A2A] cursor-pointer"
+                onClick={() => router.push("/dashboard/profile")}
+              >
+                My Profile
+              </DropdownMenu.Item>
+              <DropdownMenu.Item
+                className="px-4 py-2 text-sm text-red-500 focus:outline-none hover:bg-[#2A2A2A] cursor-pointer"
+                onClick={() => {
+                  Cookies.remove("accessToken");
+                  router.replace("/auth/login");
+                }}
+              >
+                Logout
+              </DropdownMenu.Item>
+            </DropdownMenu.Content>
+          </DropdownMenu.Root>
         </header>
 
         {/* Content */}
