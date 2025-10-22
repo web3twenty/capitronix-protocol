@@ -205,8 +205,8 @@ export default function Layout({ children }: LayoutProps) {
       {/* Main area */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Fixed Header */}
-        <header className="fixed top-0 left-0 right-0 z-30 flex-shrink-0 h-[68px] md:h-[85px] border-b border-[#2A2A2A] bg-[#13171E] flex items-center justify-between px-4">
-          <div className="flex items-center gap-3">
+        <header className="fixed top-0 left-0 right-0 z-30 flex items-center justify-between h-[68px] md:h-[85px] border-b border-[#2A2A2A] bg-[#13171E] px-4">
+          <div className="flex items-center gap-3 flex-shrink-0">
             <button
               onClick={() => setSidebarOpen(true)}
               className="lg:hidden p-2 rounded-md cursor-pointer text-white hover:text-[#FFC200]"
@@ -215,10 +215,27 @@ export default function Layout({ children }: LayoutProps) {
             </button>
             <Image src="/icon-300x100.png" alt="Logo" width={75} height={37} />
           </div>
+
+          <div className="flex items-center gap-3 p-2 border border-[#2A2A2A] rounded-lg hover:bg-[#2A2A2A] cursor-pointer max-w-[200px] md:max-w-[250px] min-w-0">
+            <Image
+              src="/default-avatar.png"
+              alt="Image"
+              width={34}
+              height={34}
+              className="flex-shrink-0"
+            />
+            <div className="min-w-0 flex-1">
+              <p className="text-[14px] text-white font-semibold truncate">
+                this is a big big big name
+              </p>
+              <p className="text-[10px] text-[#AEAFB2] truncate">Member</p>
+            </div>
+            <span className="mgc_down_line text-white text-[24px] flex-shrink-0"></span>
+          </div>
         </header>
 
         {/* Content */}
-        <main className="flex-1 overflow-y-auto bg-[#03070D] pt-[85px]">
+        <main className="flex-1 overflow-y-auto bg-[#03070D] pt-[68px] md:pt-[85px]">
           {children}
         </main>
       </div>
