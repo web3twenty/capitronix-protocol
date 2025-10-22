@@ -291,19 +291,19 @@ export default function Layout({ children }: LayoutProps) {
 
             {/* Buttons grid */}
             <div className="grid grid-cols-3 gap-3 w-full md:w-auto">
-              <button className="flex cursor-pointer flex-col md:flex-row items-center justify-center bg-[#25262A] hover:bg-[#3a3a3f] transition-colors duration-200 p-3 rounded gap-2">
+              <button className="flex text-[#121213] cursor-pointer flex-col md:flex-row items-center justify-center bg-[#25262A] hover:bg-[#3a3a3f] transition-colors duration-200 p-3 rounded gap-2">
                 <i className="mgc_coin_3_line text-[20px] bg-[#FFC200] rounded-full w-8 h-8 flex items-center justify-center"></i>
                 <span className="text-white text-sm text-center">
                   Buy Tokens
                 </span>
               </button>
 
-              <button className="flex cursor-pointer flex-col md:flex-row items-center justify-center bg-[#25262A] hover:bg-[#3a3a3f] transition-colors duration-200 p-3 rounded gap-2">
+              <button className="flex text-[#121213] cursor-pointer flex-col md:flex-row items-center justify-center bg-[#25262A] hover:bg-[#3a3a3f] transition-colors duration-200 p-3 rounded gap-2">
                 <i className="mgc_card_pay_line text-[20px] bg-[#FFC200] rounded-full w-8 h-8 flex items-center justify-center"></i>
                 <span className="text-white text-sm text-center">Withdraw</span>
               </button>
 
-              <button className="flex cursor-pointer flex-col md:flex-row items-center justify-center bg-[#25262A] hover:bg-[#3a3a3f] transition-colors duration-200 p-3 rounded gap-2">
+              <button className="flex text-[#121213] cursor-pointer flex-col md:flex-row items-center justify-center bg-[#25262A] hover:bg-[#3a3a3f] transition-colors duration-200 p-3 rounded gap-2">
                 <i className="mgc_cash_2_line text-[20px] bg-[#FFC200] rounded-full w-8 h-8 flex items-center justify-center"></i>
                 <span className="text-white text-sm text-center">Deposit</span>
               </button>
