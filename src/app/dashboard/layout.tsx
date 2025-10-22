@@ -290,7 +290,7 @@ export default function Layout({ children }: LayoutProps) {
         </header>
 
         {/* Content */}
-        <main className="flex-1 overflow-y-auto bg-[#03070D] pt-[68px] md:pt-[85px]">
+        <main className="flex-1 overflow-y-auto bg-[#03070D] mt-[68px] md:mt-[85px]">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center p-4 md:p-6 gap-4">
             {/* Greeting */}
             <h1 className="text-2xl text-white font-semibold text-left w-full md:w-auto">
