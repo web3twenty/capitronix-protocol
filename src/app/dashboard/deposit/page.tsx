@@ -50,8 +50,8 @@ export default function Deposit() {
             <small className="block text-[14px] text-white">
               <span className="md:hidden">
                 {account?.address
-                  ? `${account.address.slice(0, 15)}...${account.address.slice(
-                      -15
+                  ? `${account.address.slice(0, 12)}...${account.address.slice(
+                      -12
                     )}`
                   : "No Address"}
               </span>
