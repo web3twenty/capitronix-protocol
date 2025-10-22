@@ -1,5 +1,6 @@
 import { Roboto } from "next/font/google";
 import "./globals.css";
+import "mingcute_icon/font/Mingcute.css";
 import { ClientProviders } from "@/components/ClientProviders";
 
 const roboto = Roboto({

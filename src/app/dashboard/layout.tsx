@@ -1,16 +1,6 @@
 "use client";
 
 import { useState, useEffect, ReactNode } from "react";
-import {
-  Menu,
-  User,
-  Home,
-  Users,
-  Settings,
-  X,
-  LogOut,
-  ChevronDown,
-} from "lucide-react";
 import { useRouter, usePathname } from "next/navigation";
 import Image from "next/image";
 import Cookies from "js-cookie";
@@ -18,7 +8,7 @@ import Cookies from "js-cookie";
 type NavigationItem = {
   name: string;
   href?: string;
-  icon: React.ComponentType<{ className?: string }>;
+  icon: string;
   children?: { name: string; href: string }[];
 };
 
@@ -33,23 +23,45 @@ export default function Layout({ children }: LayoutProps) {
   const pathname = usePathname();
 
   const navigation: NavigationItem[] = [
-    { name: "Dashboard", href: "/", icon: Home },
-    { name: "Users", href: "/users", icon: Users },
+    { name: "Overview", href: "/dashboard", icon: "mgc_open_door_line" },
+    { name: "Wallet", href: "/dashboard/wallet", icon: "mgc_wallet_4_line" },
+    { name: "Deposit", href: "/dashboard/deposit", icon: "mgc_cash_2_line" },
     {
-      name: "Settings",
-      icon: Settings,
-      children: [
-        { name: "Account Config", href: "/settings/account" },
-        { name: "Limits Config", href: "/settings/limits" },
-        { name: "Staking Config", href: "/settings/staking" },
-      ],
+      name: "Withdraw",
+      href: "/dashboard/withdraw",
+      icon: "mgc_card_pay_line",
+    },
+    {
+      name: "Buy Tokens",
+      href: "/dashboard/buy-tokens",
+      icon: "mgc_coin_3_line",
+    },
+    {
+      name: "Transactions",
+      href: "/dashboard/transactions",
+      icon: "mgc_chart_vertical_line",
+    },
+    {
+      name: "Affiliate",
+      href: "/dashboard/affiliate",
+      icon: "mgc_user_add_2_line",
+    },
+    {
+      name: "Staking",
+      href: "/dashboard/staking",
+      icon: "mgc_coin_2_line",
+    },
+    {
+      name: "My Staking",
+      href: "/dashboard/my-staking",
+      icon: "mgc_user_star_line",
+    },
+    {
+      name: "Founder Pool",
+      href: "/dashboard/founder-pool",
+      icon: "mgc_user_follow_2_line",
     },
   ];
-
-  const handleLogout = () => {
-    Cookies.remove("accessToken");
-    router.replace("/auth/login");
-  };
 
   const toggleSubmenu = (name: string) => {
     setOpenSubmenus((prev) => ({
@@ -75,25 +87,32 @@ export default function Layout({ children }: LayoutProps) {
     <div className="h-screen flex bg-gray-100 overflow-hidden">
       {/* Sidebar */}
       <aside
-        className={`fixed inset-y-0 left-0 z-50 w-64 bg-gray-900 text-gray-200 flex flex-col transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0 ${
+        className={`fixed inset-y-0 left-0 z-50 w-64 bg-[#13171E] text-gray-200 flex flex-col transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0 ${
           sidebarOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
         {/* Sidebar Header */}
-        <div className="flex items-center justify-between h-16 px-4 border-b border-gray-800 flex-shrink-0">
-          <Image src="/icon-300x100.png" alt="Logo" width={150} height={85} />
-          <button
-            onClick={() => setSidebarOpen(false)}
-            className="lg:hidden p-2 rounded-md cursor-pointer text-gray-400 hover:text-gray-200 hover:bg-gray-800"
-          >
-            <X className="h-5 w-5" />
-          </button>
+        <div className="items-center justify-center hidden md:flex h-[85px] border-b border-r border-[#2A2A2A] flex-shrink-0">
+          <Image
+            src="/icon-300x100.png"
+            alt="Logo"
+            width={150}
+            height={85}
+            className="w-32"
+          />
         </div>
 
+        {/* Close button for mobile */}
+        <button
+          onClick={() => setSidebarOpen(false)}
+          className="absolute top-4 right-4 cursor-pointer lg:hidden p-2 rounded-md text-white hover:text-[#FFC200]"
+        >
+          <span className="mgc_close_line text-[24px]"></span>
+        </button>
+
         {/* Scrollable Nav */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-1">
+        <div className="flex-1 overflow-y-auto p-4 space-y-2">
           {navigation.map((item) => {
-            const Icon = item.icon;
             const isActive = pathname === item.href;
 
             if (item.children) {
@@ -103,16 +122,24 @@ export default function Layout({ children }: LayoutProps) {
                 <div key={item.name} className="space-y-1">
                   <button
                     onClick={() => toggleSubmenu(item.name)}
-                    className="group flex items-center w-full px-3 py-2.5 font-medium rounded-md text-gray-300 hover:bg-gray-800 hover:text-white"
+                    className="group flex items-center w-full px-3 py-2.5 font-medium rounded-md text-[#CFD0D2] hover:text-[#FFC200]"
                   >
-                    <Icon className="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-200" />
-                    <span className="flex-1 text-left">{item.name}</span>
                     <span
-                      className={`transition-transform duration-200 text-gray-400 ${
-                        isOpen ? "rotate-180" : ""
+                      className={`mr-3 h-5 w-5 ${
+                        isOpen
+                          ? "text-[#FFC200]"
+                          : "text-[#CFD0D2] group-hover:text-[#FFC200]"
                       }`}
                     >
-                      <ChevronDown className="h-4 w-4" />
+                      <span className={`${item.icon} text-[20px]`}></span>
+                    </span>
+                    <span className="flex-1 text-left">{item.name}</span>
+                    <span
+                      className={`transition-transform duration-200 ${
+                        isOpen ? "rotate-180 text-[#FFC200]" : "text-[#CFD0D2]"
+                      }`}
+                    >
+                      <i className="mgc_down_line text-[20px]"></i>
                     </span>
                   </button>
 
@@ -128,8 +155,8 @@ export default function Layout({ children }: LayoutProps) {
                           href={child.href}
                           className={`block px-3 py-2 rounded-md font-medium relative ${
                             pathname === child.href
-                              ? "bg-blue-900/50 text-blue-300 font-medium border-blue-500"
-                              : "text-gray-400 hover:bg-gray-800 hover:text-gray-200"
+                              ? "text-[#FFC200]"
+                              : "text-[#CFD0D2] hover:text-[#FFC200]"
                           }`}
                         >
                           <span>{child.name}</span>
@@ -147,43 +174,23 @@ export default function Layout({ children }: LayoutProps) {
                 href={item.href}
                 className={`group flex items-center px-3 py-2.5 font-medium rounded-md ${
                   isActive
-                    ? "bg-blue-900/50 text-blue-300 border-blue-500"
-                    : "text-gray-300 hover:bg-gray-800 hover:text-white"
+                    ? "text-[#FFC200]"
+                    : "text-[#CFD0D2] hover:text-[#FFC200]"
                 }`}
               >
-                <Icon
+                <span
                   className={`mr-3 h-5 w-5 ${
                     isActive
-                      ? "text-blue-400"
-                      : "text-gray-400 group-hover:text-gray-200"
+                      ? "text-[#FFC200]"
+                      : "text-[#CFD0D2] group-hover:text-[#FFC200]"
                   }`}
-                />
+                >
+                  <span className={`${item.icon} text-[20px]`}></span>
+                </span>
                 <span>{item.name}</span>
               </a>
             );
           })}
-        </div>
-
-        {/* Sidebar Footer */}
-        <div className="border-t border-gray-800 p-4 flex items-center justify-between flex-shrink-0">
-          <div className="flex items-center space-x-3 min-w-0 flex-1">
-            <div className="w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center">
-              <User className="h-4 w-4 text-gray-300" />
-            </div>
-            <div className="min-w-0 flex-1">
-              <p className="text-md font-medium text-gray-200 truncate">
-                Admin
-              </p>
-              <p className="text-sm text-gray-400">Administrator</p>
-            </div>
-          </div>
-          <button
-            onClick={handleLogout}
-            className="p-2 rounded-md hover:bg-gray-800 text-gray-400 hover:text-red-400 cursor-pointer"
-            title="Logout"
-          >
-            <LogOut className="h-5 w-5" />
-          </button>
         </div>
       </aside>
 
@@ -197,20 +204,21 @@ export default function Layout({ children }: LayoutProps) {
 
       {/* Main area */}
       <div className="flex-1 flex flex-col overflow-hidden">
-        {/* Fixed Header (was sticky) */}
-        <header className="fixed top-0 left-0 right-0 z-30 flex-shrink-0 h-18 bg-white/50 backdrop-blur-md flex items-center justify-between px-4">
-          <div className="flex items-center">
+        {/* Fixed Header */}
+        <header className="fixed top-0 left-0 right-0 z-30 flex-shrink-0 h-[68px] md:h-[85px] border-b border-[#2A2A2A] bg-[#13171E] flex items-center justify-between px-4">
+          <div className="flex items-center gap-3">
             <button
               onClick={() => setSidebarOpen(true)}
-              className="lg:hidden p-2 rounded-md text-gray-800 hover:bg-gray-100 cursor-pointer"
+              className="lg:hidden p-2 rounded-md cursor-pointer text-white hover:text-[#FFC200]"
             >
-              <Menu className="h-5 w-5" />
+              <span className="mgc_menu_line text-[24px]"></span>
             </button>
+            <Image src="/icon-300x100.png" alt="Logo" width={75} height={37} />
           </div>
         </header>
 
-        {/* Content with padding to avoid overlap */}
-        <main className="flex-1 overflow-y-auto bg-gray-100 pt-[72px]">
+        {/* Content */}
+        <main className="flex-1 overflow-y-auto bg-[#03070D] pt-[85px]">
           {children}
         </main>
       </div>

@@ -54,3 +54,8 @@ body {
 html {
   scroll-behavior: smooth;
 }
+
+[class^="mgc_"]::before,
+[class*=" mgc_"]::before {
+  color: inherit !important;
+}
