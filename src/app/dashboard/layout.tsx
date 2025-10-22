@@ -97,7 +97,7 @@ export default function Layout({ children }: LayoutProps) {
   });
 
   return (
-    <div className="h-screen flex bg-[#03070D] overflow-hidden">
+    <div className="h-screen flex bg-[#03070D]">
       {/* Sidebar */}
       <aside
         className={`fixed inset-y-0 left-0 z-50 w-64 bg-[#13171E] text-gray-200 flex flex-col transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0 ${
@@ -218,9 +218,9 @@ export default function Layout({ children }: LayoutProps) {
       )}
 
       {/* Main area */}
-      <div className="flex-1 flex flex-col overflow-hidden bg-[#03070D]">
+      <div className="flex-1 flex flex-col min-h-0 bg-[#03070D]">
         {/* Fixed Header */}
-        <header className="sticky flex-shrink-0 top-0 z-30 flex items-center h-[68px] md:h-[85px] border-b border-[#2A2A2A] bg-[#13171E] px-2">
+        <header className="flex-shrink-0 flex items-center h-[68px] md:h-[85px] border-b border-[#2A2A2A] bg-[#13171E] px-2 sticky top-0 z-30">
           <div className="flex items-center gap-3 me-auto flex-shrink-0">
             <button
               onClick={() => setSidebarOpen(true)}
@@ -293,7 +293,7 @@ export default function Layout({ children }: LayoutProps) {
         </header>
 
         {/* Content */}
-        <main className="overflow-y-auto bg-[#03070D]">
+        <main className="flex-1 overflow-y-auto bg-[#03070D]">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center p-4 md:p-6 gap-4">
             {/* Greeting */}
             <h1 className="text-2xl text-white font-semibold text-left w-full md:w-auto">
