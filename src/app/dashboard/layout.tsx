@@ -7,6 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import api from "@/lib/api";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import Cookies from "js-cookie";
+import Link from "next/link";
 
 type NavigationItem = {
   name: string;
@@ -224,7 +225,14 @@ export default function Layout({ children }: LayoutProps) {
             >
               <span className="mgc_menu_line text-[24px]"></span>
             </button>
-            <Image src="/icon-300x100.png" alt="Logo" width={75} height={37} />
+            <Link href="/dashboard">
+              <Image
+                src="/icon-300x100.png"
+                alt="Logo"
+                width={75}
+                height={37}
+              />
+            </Link>
           </div>
 
           <DropdownMenu.Root>
