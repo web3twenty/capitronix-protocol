@@ -106,13 +106,15 @@ export default function Layout({ children }: LayoutProps) {
       >
         {/* Sidebar Header */}
         <div className="items-center justify-center hidden md:flex h-[85px] border-b border-r border-[#2A2A2A] flex-shrink-0">
-          <Image
-            src="/icon-300x100.png"
-            alt="Logo"
-            width={150}
-            height={85}
-            className="w-32"
-          />
+          <Link href="/dashboard">
+            <Image
+              src="/icon-300x100.png"
+              alt="Logo"
+              width={150}
+              height={85}
+              className="w-32"
+            />
+          </Link>
         </div>
 
         {/* Close button for mobile */}
