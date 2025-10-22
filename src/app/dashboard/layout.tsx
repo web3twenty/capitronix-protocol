@@ -216,7 +216,7 @@ export default function Layout({ children }: LayoutProps) {
             <Image src="/icon-300x100.png" alt="Logo" width={75} height={37} />
           </div>
 
-          <div className="flex items-center gap-3 p-0.5 border border-[#2A2A2A] rounded-lg hover:bg-[#2A2A2A] cursor-pointer max-w-[200px] md:max-w-[250px] min-w-0">
+          <div className="flex items-center gap-3 p-0.5 border border-[#2A2A2A] rounded-lg hover:bg-[#2A2A2A] cursor-pointer max-w-[200px] md:max-w-[350px] min-w-0">
             <Image
               src="/default-avatar.png"
               alt="Image"
