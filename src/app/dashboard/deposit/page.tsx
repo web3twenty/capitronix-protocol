@@ -14,6 +14,14 @@ export default function Deposit() {
     },
   });
 
+  const { data: stats } = useQuery({
+    queryKey: ["stats"],
+    queryFn: async () => {
+      const response = await api.get("/dashboard/stats");
+      return response.data.payload;
+    },
+  });
+
   const handleCopy = () => {
     if (account?.address) {
       navigator.clipboard.writeText(account.address);
@@ -64,7 +72,8 @@ export default function Deposit() {
               <h3 className="text-md text-white font-semibold">Pro Tip</h3>
             </div>
             <small className="text-[#E6E6E7] pt-0">
-              Receive any amount of USDT fund using BEP-20 network
+              Send Minimum {stats?.minimumDeposit} USDT to this address. Sending
+              to other networks may result in permanent loss.
             </small>
           </div>
         </div>
