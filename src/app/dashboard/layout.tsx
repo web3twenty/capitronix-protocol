@@ -218,82 +218,83 @@ export default function Layout({ children }: LayoutProps) {
       )}
 
       {/* Main area */}
-      <div className="flex-1 flex flex-col min-h-0 bg-[#03070D]">
+      <div className="flex-1 bg-[#03070D] overflow-y-auto">
         {/* Fixed Header */}
-        <header className="flex-shrink-0 flex items-center h-[68px] md:h-[85px] border-b border-[#2A2A2A] bg-[#13171E] px-2 sticky top-0 z-30">
-          <div className="flex items-center gap-3 me-auto flex-shrink-0">
-            <button
-              onClick={() => setSidebarOpen(true)}
-              className="lg:hidden p-2 rounded-md cursor-pointer text-white hover:text-[#FFC200]"
-            >
-              <span className="mgc_menu_line text-[24px]"></span>
-            </button>
-            <Link href="/dashboard">
-              <Image
-                src="/icon-300x100.png"
-                alt="Logo"
-                width={75}
-                height={37}
-                className="block lg:hidden"
-              />
-            </Link>
-          </div>
-
-          {account?.isVerified === 0 && (
-            <div className="hidden lg:block">
-              <Button className="h-8 rounded me-3" variant="secondary">
-                Activate Now
-              </Button>
-            </div>
-          )}
-
-          <DropdownMenu.Root>
-            <DropdownMenu.Trigger asChild>
-              <div className="flex items-center gap-3 p-0.5 border border-[#2A2A2A] rounded-lg hover:bg-[#2A2A2A] cursor-pointer max-w-[200px] md:max-w-[350px] min-w-0">
-                <Image
-                  src={account?.profilePicture ?? "/default-avatar.png"}
-                  alt="Profile"
-                  width={40}
-                  height={40}
-                  className="rounded-full object-cover w-10 h-10 border-2 border-brand-accent/30"
-                />
-                <div className="min-w-0 flex-1">
-                  <p className="text-[14px] text-white font-semibold truncate">
-                    {account?.name || "Loading..."}
-                  </p>
-                  <p className="text-[10px] text-[#AEAFB2] truncate">
-                    {account?.rank || "..."}
-                  </p>
-                </div>
-                <span className="mgc_down_line text-white text-[24px] flex-shrink-0"></span>
-              </div>
-            </DropdownMenu.Trigger>
-            <DropdownMenu.Content
-              side="bottom"
-              align="end"
-              className="bg-[#13171E] border border-[#2A2A2A] rounded-md py-1 mt-2 w-40 shadow-lg"
-            >
-              <DropdownMenu.Item
-                className="px-4 py-2 text-sm text-white focus:outline-none hover:bg-[#2A2A2A] cursor-pointer"
-                onClick={() => router.push("/dashboard/profile")}
-              >
-                My Profile
-              </DropdownMenu.Item>
-              <DropdownMenu.Item
-                className="px-4 py-2 text-sm text-red-500 focus:outline-none hover:bg-[#2A2A2A] cursor-pointer"
-                onClick={() => {
-                  Cookies.remove("accessToken");
-                  router.replace("/auth/login");
-                }}
-              >
-                Logout
-              </DropdownMenu.Item>
-            </DropdownMenu.Content>
-          </DropdownMenu.Root>
-        </header>
 
         {/* Content */}
-        <main className="flex-1 overflow-y-auto bg-[#03070D]">
+        <main className="flex-1  bg-[#03070D]">
+          <header className="flex-shrink-0 flex items-center h-[68px] md:h-[85px] border-b border-[#2A2A2A] bg-[#13171E] px-2 sticky top-0 z-30">
+            <div className="flex items-center gap-3 me-auto flex-shrink-0">
+              <button
+                onClick={() => setSidebarOpen(true)}
+                className="lg:hidden p-2 rounded-md cursor-pointer text-white hover:text-[#FFC200]"
+              >
+                <span className="mgc_menu_line text-[24px]"></span>
+              </button>
+              <Link href="/dashboard">
+                <Image
+                  src="/icon-300x100.png"
+                  alt="Logo"
+                  width={75}
+                  height={37}
+                  className="block lg:hidden"
+                />
+              </Link>
+            </div>
+
+            {account?.isVerified === 0 && (
+              <div className="hidden lg:block">
+                <Button className="h-8 rounded me-3" variant="secondary">
+                  Activate Now
+                </Button>
+              </div>
+            )}
+
+            <DropdownMenu.Root>
+              <DropdownMenu.Trigger asChild>
+                <div className="flex items-center gap-3 p-0.5 border border-[#2A2A2A] rounded-lg hover:bg-[#2A2A2A] cursor-pointer max-w-[200px] md:max-w-[350px] min-w-0">
+                  <Image
+                    src={account?.profilePicture ?? "/default-avatar.png"}
+                    alt="Profile"
+                    width={40}
+                    height={40}
+                    className="rounded-full object-cover w-10 h-10 border-2 border-brand-accent/30"
+                  />
+                  <div className="min-w-0 flex-1">
+                    <p className="text-[14px] text-white font-semibold truncate">
+                      {account?.name || "Loading..."}
+                    </p>
+                    <p className="text-[10px] text-[#AEAFB2] truncate">
+                      {account?.rank || "..."}
+                    </p>
+                  </div>
+                  <span className="mgc_down_line text-white text-[24px] flex-shrink-0"></span>
+                </div>
+              </DropdownMenu.Trigger>
+              <DropdownMenu.Content
+                side="bottom"
+                align="end"
+                className="bg-[#13171E] border border-[#2A2A2A] rounded-md py-1 mt-2 w-40 shadow-lg"
+              >
+                <DropdownMenu.Item
+                  className="px-4 py-2 text-sm text-white focus:outline-none hover:bg-[#2A2A2A] cursor-pointer"
+                  onClick={() => router.push("/dashboard/profile")}
+                >
+                  My Profile
+                </DropdownMenu.Item>
+                <DropdownMenu.Item
+                  className="px-4 py-2 text-sm text-red-500 focus:outline-none hover:bg-[#2A2A2A] cursor-pointer"
+                  onClick={() => {
+                    Cookies.remove("accessToken");
+                    router.replace("/auth/login");
+                  }}
+                >
+                  Logout
+                </DropdownMenu.Item>
+              </DropdownMenu.Content>
+            </DropdownMenu.Root>
+          </header>
+
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center p-4 md:p-6 gap-4">
             {/* Greeting */}
             <h1 className="text-2xl text-white font-semibold text-left w-full md:w-auto">
