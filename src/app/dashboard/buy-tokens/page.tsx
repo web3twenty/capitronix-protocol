@@ -31,9 +31,14 @@ export default function TokenPurchase() {
     amount: z
       .string()
       .min(1, { message: "Amount is required" })
-      .refine((val) => !isNaN(parseFloat(val)) && parseFloat(val) > 0, {
-        message: "Amount must be a positive number",
-      }),
+      .refine(
+        (val) =>
+          !isNaN(parseFloat(val)) &&
+          parseFloat(val) >= (stats?.minimumBuyToken || 0),
+        {
+          message: `Minimum purchase is ${stats?.minimumBuyToken || 0} USDT`,
+        }
+      ),
   });
 
   type PurchaseFormData = z.infer<typeof purchaseSchema>;
@@ -112,12 +117,12 @@ export default function TokenPurchase() {
         </div>
 
         <div className="bg-[#03070D] p-4">
-          <div className="flex items-center w-100 border rounded p-2 justify-between">
+          <div className="flex items-center border border-[#13171E] rounded p-2 justify-between">
             <p className="text-[#CFD0D2] text-sm">Amount:</p>
             <p className="font-medium text-[#FFC200]">{amountValue} USDT</p>
           </div>
 
-          <div className="flex items-center w-100 border rounded p-2 justify-between">
+          <div className="flex items-center border border-[#13171E] rounded p-2 justify-between">
             <p className="text-[#CFD0D2] text-sm">Tokens:</p>
             <p className="font-medium text-[#FFC200]">
               <span className="text-white">
@@ -127,7 +132,7 @@ export default function TokenPurchase() {
             </p>
           </div>
 
-          <div className="flex items-center w-100 border rounded p-2 justify-between">
+          <div className="flex items-center border border-[#13171E] rounded p-2 justify-between">
             <p className="text-[#CFD0D2] text-sm">Price:</p>
             <p className="font-medium text-[#FFC200]">
               ${stats?.TOKEN_PRICE} per token

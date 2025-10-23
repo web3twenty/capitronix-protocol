@@ -26,9 +26,14 @@ export default function Deposit() {
     amount: z
       .string()
       .min(1, { message: "Amount is required" })
-      .refine((val) => !isNaN(parseFloat(val)) && parseFloat(val) > 0, {
-        message: "Amount must be a positive number",
-      }),
+      .refine(
+        (val) =>
+          !isNaN(parseFloat(val)) &&
+          parseFloat(val) >= (stats?.minimumWithdraw || 0),
+        {
+          message: `Minimum withdraw is ${stats?.minimumWithdraw || 0} USDT`,
+        }
+      ),
     note: z.string().optional(),
   });
 
