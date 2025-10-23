@@ -3,14 +3,43 @@
 import api from "@/lib/api";
 import { useQuery } from "@tanstack/react-query";
 
+// ✅ Define TypeScript interfaces for your data
+interface Transaction {
+  id: number;
+  userId: number;
+  transactionType: string;
+  amount: string; // comes as string from API
+  currency: string;
+  phaseId: number | null;
+  status: "Completed" | "Pending";
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface TransactionPayload {
+  totalItems: number;
+  totalPages: number;
+  currentPage: number;
+  limit: number;
+  transactions: Transaction[];
+}
+
+interface TransactionResponse {
+  statusCode: number;
+  message: string;
+  payload: TransactionPayload;
+}
+
 export default function Transactions() {
-  const { data: transData } = useQuery({
+  const { data: transData } = useQuery<TransactionResponse>({
     queryKey: ["transactions"],
     queryFn: async () => {
       const response = await api.get("/transactions");
-      return response.data.payload;
+      return response.data as TransactionResponse;
     },
   });
+
+  const transactions = transData?.payload.transactions ?? [];
 
   return (
     <section className="p-4 md:p-6">
@@ -40,7 +69,7 @@ export default function Transactions() {
             </tr>
           </thead>
           <tbody className="divide-y divide-[#2A2A2A]">
-            {(transData?.transactions || []).map((tx: any) => (
+            {transactions.map((tx) => (
               <tr key={tx.id}>
                 <td className="px-4 py-3">{tx.transactionType}</td>
                 <td className="px-4 py-3 hidden sm:table-cell">
@@ -53,8 +82,8 @@ export default function Transactions() {
                   })}
                 </td>
                 <td className="px-4 py-3 text-center">
-                  {tx.amount > 0 ? `+` : ""}
-                  {new Intl.NumberFormat("en-US").format(tx.amount)}
+                  {parseFloat(tx.amount) > 0 ? "+" : ""}
+                  {new Intl.NumberFormat("en-US").format(parseFloat(tx.amount))}
                 </td>
                 <td className="px-4 py-3 hidden sm:table-cell">
                   {tx.currency}
