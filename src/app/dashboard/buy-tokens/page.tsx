@@ -4,12 +4,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import {
-  useQuery,
-  useMutation,
-  useQueryClient,
-  QueryClientContext,
-} from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import api from "@/lib/api";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
@@ -33,9 +28,12 @@ export default function TokenPurchase() {
 
   // ✅ Validation schema (amount only)
   const purchaseSchema = z.object({
-    amount: z.coerce.number().min(stats?.minimumBuyToken ?? 1, {
-      message: `Amount must be at least ${stats?.minimumBuyToken ?? 1} USDT`,
-    }),
+    amount: z
+      .string()
+      .min(1, { message: "Amount is required" })
+      .refine((val) => !isNaN(parseFloat(val)) && parseFloat(val) > 0, {
+        message: "Amount must be a positive number",
+      }),
   });
 
   type PurchaseFormData = z.infer<typeof purchaseSchema>;
@@ -72,7 +70,7 @@ export default function TokenPurchase() {
     watch,
     formState: { errors, isSubmitting },
   } = useForm<PurchaseFormData>({
-    resolver: zodResolver(purchaseSchema) as any, // TS workaround
+    resolver: zodResolver(purchaseSchema), // TS workaround
   });
 
   const onSubmit = (data: PurchaseFormData) => {
@@ -123,7 +121,7 @@ export default function TokenPurchase() {
             <p className="text-[#CFD0D2] text-sm">Tokens:</p>
             <p className="font-medium text-[#FFC200]">
               <span className="text-white">
-                {amountValue / stats?.TOKEN_PRICE}
+                {Number(amountValue ?? 0) / stats?.TOKEN_PRICE}
               </span>{" "}
               3TWENTY
             </p>
@@ -190,7 +188,9 @@ export default function TokenPurchase() {
               </div>
               <div className="text-xl pt-1 font-medium">
                 <span className="text-white">
-                  {stats?.TOKEN_PRICE ? amountValue / stats.TOKEN_PRICE : "0"}
+                  {stats?.TOKEN_PRICE
+                    ? Number(amountValue || 0) / stats.TOKEN_PRICE
+                    : "0"}
                 </span>{" "}
                 <span className="text-[#FFC200]">3TWENTY</span>
               </div>

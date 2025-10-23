@@ -20,16 +20,27 @@ export default function Deposit() {
     },
   });
 
-  // ✅ Validation schema
+  // ✅ Simple and clean validation schema
   const withdrawSchema = z.object({
     address: z.string().min(10, { message: "Recipient address is required" }),
-    amount: z.coerce.number().min(stats?.minimumWithdraw ?? 1, {
-      message: `Amount must be at least ${stats?.minimumWithdraw ?? 1} USDT`,
-    }),
+    amount: z
+      .string()
+      .min(1, { message: "Amount is required" })
+      .refine((val) => !isNaN(parseFloat(val)) && parseFloat(val) > 0, {
+        message: "Amount must be a positive number",
+      }),
     note: z.string().optional(),
   });
 
+  // Form data type (what the form handles)
   type WithdrawFormData = z.infer<typeof withdrawSchema>;
+
+  // API data type (what gets sent to the server)
+  interface WithdrawApiData {
+    address: string;
+    amount: number;
+    note?: string;
+  }
 
   interface WithdrawResponse {
     success: boolean;
@@ -39,7 +50,7 @@ export default function Deposit() {
   const withdrawMutation = useMutation<
     WithdrawResponse,
     AxiosError<{ message: string }>,
-    WithdrawFormData
+    WithdrawApiData
   >({
     mutationFn: (formData) =>
       api.post("/wallet/withdraw", formData).then((res) => res.data),
@@ -52,18 +63,24 @@ export default function Deposit() {
     },
   });
 
-  // ✅ React Hook Form setup (with TS fix)
+  // ✅ React Hook Form setup
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors, isSubmitting },
   } = useForm<WithdrawFormData>({
-    resolver: zodResolver(withdrawSchema) as any, // ✅ TS fix
+    resolver: zodResolver(withdrawSchema),
   });
 
   const onSubmit = (data: WithdrawFormData) => {
-    withdrawMutation.mutate(data, {
+    // Convert form data to API data
+    const apiData: WithdrawApiData = {
+      ...data,
+      amount: parseFloat(data.amount),
+    };
+
+    withdrawMutation.mutate(apiData, {
       onSuccess: () => reset(),
     });
   };
@@ -92,7 +109,7 @@ export default function Deposit() {
             type="number"
             step="any"
             placeholder="Enter Amount"
-            {...register("amount")} // z.coerce handles conversion
+            {...register("amount")}
             error={errors.amount?.message}
           />
 
