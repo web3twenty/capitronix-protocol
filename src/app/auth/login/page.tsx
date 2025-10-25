@@ -6,7 +6,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
-import { toast } from "react-toastify";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import api from "@/lib/api";
@@ -14,6 +13,7 @@ import { useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import Image from "next/image";
 import Link from "next/link";
+import { showSuccessAlert, showErrorAlert } from "@/components/Toast";
 
 // 1️⃣ Zod schema
 const loginSchema = z.object({
@@ -55,12 +55,12 @@ export default function LoginForm() {
     mutationFn: (formData) =>
       api.post("/auth/login", formData).then((res) => res.data),
     onSuccess: (response) => {
-      toast(response.message, { type: "success" });
+      showSuccessAlert(response.message);
       Cookies.set("accessToken", response.payload.accessToken, { expires: 30 });
       router.replace("/dashboard");
     },
     onError: (error) => {
-      toast(error.response?.data?.message || error.message, { type: "error" });
+      showErrorAlert(error.response?.data?.message || error.message);
     },
   });
 
