@@ -7,12 +7,12 @@ import { useQuery } from "@tanstack/react-query";
 import api from "@/lib/api";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import Cookies from "js-cookie";
-import Link from "next/link";
+import Link, { LinkProps } from "next/link";
 import Button from "@/components/ui/Button";
 
 type NavigationItem = {
   name: string;
-  href?: string;
+  href: LinkProps["href"];
   icon: string;
   children?: { name: string; href: string }[];
 };
@@ -176,7 +176,7 @@ export default function Layout({ children }: LayoutProps) {
                   >
                     <div className="border-l border-gray-600 pl-4 space-y-1">
                       {item.children.map((child) => (
-                        <a
+                        <Link
                           key={child.name}
                           href={child.href}
                           className={`block px-3 py-2 rounded-md font-medium relative ${
@@ -186,7 +186,7 @@ export default function Layout({ children }: LayoutProps) {
                           }`}
                         >
                           <span>{child.name}</span>
-                        </a>
+                        </Link>
                       ))}
                     </div>
                   </div>
@@ -195,7 +195,7 @@ export default function Layout({ children }: LayoutProps) {
             }
 
             return (
-              <a
+              <Link
                 key={item.name}
                 href={item.href}
                 className={`group flex items-center px-3 py-2.5 font-medium rounded-md ${
@@ -214,7 +214,7 @@ export default function Layout({ children }: LayoutProps) {
                   <span className={`${item.icon} text-[20px]`}></span>
                 </span>
                 <span>{item.name}</span>
-              </a>
+              </Link>
             );
           })}
         </div>
