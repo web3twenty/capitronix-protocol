@@ -1,14 +1,16 @@
 "use client";
 
 import api from "@/lib/api";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, keepPreviousData } from "@tanstack/react-query";
+import { useSearchParams, useRouter } from "next/navigation";
+import { ChevronLeft, ChevronRight, ChevronDown } from "lucide-react";
 
-// ✅ Define TypeScript interfaces for your data
+// ✅ Define TypeScript interfaces
 interface Transaction {
   id: number;
   userId: number;
   transactionType: string;
-  amount: string; // comes as string from API
+  amount: string;
   currency: string;
   phaseId: number | null;
   status: "Completed" | "Pending";
@@ -31,18 +33,45 @@ interface TransactionResponse {
 }
 
 export default function Transactions() {
-  const { data: transData } = useQuery<TransactionResponse>({
-    queryKey: ["transactions"],
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
+  // ✅ Read values from URL or fallback
+  const page = Number(searchParams.get("page")) || 1;
+  const limit = Number(searchParams.get("limit")) || 10;
+
+  // ✅ Fetch data from server using query params
+  const { data: transData, isFetching } = useQuery<TransactionResponse>({
+    queryKey: ["transactions", page, limit],
     queryFn: async () => {
-      const response = await api.get("/transactions");
+      const response = await api.get(
+        `/transactions?page=${page}&limit=${limit}`
+      );
       return response.data as TransactionResponse;
     },
+    staleTime: 1000 * 60 * 2,
+    placeholderData: keepPreviousData,
   });
 
-  const transactions = transData?.payload.transactions ?? [];
+  const payload = transData?.payload;
+  const transactions = payload?.transactions ?? [];
+  const totalItems = payload?.totalItems ?? 0;
+  const totalPages = payload?.totalPages ?? 1;
+  const currentPage = payload?.currentPage ?? page;
+
+  const startIndex = totalItems === 0 ? 0 : (currentPage - 1) * limit + 1;
+  const endIndex = Math.min(currentPage * limit, totalItems);
+
+  // ✅ Helper to update URL without reload
+  const updateParams = (newParams: { page?: number; limit?: number }) => {
+    const params = new URLSearchParams(searchParams);
+    if (newParams.page) params.set("page", newParams.page.toString());
+    if (newParams.limit) params.set("limit", newParams.limit.toString());
+    router.push(`?${params.toString()}`, { scroll: false });
+  };
 
   return (
-    <section className="p-4 md:p-6">
+    <section className="p-4 md:px-6 md:py-2">
       <div className="max-w-7xl bg-[#13171E] border border-[#2A2A2A] rounded-lg">
         <h1 className="text-lg text-white font-medium px-[20px] py-[10px]">
           Transactions
@@ -101,8 +130,68 @@ export default function Transactions() {
                 </td>
               </tr>
             ))}
+
+            {transactions.length === 0 && !isFetching && (
+              <tr>
+                <td colSpan={5} className="px-4 py-6 text-center text-gray-400">
+                  No transactions found.
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
+
+        {/* Pagination Footer */}
+        <div className="flex items-center rounded-bl-lg rounded-br-lg justify-end gap-4 px-4 py-3 border-t border-[#2A2A2A] text-sm text-gray-300 bg-[#03070D]">
+          <div className="flex items-center space-x-2">
+            <span>Rows per page:</span>
+            <div className="relative">
+              <select
+                className="appearance-none cursor-pointer font-bold bg-transparent border border-[#2A2A2A] text-white text-sm px-2 py-1 rounded-md pr-6"
+                value={limit}
+                onChange={(e) =>
+                  updateParams({ page: 1, limit: Number(e.target.value) })
+                }
+              >
+                {[5, 10, 25, 50].map((n) => (
+                  <option key={n} value={n} className="bg-[#1B1F26]">
+                    {n}
+                  </option>
+                ))}
+              </select>
+              <ChevronDown className="absolute right-1 top-1/2 -translate-y-1/2 w-5 h-5 pointer-events-none text-white" />
+            </div>
+          </div>
+
+          <div className="flex items-center space-x-6">
+            <span>
+              {startIndex} – {endIndex} of {totalItems}
+            </span>
+            <div className="flex items-center space-x-2">
+              <button
+                onClick={() =>
+                  updateParams({ page: Math.max(currentPage - 1, 1) })
+                }
+                disabled={currentPage === 1}
+                className="p-1 rounded-md hover:bg-[#1B1F26] disabled:opacity-40 cursor-pointer disabled:cursor-not-allowed"
+              >
+                <ChevronLeft className="w-5 h-5 cursor-pointer" />
+              </button>
+              <button
+                onClick={() =>
+                  updateParams({
+                    page:
+                      currentPage < totalPages ? currentPage + 1 : totalPages,
+                  })
+                }
+                disabled={currentPage >= totalPages}
+                className="p-1 rounded-md hover:bg-[#1B1F26] disabled:opacity-40 cursor-pointer disabled:cursor-not-allowed"
+              >
+                <ChevronRight className="w-5 h-5" />
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );

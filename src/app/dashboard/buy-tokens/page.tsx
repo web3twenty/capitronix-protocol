@@ -90,7 +90,7 @@ export default function TokenPurchase() {
   );
 
   return (
-    <section className="p-4 md:p-6">
+    <section className="p-4 md:px-6 md:py-2">
       <Modal
         open={isModalOpen}
         onClose={() => setIsModalOpen(false)}

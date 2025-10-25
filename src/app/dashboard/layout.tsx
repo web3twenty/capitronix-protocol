@@ -96,6 +96,17 @@ export default function Layout({ children }: LayoutProps) {
     },
   });
 
+  useEffect(() => {
+    if (sidebarOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [sidebarOpen]);
+
   return (
     <div className="min-h-screen flex bg-[#03070D]">
       {/* Sidebar */}
