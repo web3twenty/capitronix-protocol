@@ -92,7 +92,7 @@ export default function Deposit() {
 
   return (
     <section className="p-4 md:px-6 md:py-2">
-      <div className="max-w-2xl border border-[#2A2A2A] rounded-lg mx-auto mb-20 md:mb-8">
+      <div className="max-w-2xl border border-[#2A2A2A] rounded-lg mx-auto mb-8">
         <div className="bg-[#13171E] px-[20px] py-[10px] rounded-tl-lg rounded-tr-lg">
           <h2 className="text-xl text-white font-semibold">Withdraw USDT</h2>
           <small className="text-[#E6E6E7]">

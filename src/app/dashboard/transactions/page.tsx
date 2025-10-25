@@ -72,7 +72,7 @@ export default function Transactions() {
 
   return (
     <section className="p-4 md:px-6 md:py-2">
-      <div className="max-w-7xl bg-[#13171E] border border-[#2A2A2A] rounded-lg">
+      <div className="max-w-7xl bg-[#13171E] border border-[#2A2A2A] rounded-lg mb-8">
         <h1 className="text-lg text-white font-medium px-[20px] py-[10px]">
           Transactions
         </h1>
