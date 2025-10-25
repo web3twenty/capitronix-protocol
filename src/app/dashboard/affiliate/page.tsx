@@ -1,11 +1,26 @@
 "use client";
 
+import { useQuery } from "@tanstack/react-query";
 import { toast } from "react-toastify";
+import api from "@/lib/api";
 
 export default function WithdrawCards() {
   const handleCopy = () => {
-    toast("Link copied!", { type: "success" });
+    if (account?.referralCode) {
+      navigator.clipboard.writeText(
+        `${process.env.NEXT_PUBLIC_APP_URL}/auth/register?ref=${account?.referralCode}`
+      );
+      toast("Address copied!", { type: "success" });
+    }
   };
+
+  const { data: account } = useQuery({
+    queryKey: ["account"],
+    queryFn: async () => {
+      const response = await api.get("/account");
+      return response.data.payload.account;
+    },
+  });
 
   return (
     <section className="p-4 md:px-6 md:py-2">
@@ -65,16 +80,20 @@ export default function WithdrawCards() {
             <div className="w-[58px] h-[58px] bg-transparent flex items-center justify-center rounded-full">
               <span className="mgc_user_add_2_line text-[40px] text-[#FFC200]"></span>
             </div>
-            <div className="flex items-center justify-between w-full">
-              <small className="text-white text-sm text-wrap">
-                https://www.3twentycoin.com/sign-up?ref=8F1G7Z
-              </small>
-              <span
-                className="px-2 py-1 text-white text-[24px] cursor-pointer rounded hover:bg-white/10"
-                onClick={handleCopy}
-              >
-                <i className="mgc_copy_3_line"></i>
-              </span>
+            <div className="flex items-center justify-between gap-2">
+              <div>
+                <small className="block text-white text-sm text-wrap">
+                  {`${process.env.NEXT_PUBLIC_APP_URL}/auth/register?ref=${account?.referralCode}`}
+                </small>
+              </div>
+              <div>
+                <span
+                  className="px-2 py-1 text-white text-[24px] cursor-pointer rounded hover:bg-white/10 flex-shrink-0"
+                  onClick={handleCopy}
+                >
+                  <i className="mgc_copy_3_line"></i>
+                </span>
+              </div>
             </div>
           </div>
         </div>
