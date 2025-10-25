@@ -47,7 +47,9 @@ export default function Stakings() {
         <div className="flex items-center justify-between px-[20px] py-[10px]">
           <h1 className="text-lg text-white font-medium">My Stakings</h1>
           <h2 className="font-medium">
-            <span className="text-[#FFC200]">Total Stake: </span>
+            <span className="text-[#FFC200] hidden md:inline">
+              Total Stake:{" "}
+            </span>
             <span className="text-white">{totalStake} </span>
             <span className="text-[#FFC200]">3TWENTY</span>
           </h2>
