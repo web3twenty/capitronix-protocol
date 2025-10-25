@@ -3,6 +3,7 @@
 import Image from "next/image";
 import api from "@/lib/api";
 import { useQuery } from "@tanstack/react-query";
+import Link from "next/link";
 
 interface Transaction {
   id: number;
@@ -110,9 +111,12 @@ export default function WalletWithTransactions() {
             <h1 className="text-lg text-white font-medium">
               Recent Transactions
             </h1>
-            <span className="text-[#FFC200] text-[14px] font-medium cursor-pointer hover:text-[#E6AC00]">
+            <Link
+              href="/dashboard/transactions"
+              className="text-[#FFC200] text-[14px] font-medium hover:text-[#E6AC00]"
+            >
               View All
-            </span>
+            </Link>
           </div>
 
           <table className="w-full text-sm text-left text-gray-300 bg-[#03070D] divide-y divide-[#2A2A2A] rounded-lg">
