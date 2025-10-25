@@ -21,7 +21,7 @@ export default function Staking() {
 
           <div className="p-4 md:p-5 space-y-4">
             {/* Details List */}
-            <div className="space-y-3">
+            <div className="divide-y divide-[#2A2A2A]">
               {[
                 {
                   icon: "mgc_time_line",
@@ -42,7 +42,7 @@ export default function Staking() {
               ].map((item, idx) => (
                 <div
                   key={idx}
-                  className="flex justify-between items-center border border-[#2A2A2A] rounded-lg px-3 py-2 md:px-4 md:py-2"
+                  className="flex justify-between items-center py-3 md:py-3 first:pt-0 last:pb-0"
                 >
                   <div className="flex items-center gap-2 md:gap-3">
                     {item.icon === "coin" ? (
@@ -90,50 +90,52 @@ export default function Staking() {
           </div>
 
           <div className="p-4 md:p-5 space-y-4">
-            {[
-              {
-                icon: "mgc_coin_2_line",
-                label: "Staked Amount:",
-                value: "1000 3TWENTY",
-                highlight: true,
-              },
-              {
-                icon: "mgc_calendar_line",
-                label: "Daily Rewards:",
-                value: "4.6875 3TWENTY",
-                highlight: true,
-              },
-              {
-                icon: "mgc_award_line",
-                label: "Total Rewards (320 days):",
-                value: "0.00 3TWENTY",
-                highlight: true,
-              },
-            ].map((item, idx) => (
-              <div
-                key={idx}
-                className="flex justify-between items-center border border-[#2A2A2A] rounded-lg px-3 py-2 md:px-4 md:py-2"
-              >
-                <div className="flex items-center gap-2 md:gap-3">
-                  <span
-                    className={`${item.icon} text-[#FFC200] text-lg md:text-[20px]`}
-                  ></span>
-                  <span className="text-[#CFD0D2] text-[12px] md:text-sm">
-                    {item.label}
-                  </span>
-                </div>
-                <p
-                  className={`font-medium text-sm md:text-md ${
-                    item.highlight ? "text-white" : ""
-                  }`}
+            <div className="divide-y divide-[#2A2A2A]">
+              {[
+                {
+                  icon: "mgc_coin_2_line",
+                  label: "Staked Amount:",
+                  value: "1000 3TWENTY",
+                  highlight: true,
+                },
+                {
+                  icon: "mgc_calendar_line",
+                  label: "Daily Rewards:",
+                  value: "4.6875 3TWENTY",
+                  highlight: true,
+                },
+                {
+                  icon: "mgc_award_line",
+                  label: "Total Rewards (320 days):",
+                  value: "0.00 3TWENTY",
+                  highlight: true,
+                },
+              ].map((item, idx) => (
+                <div
+                  key={idx}
+                  className="flex justify-between items-center py-3 md:py-3 first:pt-0 last:pb-0"
                 >
-                  {item.value.split(" ")[0]}{" "}
-                  <span className="text-[#FFC200]">
-                    {item.value.split(" ")[1]}
-                  </span>
-                </p>
-              </div>
-            ))}
+                  <div className="flex items-center gap-2 md:gap-3">
+                    <span
+                      className={`${item.icon} text-[#FFC200] text-lg md:text-[20px]`}
+                    ></span>
+                    <span className="text-[#CFD0D2] text-[12px] md:text-sm">
+                      {item.label}
+                    </span>
+                  </div>
+                  <p
+                    className={`font-medium text-sm md:text-md ${
+                      item.highlight ? "text-white" : ""
+                    }`}
+                  >
+                    {item.value.split(" ")[0]}{" "}
+                    <span className="text-[#FFC200]">
+                      {item.value.split(" ")[1]}
+                    </span>
+                  </p>
+                </div>
+              ))}
+            </div>
 
             {/* Daily Distribution Info */}
             <div className="bg-[#13171E] px-3 py-2 md:px-4 md:py-3 rounded-lg">
@@ -143,7 +145,7 @@ export default function Staking() {
                   Daily Distribution
                 </h4>
               </div>
-              <p className="text-[#E6E6E7] text-[11px] md:text-[12px] mt-1">
+              <p className="text-[#E6E6E7] text-[11px] md:text-[12px] mt-1 leading-tight">
                 Rewards are automatically distributed to your wallet every 24
                 hours. You can withdraw daily rewards anytime while keeping your
                 principal staked.
