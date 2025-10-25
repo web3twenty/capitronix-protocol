@@ -233,7 +233,7 @@ export default function Layout({ children }: LayoutProps) {
         {/* Fixed Header */}
 
         {/* Content */}
-        <header className="flex items-center h-[68px] md:h-[85px] border-b border-[#2A2A2A] bg-[#13171E] px-2 fixed left-0 right-0 top-0 z-30">
+        <header className="flex items-center h-[68px] md:h-[85px] border-b border-[#2A2A2A] bg-[#13171E] px-2 sticky top-0 z-30">
           <div className="flex items-center gap-3 me-auto flex-shrink-0">
             <button
               onClick={() => setSidebarOpen(true)}
@@ -305,7 +305,7 @@ export default function Layout({ children }: LayoutProps) {
           </DropdownMenu.Root>
         </header>
 
-        <div className="flex mt-[68px] md:mt-[85px] flex-col md:flex-row justify-between items-start md:items-center p-4 md:p-6 gap-4">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center p-4 md:p-6 gap-4">
           {/* Greeting */}
           <h1 className="text-2xl text-white font-semibold text-left w-full md:w-auto">
             Hy There, {account?.name || "..."}
