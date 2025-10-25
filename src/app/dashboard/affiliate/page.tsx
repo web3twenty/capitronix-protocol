@@ -66,7 +66,7 @@ export default function WithdrawCards() {
               <span className="mgc_user_add_2_line text-[40px] text-[#FFC200]"></span>
             </div>
             <div className="flex items-center justify-between w-full">
-              <small className="text-white text-sm truncate">
+              <small className="text-white text-sm text-wrap">
                 https://www.3twentycoin.com/sign-up?ref=8F1G7Z
               </small>
               <span
