@@ -19,16 +19,14 @@ export default function Staking() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 p-5 gap-5 items-start">
-          {/* Staking Details */}
           <div className="space-y-4">
-            <div className="rounded-lg border md:border border-[#2A2A2A]">
+            <div className="border border-[#2A2A2A] rounded-lg">
               <div className="rounded-tl-lg rounded-tr-lg bg-[#13171E] px-[20px] py-[10px]">
                 <h3 className="text-lg text-white">Staking Details</h3>
               </div>
 
               <div className="p-5 space-y-4">
-                {/* Inner Boxes */}
-                <div className="flex justify-between items-center rounded-lg border-0 md:border md:border-[#2A2A2A] px-[12px] py-[6px]">
+                <div className="flex justify-between items-center rounded-lg border border-[#2A2A2A] px-[12px] py-[6px]">
                   <div className="items-center gap-3 flex">
                     <span className="mgc_time_line text-[20px] text-[#FFC200]"></span>
                     <span className="text-[#CFD0D2]">Duration:</span>
@@ -38,7 +36,7 @@ export default function Staking() {
                   </p>
                 </div>
 
-                <div className="flex justify-between items-center rounded-lg border-0 md:border md:border-[#2A2A2A] px-[12px] py-[6px]">
+                <div className="flex justify-between items-center rounded-lg border border-[#2A2A2A] px-[12px] py-[6px]">
                   <div className="items-center gap-3 flex">
                     <span className="mgc_wiper_line text-[20px] text-[#FFC200]"></span>
                     <span className="text-[#CFD0D2]">Apy:</span>
@@ -46,7 +44,7 @@ export default function Staking() {
                   <p className="text-md text-[#FFC200] font-medium">15%</p>
                 </div>
 
-                <div className="flex justify-between items-center rounded-lg border-0 md:border md:border-[#2A2A2A] px-[12px] py-[6px]">
+                <div className="flex justify-between items-center rounded-lg border border-[#2A2A2A] px-[12px] py-[6px]">
                   <div className="items-center gap-3 flex">
                     <span className="mgc_award_line text-[20px] text-[#FFC200]"></span>
                     <span className="text-[#CFD0D2]">Reward Distribution:</span>
@@ -54,7 +52,7 @@ export default function Staking() {
                   <p className="text-md text-[#FFC200] font-medium">Daily</p>
                 </div>
 
-                <div className="flex justify-between items-center rounded-lg border-0 md:border md:border-[#2A2A2A] px-[12px] py-[6px]">
+                <div className="flex justify-between items-center rounded-lg border border-[#2A2A2A] px-[12px] py-[6px]">
                   <div className="items-center gap-3 flex">
                     <Image
                       src="/3twenty-coin.png"
@@ -82,15 +80,14 @@ export default function Staking() {
             </div>
           </div>
 
-          {/* Rewards Calculation */}
-          <div className="rounded-lg border md:border border-[#2A2A2A]">
+          <div className="border border-[#2A2A2A] rounded-lg">
             <div className="rounded-tl-lg rounded-tr-lg bg-[#13171E] px-[20px] py-[10px]">
               <h3 className="text-lg text-white">Rewards Calculation</h3>
             </div>
 
             <div className="p-5 space-y-5">
               <div className="space-y-4">
-                <div className="flex justify-between items-center rounded-lg border-0 md:border md:border-[#2A2A2A] px-[12px] py-[6px]">
+                <div className="flex justify-between items-center rounded-lg border border-[#2A2A2A] px-[12px] py-[6px]">
                   <div className="items-center gap-3 flex">
                     <span className="mgc_coin_2_line text-[20px] text-[#FFC200]"></span>
                     <span className="text-[#CFD0D2]">Staked Amount:</span>
@@ -101,7 +98,7 @@ export default function Staking() {
                   </p>
                 </div>
 
-                <div className="flex justify-between items-center rounded-lg border-0 md:border md:border-[#2A2A2A] px-[12px] py-[6px]">
+                <div className="flex justify-between items-center rounded-lg border border-[#2A2A2A] px-[12px] py-[6px]">
                   <div className="items-center gap-3 flex">
                     <span className="mgc_calendar_line text-[20px] text-[#FFC200]"></span>
                     <span className="text-[#CFD0D2]">Daily Rewards:</span>
@@ -112,7 +109,7 @@ export default function Staking() {
                   </p>
                 </div>
 
-                <div className="flex justify-between items-center rounded-lg border-0 md:border md:border-[#2A2A2A] px-[12px] py-[6px]">
+                <div className="flex justify-between items-center rounded-lg border border-[#2A2A2A] px-[12px] py-[6px]">
                   <div className="items-center gap-3 flex">
                     <span className="mgc_award_line text-[20px] text-[#FFC200]"></span>
                     <span className="text-[#CFD0D2]">
