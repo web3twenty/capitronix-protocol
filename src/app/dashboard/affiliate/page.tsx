@@ -22,6 +22,24 @@ export default function WithdrawCards() {
     },
   });
 
+  const { data: referralStats } = useQuery({
+    queryKey: ["referral-stats"],
+    queryFn: async () => {
+      const response = await api.get("/referrals/stats");
+      return response.data.payload;
+    },
+  });
+
+  const stats = referralStats?.stats ?? [];
+
+  interface ReferralStat {
+    level: number;
+    total: number;
+    active: number;
+    inactive: number;
+    totalSales: number;
+  }
+
   return (
     <section className="p-4 md:px-6 md:py-2">
       <div className="max-w-7xl mx-auto mb-8 grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-4">
@@ -36,7 +54,7 @@ export default function WithdrawCards() {
               <div>
                 <small className="text-[#AEAFB2] text-sm">Gross Earnings</small>
                 <p className="text-white text-2xl font-semibold mt-1">
-                  $1234.56
+                  ${Number(referralStats?.totalEarnings || 0).toFixed(2)}
                 </p>
               </div>
             </div>
@@ -50,7 +68,9 @@ export default function WithdrawCards() {
                 <small className="text-[#AEAFB2] text-sm">
                   Total Team Size
                 </small>
-                <p className="text-white text-2xl font-semibold mt-1">34</p>
+                <p className="text-white text-2xl font-semibold mt-1">
+                  {Number(referralStats?.totalReferrals || 0).toFixed(2)}
+                </p>
               </div>
             </div>
 
@@ -63,7 +83,9 @@ export default function WithdrawCards() {
                 <small className="text-[#AEAFB2] text-sm">
                   Tier 1 Commission
                 </small>
-                <p className="text-white text-2xl font-semibold mt-1">8%</p>
+                <p className="text-white text-2xl font-semibold mt-1">
+                  {referralStats?.levelOneCommission}%
+                </p>
               </div>
             </div>
           </div>
@@ -97,6 +119,48 @@ export default function WithdrawCards() {
             </div>
           </div>
         </div>
+      </div>
+
+      {/* ✅ Referral Stats Table */}
+      <div className="max-w-7xl bg-[#13171E] border border-[#2A2A2A] rounded-lg mt-8 mb-8">
+        <div className="flex items-center justify-between px-[20px] py-[10px]">
+          <h1 className="text-lg text-white font-medium">
+            6-Level Team Overview
+          </h1>
+        </div>
+
+        <table className="w-full text-sm text-left text-gray-300 bg-[#03070D] divide-y divide-[#2A2A2A] rounded-lg">
+          <thead className="bg-[#25262A] text-gray-200">
+            <tr>
+              <th className="px-4 py-3">Level</th>
+              <th className="px-4 py-3 text-center">Total Members</th>
+              <th className="px-4 py-3 text-center hidden sm:table-cell">
+                Active
+              </th>
+              <th className="px-4 py-3 text-center hidden sm:table-cell">
+                Inactive
+              </th>
+              <th className="px-4 py-3 text-center">Total Sales ($)</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-[#2A2A2A]">
+            {stats.map((item: ReferralStat) => (
+              <tr key={item.level}>
+                <td className="px-4 py-3 text-[#FFC200]">Tier {item.level}</td>
+                <td className="px-4 py-3 text-center">{item.total}</td>
+                <td className="px-4 py-3 text-center text-green-400 hidden sm:table-cell">
+                  {item.active}
+                </td>
+                <td className="px-4 py-3 text-center text-yellow-400 hidden sm:table-cell">
+                  {item.inactive}
+                </td>
+                <td className="px-4 py-3 text-center">
+                  ${Number(item.totalSales || 0).toFixed(2)}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </section>
   );
