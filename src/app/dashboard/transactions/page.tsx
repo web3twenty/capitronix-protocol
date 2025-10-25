@@ -143,7 +143,7 @@ export default function Transactions() {
 
         {/* Pagination Footer */}
         <div className="flex items-center rounded-bl-lg rounded-br-lg justify-end gap-4 px-4 py-3 border-t border-[#2A2A2A] text-sm text-gray-300 bg-[#03070D]">
-          <div className="flex items-center space-x-2">
+          <div className="items-center space-x-2 hidden md:flex">
             <span>Rows per page:</span>
             <div className="relative">
               <select
