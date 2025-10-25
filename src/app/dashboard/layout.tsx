@@ -179,6 +179,7 @@ export default function Layout({ children }: LayoutProps) {
                         <Link
                           key={child.name}
                           href={child.href}
+                          onClick={() => setSidebarOpen(false)}
                           className={`block px-3 py-2 rounded-md font-medium relative ${
                             pathname === child.href
                               ? "text-[#FFC200]"
@@ -198,6 +199,7 @@ export default function Layout({ children }: LayoutProps) {
               <Link
                 key={item.name}
                 href={item.href}
+                onClick={() => setSidebarOpen(false)}
                 className={`group flex items-center px-3 py-2.5 font-medium rounded-md ${
                   isActive
                     ? "text-[#FFC200]"
