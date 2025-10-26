@@ -3,12 +3,17 @@
 import Image from "next/image";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import api from "@/lib/api";
 import { useState } from "react";
+import Modal from "react-responsive-modal";
+import { AxiosError } from "axios";
+import { showSuccessAlert, showErrorAlert } from "@/components/Toast";
 
 export default function Staking() {
   const [stakeAmount, setStakeAmount] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const queryClient = useQueryClient();
 
   const { data: account } = useQuery({
     queryKey: ["account"],
@@ -39,8 +44,139 @@ export default function Staking() {
     amountNum < min ||
     amountNum > max;
 
+  interface StakingResponse {
+    success: boolean;
+    message: string;
+  }
+
+  const stakingMutation = useMutation<
+    StakingResponse,
+    AxiosError<{ message: string }>
+  >({
+    mutationFn: () =>
+      api
+        .post("/stakings", { amount: Number(stakeAmount) })
+        .then((res) => res.data),
+    onSuccess: (response) => {
+      showSuccessAlert(response.message);
+      setIsModalOpen(false);
+      queryClient.invalidateQueries({ queryKey: ["account"] });
+      setStakeAmount("");
+    },
+    onError: (error) => {
+      showErrorAlert(error.response?.data?.message || error.message);
+    },
+  });
+
+  const closeIcon = (
+    <span className="mgc_close_line text-white text-[20px]"></span>
+  );
+
   return (
     <section className="p-4 md:px-6 md:py-2">
+      <Modal
+        open={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        center
+        styles={{
+          modal: {
+            borderRadius: "8px",
+            backgroundColor: "#03070D",
+            padding: 0,
+          },
+          overlay: {
+            backgroundColor: "#4A4A4AC2",
+          },
+        }}
+        closeIcon={closeIcon}
+      >
+        {/* Header */}
+        <div className="bg-[#13171E] px-[20px] py-[10px] rounded-tl-lg rounded-tr-lg">
+          <h2 className="text-xl text-white font-semibold">Confirm Staking</h2>
+          <small className="text-[#E6E6E7]">
+            Lock your tokens for 320 days to earn 15% APY with daily rewards
+          </small>
+        </div>
+
+        {/* Dynamic Details */}
+        <div className="bg-[#03070D] p-4 space-y-2">
+          {[
+            {
+              label: "Staking Amount:",
+              value: (
+                <span className="font-medium text-[#FFC200]">
+                  <span className="text-white">{stakeAmount || 0}</span> 3TWENTY
+                </span>
+              ),
+            },
+            {
+              label: "Duration:",
+              value: (
+                <span className="font-medium text-[#FFC200]">
+                  <span>{durationDays} Days</span>
+                </span>
+              ),
+            },
+            {
+              label: "APY:",
+              value: (
+                <span className="font-medium text-[#FFC200]">
+                  <span>{apy}%</span>
+                </span>
+              ),
+            },
+            {
+              label: "Daily Rewards:",
+              value: (
+                <span className="font-medium text-[#FFC200]">
+                  <span className="text-white">
+                    {(
+                      ((Number(apy) / 100) * Number(stakeAmount)) /
+                      Number(durationDays)
+                    ).toFixed(2)}
+                  </span>{" "}
+                  3TWENTY
+                </span>
+              ),
+            },
+            {
+              label: "Total Rewards:",
+              value: (
+                <span className="font-medium text-[#FFC200]">
+                  <span className="text-white">
+                    {((Number(apy) / 100) * Number(stakeAmount)).toFixed(2)}
+                  </span>{" "}
+                  3TWENTY
+                </span>
+              ),
+            },
+          ].map((item, i) => (
+            <div
+              key={i}
+              className="flex items-center border border-[#13171E] rounded p-2 justify-between"
+            >
+              <p className="text-[#CFD0D2] text-sm">{item.label}</p>
+              <div>{item.value}</div>
+            </div>
+          ))}
+        </div>
+
+        {/* Confirm Button */}
+        <div className="p-4">
+          <Button
+            type="button"
+            variant="primary"
+            size="lg"
+            className="w-full"
+            onClick={() => stakingMutation.mutate()}
+            loading={stakingMutation.isPending}
+          >
+            <span className="mgc_lock_line me-2 text-[20px]"></span>
+            Confirm Staking
+          </Button>
+        </div>
+      </Modal>
+
       <div className="max-w-5xl mx-auto mb-8 space-y-5 md:space-y-0 md:grid md:grid-cols-2 md:gap-5">
         {/* Staking Details */}
         <div className="border border-[#2A2A2A] rounded-lg">
@@ -110,6 +246,7 @@ export default function Staking() {
             <div className="mt-8">
               <Input
                 label="Stake Amount"
+                type="number"
                 placeholder="Enter Amount To Stake"
                 value={stakeAmount}
                 onChange={(e) => setStakeAmount(e.target.value)}
@@ -203,6 +340,7 @@ export default function Staking() {
               size="lg"
               className="w-full mt-2"
               disabled={isInvalid}
+              onClick={() => setIsModalOpen(true)}
             >
               <span className="mgc_lock_line me-2 text-[20px]"></span>
               Stake for {durationDays || ""} Days

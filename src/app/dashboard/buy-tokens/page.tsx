@@ -116,7 +116,7 @@ export default function TokenPurchase() {
           </small>
         </div>
 
-        <div className="bg-[#03070D] p-4">
+        <div className="bg-[#03070D] p-4 space-y-2">
           <div className="flex items-center border border-[#13171E] rounded p-2 justify-between">
             <p className="text-[#CFD0D2] text-sm">Amount:</p>
             <p className="font-medium text-[#FFC200]">{amountValue} USDT</p>
