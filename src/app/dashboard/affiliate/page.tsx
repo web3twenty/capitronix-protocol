@@ -96,7 +96,8 @@ export default function WithdrawCards() {
           <div
             className="border border-[#2A2A2A] rounded-lg p-4 flex gap-3"
             style={{
-              background: "linear-gradient(135deg, #322602, #13171E)",
+              background:
+                "linear-gradient(94.14deg, #322602 1.4%, #13171E 100%)",
             }}
           >
             <div className="w-[58px] h-[58px] bg-transparent flex items-center justify-center rounded-full">
