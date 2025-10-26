@@ -7,8 +7,8 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 import api from "@/lib/api";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
-import { toast } from "react-toastify";
 import { AxiosError } from "axios";
+import { showSuccessAlert, showErrorAlert } from "@/components/Toast";
 
 export default function Deposit() {
   // ✅ Fetch withdraw stats
@@ -61,10 +61,10 @@ export default function Deposit() {
       api.post("/wallet/withdraw", formData).then((res) => res.data),
     onSuccess: (response) => {
       reset();
-      toast(response.message, { type: "success" });
+      showSuccessAlert(response.message);
     },
     onError: (error) => {
-      toast(error.response?.data?.message || error.message, { type: "error" });
+      showErrorAlert(error.response?.data?.message || error.message);
     },
   });
 

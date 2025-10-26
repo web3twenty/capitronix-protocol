@@ -3,8 +3,42 @@
 import Image from "next/image";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
+import { useQuery } from "@tanstack/react-query";
+import api from "@/lib/api";
+import { useState } from "react";
 
 export default function Staking() {
+  const [stakeAmount, setStakeAmount] = useState("");
+
+  const { data: account } = useQuery({
+    queryKey: ["account"],
+    queryFn: async () => {
+      const response = await api.get("/account");
+      return response.data.payload.account;
+    },
+  });
+
+  const { data: stats } = useQuery({
+    queryKey: ["stats"],
+    queryFn: async () => {
+      const response = await api.get("/dashboard/stats");
+      return response.data.payload;
+    },
+  });
+
+  const min = stats?.STAKING_DETAILS?.minimum;
+  const max = stats?.STAKING_DETAILS?.maximum;
+  const apy = stats?.STAKING_DETAILS?.apy;
+  const durationDays = stats?.STAKING_DETAILS?.durationDays;
+
+  const amountNum = Number(stakeAmount);
+  const isInvalid =
+    !stats?.STAKING_DETAILS ||
+    !stakeAmount ||
+    isNaN(amountNum) ||
+    amountNum < min ||
+    amountNum > max;
+
   return (
     <section className="p-4 md:px-6 md:py-2">
       <div className="max-w-5xl mx-auto mb-8 space-y-5 md:space-y-0 md:grid md:grid-cols-2 md:gap-5">
@@ -12,10 +46,10 @@ export default function Staking() {
         <div className="border border-[#2A2A2A] rounded-lg">
           <div className="bg-[#13171E] px-4 py-3 md:px-5 md:py-4 rounded-t-lg">
             <h2 className="text-lg md:text-xl text-white font-semibold">
-              320 - Day Staking Plan
+              {durationDays || ""} - Day Staking Plan
             </h2>
             <small className="text-[#E6E6E7] text-[12px] md:text-sm">
-              Earn 15% APY with daily rewards distribution
+              Earn {apy || ""}% APY with daily rewards distribution
             </small>
           </div>
 
@@ -26,9 +60,13 @@ export default function Staking() {
                 {
                   icon: "mgc_time_line",
                   label: "Duration:",
-                  value: "320 Days (Fixed)",
+                  value: `${durationDays || ""} Days (Fixed)`,
                 },
-                { icon: "mgc_wiper_line", label: "APY:", value: "15%" },
+                {
+                  icon: "mgc_wiper_line",
+                  label: "APY:",
+                  value: `${apy || ""}%`,
+                },
                 {
                   icon: "mgc_award_line",
                   label: "Reward Distribution:",
@@ -37,7 +75,7 @@ export default function Staking() {
                 {
                   icon: "coin",
                   label: "Available Balance:",
-                  value: "7016.875 3TWENTY",
+                  value: `${Number(account?.token || 0).toFixed(2)} 3TWENTY`,
                 },
               ].map((item, idx) => (
                 <div
@@ -73,9 +111,11 @@ export default function Staking() {
               <Input
                 label="Stake Amount"
                 placeholder="Enter Amount To Stake"
+                value={stakeAmount}
+                onChange={(e) => setStakeAmount(e.target.value)}
               />
               <p className="text-[#CFD0D2] text-[11px] pt-2">
-                MIN: 1000 3TWENTY MAX: 500000 3TWENTY
+                MIN: {min} 3TWENTY MAX: {max} 3TWENTY
               </p>
             </div>
           </div>
@@ -95,19 +135,24 @@ export default function Staking() {
                 {
                   icon: "mgc_coin_2_line",
                   label: "Staked Amount:",
-                  value: "1000 3TWENTY",
+                  value: `${stakeAmount || 0} 3TWENTY`,
                   highlight: true,
                 },
                 {
                   icon: "mgc_calendar_line",
                   label: "Daily Rewards:",
-                  value: "4.6875 3TWENTY",
+                  value: `${(
+                    ((Number(apy) / 100) * Number(stakeAmount)) /
+                    Number(durationDays)
+                  ).toFixed(2)} 3TWENTY`,
                   highlight: true,
                 },
                 {
                   icon: "mgc_award_line",
                   label: "Total Rewards (320 days):",
-                  value: "0.00 3TWENTY",
+                  value: `${((Number(apy) / 100) * Number(stakeAmount)).toFixed(
+                    2
+                  )} 3TWENTY`,
                   highlight: true,
                 },
               ].map((item, idx) => (
@@ -157,9 +202,10 @@ export default function Staking() {
               variant="primary"
               size="lg"
               className="w-full mt-2"
+              disabled={isInvalid}
             >
               <span className="mgc_lock_line me-2 text-[20px]"></span>
-              Stake for 320 Days
+              Stake for {durationDays || ""} Days
             </Button>
           </div>
         </div>

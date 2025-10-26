@@ -8,9 +8,9 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import api from "@/lib/api";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
-import { toast } from "react-toastify";
 import { AxiosError } from "axios";
 import Modal from "react-responsive-modal";
+import { showSuccessAlert, showErrorAlert } from "@/components/Toast";
 
 export default function TokenPurchase() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -59,12 +59,12 @@ export default function TokenPurchase() {
         .then((res) => res.data),
     onSuccess: (response) => {
       reset();
-      toast(response.message, { type: "success" });
+      showSuccessAlert(response.message);
       setIsModalOpen(false);
       queryClient.invalidateQueries({ queryKey: ["stats"] });
     },
     onError: (error) => {
-      toast(error.response?.data?.message || error.message, { type: "error" });
+      showErrorAlert(error.response?.data?.message || error.message);
     },
   });
 
