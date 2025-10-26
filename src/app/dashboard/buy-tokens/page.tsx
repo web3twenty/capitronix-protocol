@@ -112,7 +112,7 @@ export default function TokenPurchase() {
             Confirm Token Purchase
           </h2>
           <small className="text-[#E6E6E7]">
-            Review your purchase details before confirming
+            Review your purchase details before confirming the action
           </small>
         </div>
 
