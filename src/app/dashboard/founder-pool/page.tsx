@@ -1,7 +1,38 @@
+"use client";
+
 import Image from "next/image";
 import Button from "@/components/ui/Button";
+import { useQuery } from "@tanstack/react-query";
+import api from "@/lib/api";
+
+function formatNumber(value: number): string {
+  if (value < 1000) return value.toString();
+
+  const suffixes = ["", "K", "M", "B", "T"];
+  const tier = Math.floor(Math.log10(value) / 3);
+
+  const suffix = suffixes[tier];
+  const scale = Math.pow(10, tier * 3);
+  const scaled = value / scale;
+
+  const formatted = scaled % 1 === 0 ? scaled.toFixed(0) : scaled.toFixed(1);
+
+  return `${formatted}${suffix}`;
+}
 
 export default function FounderPool() {
+  const { data: stats } = useQuery({
+    queryKey: ["stats"],
+    queryFn: async () => {
+      const response = await api.get("/dashboard/stats");
+      return response.data.payload;
+    },
+  });
+
+  const totalSeat = stats?.FOUNDER_DETAILS?.totalSeat;
+  const minimumInvestment = stats?.FOUNDER_DETAILS?.minimumInvestment;
+  const tokenPrice = stats?.TOKEN_PRICE;
+
   return (
     <section className="p-4 md:px-6 md:py-2">
       <div className="max-w-6xl mx-auto space-y-8 pb-5">
@@ -45,19 +76,33 @@ export default function FounderPool() {
             </h3>
           </div>
 
+          <div className="text-center p-5">
+            <h3 className="text-5xl text-[#FFC200] font-bold">
+              ${minimumInvestment || ""}
+            </h3>
+            <small className="text-sm text-white">Minimum Investment</small>
+            <p className="text-lg font-medium text-[#FD5454] mt-3">
+              Limited to {totalSeat || ""} Founders Only
+            </p>
+          </div>
+
           <div className="p-4 md:p-5 space-y-4">
             <div className="divide-y divide-[#2A2A2A]">
               {[
                 {
                   icon: "mgc_door_line",
                   label: "Entry Cost:",
-                  value: " $1000",
+                  value: ` $${minimumInvestment || ""}`,
                   highlight: true,
                 },
                 {
                   icon: "mgc_calendar_line",
                   label: "Tokens Allocated:",
-                  value: "100000 3TWENTY",
+                  value: `${
+                    Number(
+                      Number(minimumInvestment || 0) / Number(tokenPrice || 0)
+                    ).toFixed(2) || ""
+                  } 3TWENTY`,
                   highlight: true,
                 },
                 {
@@ -69,13 +114,17 @@ export default function FounderPool() {
                 {
                   icon: "mgc_user_follow_2_line",
                   label: "Total Pool Size:",
-                  value: "320 Founders",
+                  value: `${totalSeat || ""} Founders`,
                   highlight: true,
                 },
                 {
                   icon: "mgc_user_follow_2_line",
                   label: "Total Pool Allocation:",
-                  value: "32M 3TWENTY",
+                  value: `${formatNumber(
+                    Number(
+                      Number(minimumInvestment || 0) / Number(tokenPrice || 0)
+                    ) * totalSeat
+                  )} 3TWENTY`,
                   highlight: true,
                 },
               ].map((item, idx) => (
@@ -85,7 +134,12 @@ export default function FounderPool() {
                 >
                   <div className="flex items-center gap-2 md:gap-3">
                     {idx === 1 || idx === 4 ? (
-                      <Image src="/3twenty-coin.png" alt="Coin" width={18} height={18} />
+                      <Image
+                        src="/3twenty-coin.png"
+                        alt="Coin"
+                        width={18}
+                        height={18}
+                      />
                     ) : (
                       <span
                         className={`${item.icon} text-[#FFC200] text-lg md:text-[20px]`}
