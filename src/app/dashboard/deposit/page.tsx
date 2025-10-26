@@ -1,9 +1,10 @@
 "use client";
 
 import { QRCodeSVG } from "qrcode.react";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import api from "@/lib/api";
 import { showSuccessAlert } from "@/components/Toast";
+import { useEffect } from "react";
 
 export default function Deposit() {
   const { data: account } = useQuery({
@@ -28,6 +29,14 @@ export default function Deposit() {
       showSuccessAlert("Address copied!");
     }
   };
+
+  const paymentSessionMutation = useMutation({
+    mutationFn: () => api.post("/account/start-user-poll"),
+  });
+
+  useEffect(() => {
+    paymentSessionMutation.mutate();
+  }, []);
 
   return (
     <section className="p-4 md:px-6 md:py-2">
