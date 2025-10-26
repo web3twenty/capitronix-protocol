@@ -1,11 +1,17 @@
 import React from "react";
 
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface ButtonProps {
   variant?: "primary" | "secondary" | "outline" | "ghost" | "danger";
   size?: "sm" | "md" | "lg";
   loading?: boolean;
   icon?: React.ReactNode;
   iconPosition?: "left" | "right";
+  children?: React.ReactNode;
+  className?: string;
+  disabled?: boolean;
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  type?: "button" | "submit" | "reset";
+  roundedClass?: string;
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
@@ -19,16 +25,15 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       children,
       className = "",
       disabled,
+      roundedClass = "rounded-lg",
       ...rest
     },
     ref
   ) => {
-    const baseStyles =
-      "inline-flex items-center justify-center font-medium rounded-lg cursor-pointer transition-colors focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed";
+    const baseStyles = `inline-flex items-center justify-center font-medium cursor-pointer transition-colors focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed ${roundedClass}`;
 
     const variantStyles = {
-      primary:
-        "bg-[#FFC200] text-black hover:bg-[#e6b100]",
+      primary: "bg-[#FFC200] text-black hover:bg-[#e6b100]",
       secondary:
         "bg-[#11B97E] text-gray-200 hover:bg-[#0e9465] focus:ring-gray-500",
       outline:

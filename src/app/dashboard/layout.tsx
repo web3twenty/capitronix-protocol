@@ -3,12 +3,14 @@
 import { useState, useEffect, ReactNode } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import Image from "next/image";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import api from "@/lib/api";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import Cookies from "js-cookie";
 import Link, { LinkProps } from "next/link";
 import Button from "@/components/ui/Button";
+import { showSuccessAlert, showErrorAlert } from "@/components/Toast";
+import { AxiosError } from "axios";
 
 type NavigationItem = {
   name: string;
@@ -19,6 +21,11 @@ type NavigationItem = {
 
 interface LayoutProps {
   children: ReactNode;
+}
+
+interface VerifyResponse {
+  success: boolean;
+  message: string;
 }
 
 export default function Layout({ children }: LayoutProps) {
@@ -93,6 +100,22 @@ export default function Layout({ children }: LayoutProps) {
     queryFn: async () => {
       const response = await api.get("/account");
       return response.data.payload.account;
+    },
+    refetchOnMount: true,
+    staleTime: 0,
+  });
+
+  const verifyMutation = useMutation<
+    VerifyResponse,
+    AxiosError<{ message: string }>
+  >({
+    mutationFn: (formData) =>
+      api.post("/auth/resend-verify-email", formData).then((res) => res.data),
+    onSuccess: (response) => {
+      showSuccessAlert(response.message);
+    },
+    onError: (error) => {
+      showErrorAlert(error.response?.data?.message || error.message);
     },
   });
 
@@ -256,7 +279,11 @@ export default function Layout({ children }: LayoutProps) {
 
           {account?.isVerified === 0 && (
             <div className="hidden lg:block">
-              <Button className="h-8 rounded me-3" variant="secondary">
+              <Button
+                className="h-8 me-3"
+                roundedClass="rounded"
+                variant="secondary"
+              >
                 Activate Now
               </Button>
             </div>
@@ -307,45 +334,78 @@ export default function Layout({ children }: LayoutProps) {
           </DropdownMenu.Root>
         </header>
 
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center p-4 md:p-6 gap-4">
-          {/* Greeting */}
-          <h1 className="text-2xl text-white font-semibold text-left w-full md:w-auto">
-            Hy There, {account?.name || "..."}
-          </h1>
+        <div className="p-4 md:p-6 space-y-4">
+          {/* Email verification alert */}
+          {account?.isVerified === 0 && (
+            <div className="rounded-lg bg-[#25262A] p-3 flex justify-between items-center">
+              <div className="flex items-center gap-4">
+                <div className="w-10 h-10 bg-[#DC2626] flex-shrink-0 rounded flex items-center justify-center">
+                  <span className="mgc_mail_ai_line text-2xl text-white"></span>
+                </div>
+                <div className="space-y-1 pe-5">
+                  <p className="text-md text-left font-medium leading-4 text-white">
+                    Verify Your Email
+                  </p>
+                  <p className="text-[#AEAFB2] leading-4 text-sm">
+                    {`Please verify your email. Didn’t get it? Resend below.`}
+                  </p>
+                </div>
+              </div>
+              <Button
+                className="h-8 bg-white hover:bg-gray-300"
+                roundedClass="rounded"
+                onClick={() => verifyMutation.mutate()}
+                loading={verifyMutation.isPending}
+              >
+                Resend
+              </Button>
+            </div>
+          )}
 
-          {/* Buttons grid */}
-          <div className="grid grid-cols-4 gap-3 w-full md:w-auto">
-            <button
-              onClick={() => router.push("/dashboard/deposit")}
-              className="flex text-[#121213] cursor-pointer flex-col md:flex-row items-center justify-center bg-[#25262A] hover:bg-[#3a3a3f] transition-colors duration-200 p-3 rounded-lg gap-2"
-            >
-              <i className="mgc_cash_2_line text-[20px] bg-[#FFC200] rounded-full w-8 h-8 flex items-center justify-center"></i>
-              <span className="text-white text-sm text-center">Deposit</span>
-            </button>
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            {/* Greeting */}
+            <h1 className="text-2xl text-white font-semibold text-left w-full md:w-auto">
+              Hy There, {account?.name || "..."}
+            </h1>
 
-            <button
-              onClick={() => router.push("/dashboard/withdraw")}
-              className="flex text-[#121213] cursor-pointer flex-col md:flex-row items-center justify-center bg-[#25262A] hover:bg-[#3a3a3f] transition-colors duration-200 p-3 rounded-lg gap-2"
-            >
-              <i className="mgc_card_pay_line text-[20px] bg-[#FFC200] rounded-full w-8 h-8 flex items-center justify-center"></i>
-              <span className="text-white text-sm text-center">Withdraw</span>
-            </button>
-
-            <button
-              onClick={() => router.push("/dashboard/buy-tokens")}
-              className="flex text-[#121213] cursor-pointer flex-col md:flex-row items-center justify-center bg-[#25262A] hover:bg-[#3a3a3f] transition-colors duration-200 p-3 rounded-lg gap-2"
-            >
-              <i className="mgc_coin_3_line text-[20px] bg-[#FFC200] rounded-full w-8 h-8 flex items-center justify-center"></i>
-              <span className="text-white text-sm text-center">Tokens</span>
-            </button>
-
-            <button
-              onClick={() => router.push("/dashboard/staking")}
-              className="flex text-[#121213] cursor-pointer flex-col md:flex-row items-center justify-center bg-[#25262A] hover:bg-[#3a3a3f] transition-colors duration-200 p-3 rounded-lg gap-2"
-            >
-              <i className="mgc_coin_2_line text-[20px] bg-[#FFC200] rounded-full w-8 h-8 flex items-center justify-center"></i>
-              <span className="text-white text-sm text-center">Staking</span>
-            </button>
+            {/* Buttons grid */}
+            <div className="grid grid-cols-4 gap-3 w-full md:w-auto">
+              {[
+                {
+                  label: "Deposit",
+                  icon: "mgc_cash_2_line",
+                  path: "/dashboard/deposit",
+                },
+                {
+                  label: "Withdraw",
+                  icon: "mgc_card_pay_line",
+                  path: "/dashboard/withdraw",
+                },
+                {
+                  label: "Tokens",
+                  icon: "mgc_coin_3_line",
+                  path: "/dashboard/buy-tokens",
+                },
+                {
+                  label: "Staking",
+                  icon: "mgc_coin_2_line",
+                  path: "/dashboard/staking",
+                },
+              ].map(({ label, icon, path }) => (
+                <button
+                  key={path}
+                  onClick={() => router.push(path)}
+                  className="flex text-[#121213] cursor-pointer flex-col md:flex-row items-center justify-center bg-[#25262A] hover:bg-[#3a3a3f] transition-colors duration-200 p-3 rounded-lg gap-2"
+                >
+                  <i
+                    className={`${icon} text-[20px] bg-[#FFC200] rounded-full w-8 h-8 flex items-center justify-center`}
+                  ></i>
+                  <span className="text-white text-sm text-center">
+                    {label}
+                  </span>
+                </button>
+              ))}
+            </div>
           </div>
         </div>
 
