@@ -71,12 +71,12 @@ export default function Staking() {
             {/* Stake Input */}
             <div className="mt-8">
               <Input
-                label="Stake Amount (3TWENTY Tokens)"
+                label="Stake Amount"
                 placeholder="Enter Amount To Stake"
               />
-              <small className="text-[#CFD0D2] text-[11px]">
+              <p className="text-[#CFD0D2] text-[11px] pt-2">
                 MIN: 1000 3TWENTY MAX: 500000 3TWENTY
-              </small>
+              </p>
             </div>
           </div>
         </div>

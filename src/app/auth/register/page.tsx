@@ -1,21 +1,21 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
-import { toast } from "react-toastify";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import api from "@/lib/api";
 import { useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import Image from "next/image";
 import Link from "next/link";
 import Cookies from "js-cookie";
+import { showSuccessAlert, showErrorAlert } from "@/components/Toast";
 
-// 1️⃣ Zod schema
+// Zod schema
 const signupSchema = z
   .object({
     name: z.string().min(2, { message: "Name must be at least 3 characters" }),
@@ -31,7 +31,6 @@ const signupSchema = z
     path: ["confirmPassword"],
   });
 
-// 2️⃣ TypeScript type
 type SignupFormData = z.infer<typeof signupSchema>;
 
 interface SignupResponse {
@@ -44,17 +43,25 @@ interface SignupResponse {
 
 export default function SignupForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const refParam = searchParams.get("ref"); // 👈 get ?ref= value
 
-  // 3️⃣ React Hook Form setup
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
+    setValue,
   } = useForm<SignupFormData>({
     resolver: zodResolver(signupSchema),
   });
 
-  // 4️⃣ Mutation
+  // Automatically fill referral code if exists
+  useEffect(() => {
+    if (refParam) {
+      setValue("referralCode", refParam);
+    }
+  }, [refParam, setValue]);
+
   const signupMutation = useMutation<
     SignupResponse,
     AxiosError<{ message: string }>,
@@ -63,16 +70,15 @@ export default function SignupForm() {
     mutationFn: (formData) =>
       api.post("/auth/register", formData).then((res) => res.data),
     onSuccess: (response) => {
-      toast(response.message, { type: "success" });
+      showSuccessAlert(response.message);
       Cookies.set("accessToken", response.payload.accessToken, { expires: 30 });
       router.replace("/dashboard");
     },
     onError: (error) => {
-      toast(error.response?.data?.message || error.message, { type: "error" });
+      showErrorAlert(error.response?.data?.message || error.message);
     },
   });
 
-  // 5️⃣ Form submit
   const onSubmit = (data: SignupFormData) => {
     signupMutation.mutate(data);
   };
@@ -94,6 +100,7 @@ export default function SignupForm() {
         <div className="text-center text-gray-400">
           Enter your information to create an account
         </div>
+
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 mt-6">
           <Input
             label="Full Name"
@@ -133,6 +140,7 @@ export default function SignupForm() {
             placeholder="Enter referral code"
             {...register("referralCode")}
             error={errors.referralCode?.message}
+            readOnly={!!refParam} // 👈 Make readonly if ?ref exists
           />
 
           <Button
@@ -145,6 +153,7 @@ export default function SignupForm() {
             Signup
           </Button>
         </form>
+
         <div className="mt-6 text-center text-sm text-gray-400">
           Already have an account?{" "}
           <Link href="/auth/login" className="text-[#FFC200] hover:underline">

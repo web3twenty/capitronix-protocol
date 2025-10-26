@@ -6,13 +6,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
-import { toast } from "react-toastify";
 import { useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import api from "@/lib/api";
 import { useRouter, useParams } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
+import { showSuccessAlert, showErrorAlert } from "@/components/Toast";
 
 // ✅ 1️⃣ Zod schema
 const resetPasswordSchema = z
@@ -58,11 +58,11 @@ export default function ResetPasswordForm() {
     mutationFn: (data) =>
       api.post(`/auth/reset-password/${token}`, data).then((res) => res.data),
     onSuccess: (response) => {
-      toast(response.message, { type: "success" });
+      showSuccessAlert(response.message);
       router.replace("/auth/login");
     },
     onError: (error) => {
-      toast(error.response?.data?.message || error.message, { type: "error" });
+      showErrorAlert(error.response?.data?.message || error.message);
     },
   });
 

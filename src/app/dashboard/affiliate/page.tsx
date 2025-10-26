@@ -1,8 +1,8 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { toast } from "react-toastify";
 import api from "@/lib/api";
+import { showSuccessAlert } from "@/components/Toast";
 
 export default function WithdrawCards() {
   const handleCopy = () => {
@@ -10,7 +10,7 @@ export default function WithdrawCards() {
       navigator.clipboard.writeText(
         `${process.env.NEXT_PUBLIC_APP_URL}/auth/register?ref=${account?.referralCode}`
       );
-      toast("Address copied!", { type: "success" });
+      showSuccessAlert("Referral link copied!");
     }
   };
 

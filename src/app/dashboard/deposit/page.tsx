@@ -3,7 +3,7 @@
 import { QRCodeSVG } from "qrcode.react";
 import { useQuery } from "@tanstack/react-query";
 import api from "@/lib/api";
-import { toast } from "react-toastify";
+import { showSuccessAlert } from "@/components/Toast";
 
 export default function Deposit() {
   const { data: account } = useQuery({
@@ -25,7 +25,7 @@ export default function Deposit() {
   const handleCopy = () => {
     if (account?.address) {
       navigator.clipboard.writeText(account.address);
-      toast("Address copied!", { type: "success" });
+      showSuccessAlert("Address copied!");
     }
   };
 

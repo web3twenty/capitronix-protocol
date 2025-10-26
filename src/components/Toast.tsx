@@ -12,11 +12,12 @@ ${descrip ? `<p style="text-size: 14px">${descrip}</p>` : ""}
     showConfirmButton: false,
     position: "center",
     backdrop: "#4A4A4AC2",
-    timer: 2000,
+    timer: 1500,
     timerProgressBar: false,
     theme: "dark",
     padding: 0,
     width: "fit-content",
+    scrollbarPadding: false,
   });
 };
 
@@ -32,10 +33,11 @@ ${descrip ? `<p style="text-size: 14px">${descrip}</p>` : ""}
     showConfirmButton: false,
     position: "center",
     backdrop: "#4A4A4AC2",
-    timer: 2000,
+    timer: 1500,
     timerProgressBar: false,
     theme: "dark",
     padding: 0,
     width: "fit-content",
+    scrollbarPadding: false,
   });
 };
