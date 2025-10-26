@@ -31,6 +31,9 @@ interface VerifyResponse {
 export default function Layout({ children }: LayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [openSubmenus, setOpenSubmenus] = useState<Record<string, boolean>>({});
+  const [isVerificationSent, setIsVerificationSent] = useState<string | null>(
+    null
+  );
   const pathname = usePathname();
   const router = useRouter();
 
@@ -95,6 +98,13 @@ export default function Layout({ children }: LayoutProps) {
     });
   }, [pathname]);
 
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const value = sessionStorage.getItem("isVerificationSent");
+      setIsVerificationSent(value);
+    }
+  }, []);
+
   const { data: account } = useQuery({
     queryKey: ["account"],
     queryFn: async () => {
@@ -111,6 +121,22 @@ export default function Layout({ children }: LayoutProps) {
   >({
     mutationFn: (formData) =>
       api.post("/auth/resend-verify-email", formData).then((res) => res.data),
+    onSuccess: (response) => {
+      showSuccessAlert(response.message);
+      sessionStorage.setItem("isVerificationSent", "true");
+      setIsVerificationSent("true");
+    },
+    onError: (error) => {
+      showErrorAlert(error.response?.data?.message || error.message);
+    },
+  });
+
+  const activateMutation = useMutation<
+    VerifyResponse,
+    AxiosError<{ message: string }>
+  >({
+    mutationFn: (formData) =>
+      api.post("/account/activate", formData).then((res) => res.data),
     onSuccess: (response) => {
       showSuccessAlert(response.message);
     },
@@ -283,6 +309,8 @@ export default function Layout({ children }: LayoutProps) {
                 className="h-8 me-3"
                 roundedClass="rounded"
                 variant="secondary"
+                onClick={() => activateMutation.mutate()}
+                loading={activateMutation.isPending}
               >
                 Activate Now
               </Button>
@@ -356,6 +384,7 @@ export default function Layout({ children }: LayoutProps) {
                 roundedClass="rounded"
                 onClick={() => verifyMutation.mutate()}
                 loading={verifyMutation.isPending}
+                disabled={!!isVerificationSent}
               >
                 Resend
               </Button>
