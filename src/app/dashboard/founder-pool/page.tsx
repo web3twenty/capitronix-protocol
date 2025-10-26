@@ -60,6 +60,14 @@ export default function FounderPool() {
     },
   });
 
+  const { data: account } = useQuery({
+    queryKey: ["account"],
+    queryFn: async () => {
+      const response = await api.get("/account");
+      return response.data.payload.account;
+    },
+  });
+
   // React Hook Form
   const {
     register,
@@ -102,6 +110,27 @@ export default function FounderPool() {
   const totalSeat = stats?.FOUNDER_DETAILS?.totalSeat;
   const minimumInvestment = stats?.FOUNDER_DETAILS?.minimumInvestment;
   const tokenPrice = stats?.TOKEN_PRICE;
+
+  if (account?.isFounder === 1) {
+    return (
+      <section className="p-4 md:px-6 md:py-2">
+        <div className="max-w-6xl mx-auto space-y-8 pb-5">
+          <div className="bg-[#25262A] rounded-xl p-5 text-center">
+            <h1 className="text-2xl text-white font-semibold mb-2">
+              🎉 Congratulations!
+            </h1>
+            <p className="text-white mb-4">
+              You are already a founder of the 3Twenty Founder Pool.
+            </p>
+            <div className="inline-flex items-center gap-2 bg-green-600 text-white text-sm font-semibold px-3 py-1 rounded-full">
+              <span className="mgc_user_follow_2_line text-[16px]"></span>
+              Founder
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="p-4 md:px-6 md:py-2">
