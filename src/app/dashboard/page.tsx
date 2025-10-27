@@ -8,6 +8,21 @@ import Button from "@/components/ui/Button";
 import Link from "next/link";
 import Barchart from "@/components/BarChart";
 
+function formatNumber(value: number): string {
+  if (value < 1000) return value.toString();
+
+  const suffixes = ["", "K", "M", "B", "T"];
+  const tier = Math.floor(Math.log10(value) / 3);
+
+  const suffix = suffixes[tier];
+  const scale = Math.pow(10, tier * 3);
+  const scaled = value / scale;
+
+  const formatted = scaled % 1 === 0 ? scaled.toFixed(0) : scaled.toFixed(1);
+
+  return `${formatted}${suffix}`;
+}
+
 export default function Home() {
   const { data: account } = useQuery({
     queryKey: ["account"],
@@ -103,16 +118,48 @@ export default function Home() {
 
       <div className="grid grid-cols-1 gap-5 md:grid-cols-[1.5fr_1fr] mb-8">
         {/* Card Statistics */}
-        <div className="border border-[#2A2A2A] rounded-lg">
-          <div className="bg-[#13171E] px-3 py-2 rounded-t-lg flex items-center justify-between">
-            <h3 className="text-md text-white font-semibold">Sales Progress</h3>
-            <p className="text-white text-sm">
-              <span className="text-[#FFC200] font-medium">51K / 60M</span>{" "}
-              <span className="hidden md:inline-block">Tokens Sold</span>
+        <div className="space-y-4">
+          <div className="border border-[#2A2A2A] rounded-lg">
+            <div className="bg-[#13171E] px-3 py-2 rounded-t-lg flex items-center justify-between">
+              <h3 className="text-md text-white font-semibold">
+                Sales Progress
+              </h3>
+              <p className="text-white text-sm">
+                <span className="text-[#FFC200] font-medium">
+                  {formatNumber(
+                    Number(stats?.phaseInfo?.totalSupply || 0) -
+                      Number(stats?.phaseInfo?.totalAvailable || 0)
+                  )}{" "}
+                  / {formatNumber(stats?.phaseInfo?.totalSupply || 0)}
+                </span>{" "}
+                <span className="hidden md:inline-block">Tokens Sold</span>
+              </p>
+            </div>
+
+            <div className="p-4 pb-0">
+              <Barchart />
+            </div>
+          </div>
+          <div
+            className="rounded-lg flex items-center justify-between px-4 py-2"
+            style={{
+              background:
+                "linear-gradient(94.14deg, #322602 1.4%, #13171E 100%)",
+            }}
+          >
+            <div className="flex items-center gap-3">
+              <span className="mgc_chart_line_line text-[#FFC200] text-[58px]"></span>
+              <div>
+                <small className="text-sm text-[#AEAFB2]">Current Price</small>
+                <p className="text-2xl text-white font-medium">
+                  ${stats?.TOKEN_PRICE || ""}
+                </p>
+              </div>
+            </div>
+            <p className="text-lg text-[#FFC200] font-medium">
+              {stats?.ACTIVE_PHASE || ""} Active
             </p>
           </div>
-
-          <Barchart />
         </div>
 
         {/* Card Info */}
@@ -206,7 +253,7 @@ export default function Home() {
                 type="button"
                 variant="primary"
                 size="lg"
-                className="w-full mt-2 h-10"
+                className="w-full mt-5 h-10"
               >
                 <span className="mgc_external_link_line me-2 text-[20px]"></span>
                 Go To Explorer

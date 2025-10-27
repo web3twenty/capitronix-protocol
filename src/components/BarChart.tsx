@@ -30,9 +30,8 @@ const SimpleBarChart = () => {
     <div
       style={{
         width: "100%",
-        height: "50vh",
+        height: "40vh",
         margin: "auto",
-        overflowX: "auto",
       }}
     >
       <ResponsiveContainer>
