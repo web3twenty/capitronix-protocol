@@ -391,6 +391,44 @@ export default function Layout({ children }: LayoutProps) {
             </div>
           )}
 
+          {/* Activation card */}
+          {account?.isActive === 0 && (
+            <div className="flex md:hidden gap-5 flex-col rounded-lg border border-[#11B97E] bg-[#25262A] p-5">
+              <div className="flex items-center gap-4">
+                <div className="w-10 h-10 bg-[#11B97E] flex-shrink-0 rounded flex items-center justify-center">
+                  <span className="mgc_user_lock_line text-2xl text-white"></span>
+                </div>
+                <div className="space-y-1 pe-5">
+                  <p className="text-md text-left font-medium leading-4 text-white">
+                    Account Not Activated
+                  </p>
+                  <p className="text-[#AEAFB2] leading-4 text-sm">
+                    Purchase tokens to activate your account.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex justify-between items-center">
+                <div>
+                  <p className="text-lg text-[#FFC200] font-medium leading-4">
+                    $1000
+                  </p>
+                  <small className="text-[#AEAFB2]">Minimum Required</small>
+                </div>
+
+                <Button
+                  className="h-8 me-3"
+                  roundedClass="rounded"
+                  variant="secondary"
+                  onClick={() => activateMutation.mutate()}
+                  loading={activateMutation.isPending}
+                >
+                  Activate Now
+                </Button>
+              </div>
+            </div>
+          )}
+
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
             {/* Greeting */}
             <h1 className="text-2xl text-white font-semibold text-left w-full md:w-auto">

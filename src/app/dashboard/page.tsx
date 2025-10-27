@@ -44,18 +44,18 @@ export default function Home() {
 
   return (
     <section className="p-4 md:px-6 md:py-2">
-      <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-5">
+      <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-5">
         {statItems.map((stat, index) => (
           <div
             key={index}
-            className="p-[0.8px] flex-shrink-0 rounded-lg border border-[#2A2A2A]"
+            className="p-[0.7px] rounded-[12px] flex-shrink-0 rounded-lg border border-[#2A2A2A]"
             style={{
               background:
                 "linear-gradient(110.57deg, #FFC200 -10.98%, #2A2A2A 23.32%)",
             }}
           >
             <div
-              className="p-4 flex gap-3 rounded-lg h-full items-center"
+              className="p-4 flex gap-3 rounded-[8px] h-full items-center"
               style={{
                 background:
                   "linear-gradient(288.81deg, #13171E 65.71%, #211900 96.31%)",
