@@ -4,9 +4,7 @@ import {
   Rectangle,
   XAxis,
   YAxis,
-  CartesianGrid,
   Tooltip,
-  Legend,
   ResponsiveContainer,
 } from "recharts";
 
@@ -46,7 +44,6 @@ const SimpleBarChart = () => {
             left: 5,
             bottom: 5,
           }}
-          barSize={20}
           barCategoryGap="30%"
         >
           <XAxis dataKey="name" axisLine={false} tickLine={false} />
