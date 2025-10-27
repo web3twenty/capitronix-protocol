@@ -11,12 +11,15 @@ const api = axios.create({
 });
 
 let isRefreshing = false;
-let failedQueue: Array<{
-  resolve: (value?: any) => void;
-  reject: (err?: any) => void;
-}> = [];
 
-const processQueue = (error: any, token: string | null = null) => {
+type FailedRequest = {
+  resolve: (token: string | null) => void;
+  reject: (err: unknown) => void;
+};
+
+let failedQueue: FailedRequest[] = [];
+
+const processQueue = (error: unknown, token: string | null = null) => {
   failedQueue.forEach((prom) => {
     if (error) prom.reject(error);
     else prom.resolve(token);
@@ -24,22 +27,25 @@ const processQueue = (error: any, token: string | null = null) => {
   failedQueue = [];
 };
 
-api.interceptors.request.use((config: InternalAxiosRequestConfig) => {
-  if (typeof window !== "undefined") {
-    const accessToken = Cookies.get("accessToken");
-    if (accessToken) {
-      const headers = config.headers as AxiosRequestHeaders;
-      headers["Authorization"] = `Bearer ${accessToken}`;
+api.interceptors.request.use(
+  (config: InternalAxiosRequestConfig) => {
+    if (typeof window !== "undefined") {
+      const accessToken = Cookies.get("accessToken");
+      if (accessToken) {
+        if (!config.headers) config.headers = {} as AxiosRequestHeaders;
+        (config.headers as AxiosRequestHeaders)[
+          "Authorization"
+        ] = `Bearer ${accessToken}`;
+      }
     }
-  }
-  return config;
-});
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
 
 api.interceptors.response.use(
   (response) => response,
   async (error: AxiosError) => {
-    if (!error.config) return Promise.reject(error);
-
     const originalRequest = error.config as InternalAxiosRequestConfig & {
       _retry?: boolean;
     };
@@ -50,12 +56,15 @@ api.interceptors.response.use(
       !originalRequest._retry
     ) {
       if (isRefreshing) {
-        return new Promise((resolve, reject) => {
+        return new Promise<string | null>((resolve, reject) => {
           failedQueue.push({ resolve, reject });
         })
           .then((token) => {
-            const headers = originalRequest.headers as AxiosRequestHeaders;
-            headers["Authorization"] = `Bearer ${token}`;
+            if (token && originalRequest.headers) {
+              (originalRequest.headers as AxiosRequestHeaders)[
+                "Authorization"
+              ] = `Bearer ${token}`;
+            }
             return api(originalRequest);
           })
           .catch((err) => Promise.reject(err));
@@ -70,14 +79,17 @@ api.interceptors.response.use(
           {},
           { withCredentials: true }
         );
-        const newToken = refreshResponse.data.payload.accessToken;
+        const newToken = refreshResponse.data?.payload?.accessToken;
 
-        Cookies.set("accessToken", newToken, { expires: 30 });
-        api.defaults.headers.common["Authorization"] = `Bearer ${newToken}`;
-
-        processQueue(null, newToken);
-        return api(originalRequest);
-      } catch (err) {
+        if (newToken) {
+          Cookies.set("accessToken", newToken, { expires: 30 });
+          api.defaults.headers.common["Authorization"] = `Bearer ${newToken}`;
+          processQueue(null, newToken);
+          return api(originalRequest);
+        } else {
+          throw new Error("No access token returned");
+        }
+      } catch (err: unknown) {
         processQueue(err, null);
         Cookies.remove("accessToken");
         window.location.href = "/auth/login";
