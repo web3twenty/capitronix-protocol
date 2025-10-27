@@ -150,13 +150,13 @@ export default function WithdrawCards() {
               <th className="px-4 py-3 text-center hidden sm:table-cell">
                 Inactive
               </th>
-              <th className="px-4 py-3 text-center">Total Sales ($)</th>
+              <th className="px-4 py-3 text-center">Total Sales (3TWENTY)</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-[#2A2A2A]">
             {stats.map((item: ReferralStat) => (
               <tr key={item.level}>
-                <td className="px-4 py-3 text-[#FFC200]">Tier {item.level}</td>
+                <td className="px-4 py-3 text-[#FFC200] whitespace-nowrap">Tier {item.level}</td>
                 <td className="px-4 py-3 text-center">{item.total}</td>
                 <td className="px-4 py-3 text-center text-green-400 hidden sm:table-cell">
                   {item.active}
@@ -165,7 +165,7 @@ export default function WithdrawCards() {
                   {item.inactive}
                 </td>
                 <td className="px-4 py-3 text-center">
-                  ${Number(item.totalSales || 0).toFixed(2)}
+                  {Number(item.totalSales || 0).toFixed(2)}
                 </td>
               </tr>
             ))}
