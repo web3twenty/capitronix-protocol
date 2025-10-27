@@ -100,68 +100,65 @@ export default function Staking() {
 
         {/* Dynamic Details */}
         <div className="bg-[#03070D] space-y-2 p-4">
-          <div>
-            {[
-              {
-                label: "Staking Amount:",
-                value: (
-                  <span className="font-medium text-[#FFC200]">
-                    <span className="text-white">{stakeAmount || 0}</span>{" "}
-                    3TWENTY
-                  </span>
-                ),
-              },
-              {
-                label: "Duration:",
-                value: (
-                  <span className="font-medium text-[#FFC200]">
-                    <span>{durationDays} Days</span>
-                  </span>
-                ),
-              },
-              {
-                label: "APY:",
-                value: (
-                  <span className="font-medium text-[#FFC200]">
-                    <span>{apy}%</span>
-                  </span>
-                ),
-              },
-              {
-                label: "Daily Rewards:",
-                value: (
-                  <span className="font-medium text-[#FFC200]">
-                    <span className="text-white">
-                      {(
-                        ((Number(apy) / 100) * Number(stakeAmount)) /
-                        Number(durationDays)
-                      ).toFixed(2)}
-                    </span>{" "}
-                    3TWENTY
-                  </span>
-                ),
-              },
-              {
-                label: "Total Rewards:",
-                value: (
-                  <span className="font-medium text-[#FFC200]">
-                    <span className="text-white">
-                      {((Number(apy) / 100) * Number(stakeAmount)).toFixed(2)}
-                    </span>{" "}
-                    3TWENTY
-                  </span>
-                ),
-              },
-            ].map((item, i) => (
-              <div
-                key={i}
-                className="flex items-center border border-[#13171E] rounded p-2 justify-between"
-              >
-                <p className="text-[#CFD0D2] text-sm">{item.label}</p>
-                <div>{item.value}</div>
-              </div>
-            ))}
-          </div>
+          {[
+            {
+              label: "Staking Amount:",
+              value: (
+                <span className="font-medium text-[#FFC200]">
+                  <span className="text-white">{stakeAmount || 0}</span> 3TWENTY
+                </span>
+              ),
+            },
+            {
+              label: "Duration:",
+              value: (
+                <span className="font-medium text-[#FFC200]">
+                  <span>{durationDays} Days</span>
+                </span>
+              ),
+            },
+            {
+              label: "APY:",
+              value: (
+                <span className="font-medium text-[#FFC200]">
+                  <span>{apy}%</span>
+                </span>
+              ),
+            },
+            {
+              label: "Daily Rewards:",
+              value: (
+                <span className="font-medium text-[#FFC200]">
+                  <span className="text-white">
+                    {(
+                      ((Number(apy) / 100) * Number(stakeAmount)) /
+                      Number(durationDays)
+                    ).toFixed(2)}
+                  </span>{" "}
+                  3TWENTY
+                </span>
+              ),
+            },
+            {
+              label: "Total Rewards:",
+              value: (
+                <span className="font-medium text-[#FFC200]">
+                  <span className="text-white">
+                    {((Number(apy) / 100) * Number(stakeAmount)).toFixed(2)}
+                  </span>{" "}
+                  3TWENTY
+                </span>
+              ),
+            },
+          ].map((item, i) => (
+            <div
+              key={i}
+              className="flex items-center border border-[#13171E] rounded p-2 justify-between"
+            >
+              <p className="text-[#CFD0D2] text-sm">{item.label}</p>
+              <div>{item.value}</div>
+            </div>
+          ))}
 
           <div className="bg-[#13171E] px-3 py-2 md:px-4 md:py-3 rounded-lg">
             <div className="flex items-center gap-2">

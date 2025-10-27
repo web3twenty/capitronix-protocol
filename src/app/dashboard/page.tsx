@@ -6,6 +6,7 @@ import api from "@/lib/api";
 import { showSuccessAlert } from "@/components/Toast";
 import Button from "@/components/ui/Button";
 import Link from "next/link";
+import Barchart from "@/components/BarChart";
 
 export default function Home() {
   const { data: account } = useQuery({
@@ -101,7 +102,20 @@ export default function Home() {
       </div>
 
       <div className="grid grid-cols-1 gap-5 md:grid-cols-[1.5fr_1fr] mb-8">
-        <div></div>
+        {/* Card Statistics */}
+        <div className="border border-[#2A2A2A] rounded-lg">
+          <div className="bg-[#13171E] px-3 py-2 rounded-t-lg flex items-center justify-between">
+            <h3 className="text-md text-white font-semibold">Sales Progress</h3>
+            <p className="text-white text-sm">
+              <span className="text-[#FFC200] font-medium">51K / 60M</span>{" "}
+              <span className="hidden md:inline-block">Tokens Sold</span>
+            </p>
+          </div>
+
+          <Barchart />
+        </div>
+
+        {/* Card Info */}
         <div className="border border-[#2A2A2A] rounded-lg">
           <div className="bg-[#13171E] px-3 py-2 rounded-t-lg">
             <h3 className="text-md text-white font-semibold">
