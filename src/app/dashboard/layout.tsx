@@ -28,6 +28,11 @@ interface VerifyResponse {
   message: string;
 }
 
+interface LogoutResponse {
+  success: boolean;
+  message: string;
+}
+
 export default function Layout({ children }: LayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [openSubmenus, setOpenSubmenus] = useState<Record<string, boolean>>({});
@@ -147,6 +152,23 @@ export default function Layout({ children }: LayoutProps) {
       api.post("/account/activate", formData).then((res) => res.data),
     onSuccess: (response) => {
       showSuccessAlert(response.message);
+    },
+    onError: (error) => {
+      showErrorAlert(error.response?.data?.message || error.message);
+    },
+  });
+
+  const logoutMutation = useMutation<
+    LogoutResponse,
+    AxiosError<{ message: string }>
+  >({
+    mutationFn: () =>
+      api
+        .post("/auth/logout", null, { withCredentials: true })
+        .then((res) => res.data),
+    onSuccess: (response) => {
+      Cookies.remove("accessToken");
+      router.replace("/auth/login");
     },
     onError: (error) => {
       showErrorAlert(error.response?.data?.message || error.message);
@@ -360,8 +382,7 @@ export default function Layout({ children }: LayoutProps) {
               <DropdownMenu.Item
                 className="px-4 py-2 text-sm text-red-500 focus:outline-none hover:bg-[#2A2A2A] cursor-pointer"
                 onClick={() => {
-                  Cookies.remove("accessToken");
-                  router.replace("/auth/login");
+                  logoutMutation.mutate();
                 }}
               >
                 Logout

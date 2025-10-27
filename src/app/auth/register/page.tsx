@@ -68,7 +68,9 @@ export default function SignupForm() {
     SignupFormData
   >({
     mutationFn: (formData) =>
-      api.post("/auth/register", formData).then((res) => res.data),
+      api
+        .post("/auth/register", formData, { withCredentials: true })
+        .then((res) => res.data),
     onSuccess: (response) => {
       showSuccessAlert(response.message);
       Cookies.set("accessToken", response.payload.accessToken, { expires: 30 });
