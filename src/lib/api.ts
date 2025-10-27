@@ -87,6 +87,12 @@ api.interceptors.response.use(
       }
     }
 
+    if (typeof window !== "undefined" && error.response?.status === 401) {
+      Cookies.remove("accessToken");
+      window.location.href = "/auth/login";
+      return Promise.reject(error);
+    }
+
     return Promise.reject(error);
   }
 );
