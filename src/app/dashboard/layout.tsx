@@ -9,7 +9,11 @@ import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import Cookies from "js-cookie";
 import Link, { LinkProps } from "next/link";
 import Button from "@/components/ui/Button";
-import { showSuccessAlert, showErrorAlert } from "@/components/Toast";
+import {
+  showSuccessAlert,
+  showErrorAlert,
+  showPromiseToast,
+} from "@/components/Toast";
 import { AxiosError } from "axios";
 
 type NavigationItem = {
@@ -163,9 +167,12 @@ export default function Layout({ children }: LayoutProps) {
     AxiosError<{ message: string }>
   >({
     mutationFn: () =>
-      api
-        .post("/auth/logout", null, { withCredentials: true })
-        .then((res) => res.data),
+      showPromiseToast(
+        api
+          .post("/auth/logout", null, { withCredentials: true })
+          .then((res) => res.data),
+        "Logging out..."
+      ),
     onSuccess: (response) => {
       Cookies.remove("accessToken");
       router.replace("/auth/login");
