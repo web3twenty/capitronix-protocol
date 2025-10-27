@@ -115,6 +115,14 @@ export default function Layout({ children }: LayoutProps) {
     staleTime: 0,
   });
 
+  const { data: stats } = useQuery({
+    queryKey: ["stats"],
+    queryFn: async () => {
+      const response = await api.get("/dashboard/stats");
+      return response.data.payload;
+    },
+  });
+
   const verifyMutation = useMutation<
     VerifyResponse,
     AxiosError<{ message: string }>
@@ -403,7 +411,7 @@ export default function Layout({ children }: LayoutProps) {
                     Account Not Activated
                   </p>
                   <p className="text-[#AEAFB2] leading-4 text-sm">
-                    Purchase tokens to activate your account.
+                    Deposit USDT to activate your account.
                   </p>
                 </div>
               </div>
@@ -411,7 +419,7 @@ export default function Layout({ children }: LayoutProps) {
               <div className="flex justify-between items-center">
                 <div>
                   <p className="text-lg text-[#FFC200] font-medium leading-4">
-                    $1000
+                    ${stats?.ACTIVATION_USDT || ""}
                   </p>
                   <small className="text-[#AEAFB2]">Minimum Required</small>
                 </div>
@@ -431,7 +439,7 @@ export default function Layout({ children }: LayoutProps) {
 
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
             {/* Greeting */}
-            <h1 className="text-2xl text-white font-semibold text-left w-full md:w-auto">
+            <h1 className="text-2xl text-white font-medium text-left w-full md:w-auto">
               Hy There, {account?.name || "..."}
             </h1>
 
