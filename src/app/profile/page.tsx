@@ -33,7 +33,7 @@ export default function Profile() {
   }, [searchParams]);
 
   return (
-    <div className="min-h-screen bg-[#0F121A] text-white">
+    <div className="min-h-screen bg-[#0F121A] text-white pb-4">
       {/* Fixed Header */}
       <header className="fixed top-0 h-16 left-0 right-0 z-50 bg-[#13171E] border-b border-[#2A2A2A] flex items-center px-2 py-3">
         <Link

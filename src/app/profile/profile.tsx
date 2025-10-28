@@ -156,7 +156,7 @@ export default function ProfileForm() {
               <label htmlFor="profile-upload">
                 <Camera
                   size={25}
-                  className="bg-white rounded-full text-black h-9 w-9 p-2 border-2 border-gray-400 shadow-lg cursor-pointer hover:bg-gray-300"
+                  className="bg-[#FFC200] rounded-full text-black h-9 w-9 p-2 border-1 border-gray-400 shadow-lg cursor-pointer hover:bg-[#CC9A00]"
                 />
               </label>
             </button>
