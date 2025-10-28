@@ -4,7 +4,10 @@ export function middleware(req: NextRequest) {
   const token = req.cookies.get("accessToken")?.value;
   const { pathname } = req.nextUrl;
 
-  if (!token && pathname.startsWith("/dashboard")) {
+  if (
+    !token &&
+    (pathname.startsWith("/dashboard") || pathname.startsWith("/profile"))
+  ) {
     const loginUrl = req.nextUrl.clone();
     loginUrl.pathname = "/auth/login";
     return NextResponse.redirect(loginUrl);
@@ -20,5 +23,5 @@ export function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/auth/login", "/auth/register"],
+  matcher: ["/dashboard/:path*", "/auth/login", "/auth/register", "/profile"],
 };
