@@ -57,7 +57,7 @@ export default function Stakings() {
 
         <div className="overflow-x-auto w-full">
           <div className="min-w-max">
-            <table className="w-full text-sm text-left text-gray-300 bg-[#03070D] divide-y divide-[#2A2A2A] rounded-lg">
+            <table className="w-full text-sm pb-2 text-left text-gray-300 bg-[#03070D] divide-y divide-[#2A2A2A] rounded-lg">
               <thead className="bg-[#25262A] text-gray-200">
                 <tr>
                   {/* Desktop Only */}
