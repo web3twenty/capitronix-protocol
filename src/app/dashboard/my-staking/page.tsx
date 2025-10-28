@@ -43,7 +43,7 @@ export default function Stakings() {
 
   return (
     <section className="p-4 md:px-6 md:py-2">
-      <div className="max-w-7xl bg-[#13171E] border border-[#2A2A2A] rounded-lg mb-8">
+      <div className="max-w-7xl bg-[#13171E] border border-[#2A2A2A] rounded-lg overflow-hidden mb-8">
         <div className="flex items-center justify-between px-[20px] py-[10px]">
           <h1 className="text-lg text-white font-medium">My Stakings</h1>
           <h2 className="font-medium">
@@ -57,7 +57,7 @@ export default function Stakings() {
 
         <div className="overflow-x-auto w-full">
           <div className="min-w-max">
-            <table className="w-full text-sm pb-2 text-left text-gray-300 bg-[#03070D] divide-y divide-[#2A2A2A] rounded-lg">
+            <table className="w-full text-sm text-left text-gray-300 bg-[#03070D] divide-y divide-[#2A2A2A] rounded-lg">
               <thead className="bg-[#25262A] text-gray-200">
                 <tr>
                   {/* Desktop Only */}

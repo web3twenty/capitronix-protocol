@@ -132,7 +132,7 @@ export default function WithdrawCards() {
       </div>
 
       {/* ✅ Referral Stats Table */}
-      <div className="max-w-7xl bg-[#13171E] border border-[#2A2A2A] rounded-lg mt-8 mb-8">
+      <div className="max-w-7xl bg-[#13171E] border border-[#2A2A2A] rounded-lg mt-8 mb-8 overflow-hidden">
         <div className="flex items-center justify-between px-[20px] py-[10px]">
           <h1 className="text-lg text-white font-medium">
             6-Level Team Overview
@@ -141,7 +141,7 @@ export default function WithdrawCards() {
 
         <div className="overflow-x-auto w-full">
           <div className="min-w-max">
-            <table className="w-full text-sm pb-2 text-left text-gray-300 bg-[#03070D] divide-y divide-[#2A2A2A] rounded-lg">
+            <table className="w-full text-sm text-left text-gray-300 bg-[#03070D] divide-y divide-[#2A2A2A] rounded-lg">
               <thead className="bg-[#25262A] text-gray-200">
                 <tr>
                   <th className="px-4 py-3">Level</th>
