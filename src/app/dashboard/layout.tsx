@@ -317,11 +317,11 @@ export default function Layout({ children }: LayoutProps) {
       )}
 
       {/* Main area */}
-      <main className="flex-1 bg-[#03070D] lg:pl-64 transition-all duration-300">
+      <main className="flex-1 bg-[#03070D] lg:pl-64 mt-[68px] md:mt-[85px] overflow-x-auto">
         {/* Fixed Header */}
 
         {/* Content */}
-        <header className="flex items-center h-[68px] md:h-[85px] border-b border-[#2A2A2A] bg-[#13171E] px-2 sticky top-0 z-30">
+        <header className="flex items-center h-[68px] md:h-[85px] border-b border-[#2A2A2A] bg-[#13171E] px-2 fixed left-0 right-0 top-0 z-30">
           <div className="flex items-center gap-3 me-auto flex-shrink-0">
             <button
               onClick={() => setSidebarOpen(true)}

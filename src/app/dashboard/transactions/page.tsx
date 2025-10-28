@@ -77,69 +77,76 @@ export default function Transactions() {
           Transactions
         </h1>
 
-        <table className="w-full text-sm text-left text-gray-300 bg-[#03070D] divide-y divide-[#2A2A2A] rounded-lg">
-          <thead className="bg-[#25262A] text-gray-200">
-            <tr>
-              <th scope="col" className="px-4 py-3">
-                Type
-              </th>
-              <th scope="col" className="px-4 py-3 hidden sm:table-cell">
-                Date
-              </th>
-              <th scope="col" className="px-4 py-3 text-center">
-                Amount
-              </th>
-              <th scope="col" className="px-4 py-3 hidden sm:table-cell">
-                Currency
-              </th>
-              <th scope="col" className="px-4 py-3">
-                Status
-              </th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-[#2A2A2A]">
-            {transactions.map((tx) => (
-              <tr key={tx.id}>
-                <td className="px-4 py-3">{tx.transactionType}</td>
-                <td className="px-4 py-3 hidden sm:table-cell">
-                  {new Date(tx.createdAt).toLocaleDateString("en-US", {
-                    day: "numeric",
-                    month: "short",
-                    year: "numeric",
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  })}
-                </td>
-                <td className="px-4 py-3 text-center">
-                  {parseFloat(tx.amount) > 0 ? "+" : ""}
-                  {new Intl.NumberFormat("en-US").format(parseFloat(tx.amount))}
-                </td>
-                <td className="px-4 py-3 hidden sm:table-cell">
-                  {tx.currency}
-                </td>
-                <td className="px-4 py-3">
-                  {tx.status === "Completed" ? (
-                    <span className="px-2 py-1 text-xs font-medium rounded-full bg-green-500/20 text-green-400">
-                      Completed
-                    </span>
-                  ) : (
-                    <span className="px-2 py-1 text-xs font-medium rounded-full bg-yellow-500/20 text-yellow-400">
-                      Pending
-                    </span>
-                  )}
-                </td>
-              </tr>
-            ))}
+        <div className="overflow-x-auto w-full">
+          <div className="min-w-max">
+            <table className="w-full text-sm text-left text-gray-300 bg-[#03070D] divide-y divide-[#2A2A2A] rounded-lg">
+              <thead className="bg-[#25262A] text-gray-200">
+                <tr>
+                  <th scope="col" className="px-4 py-3">
+                    Type
+                  </th>
+                  <th scope="col" className="px-4 py-3">
+                    Date
+                  </th>
+                  <th scope="col" className="px-4 py-3 text-center">
+                    Amount
+                  </th>
+                  <th scope="col" className="px-4 py-3">
+                    Currency
+                  </th>
+                  <th scope="col" className="px-4 py-3">
+                    Status
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-[#2A2A2A]">
+                {transactions.map((tx) => (
+                  <tr key={tx.id}>
+                    <td className="px-4 py-3">{tx.transactionType}</td>
+                    <td className="px-4 py-3 whitespace-nowrap">
+                      {new Date(tx.createdAt).toLocaleDateString("en-US", {
+                        day: "numeric",
+                        month: "short",
+                        year: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                    </td>
+                    <td className="px-4 py-3 text-center">
+                      {parseFloat(tx.amount) > 0 ? "+" : ""}
+                      {new Intl.NumberFormat("en-US").format(
+                        parseFloat(tx.amount)
+                      )}
+                    </td>
+                    <td className="px-4 py-3">{tx.currency}</td>
+                    <td className="px-4 py-3">
+                      {tx.status === "Completed" ? (
+                        <span className="px-2 py-1 text-xs font-medium rounded-full bg-green-500/20 text-green-400">
+                          Completed
+                        </span>
+                      ) : (
+                        <span className="px-2 py-1 text-xs font-medium rounded-full bg-yellow-500/20 text-yellow-400">
+                          Pending
+                        </span>
+                      )}
+                    </td>
+                  </tr>
+                ))}
 
-            {transactions.length === 0 && !isFetching && (
-              <tr>
-                <td colSpan={5} className="px-4 py-6 text-center text-gray-400">
-                  No transactions found.
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
+                {transactions.length === 0 && !isFetching && (
+                  <tr>
+                    <td
+                      colSpan={5}
+                      className="px-4 py-6 text-center text-gray-400"
+                    >
+                      No transactions found.
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
 
         {/* Pagination Footer */}
         <div className="flex items-center rounded-bl-lg rounded-br-lg justify-end gap-4 px-4 py-3 border-t border-[#2A2A2A] text-sm text-gray-300 bg-[#03070D]">
