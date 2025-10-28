@@ -80,8 +80,8 @@ export default function ProfileForm() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0F121A] text-white p-4 md:px-6">
-      <div className="max-w-3xl mx-auto bg-[#13171E] border border-[#2A2A2A] rounded-lg p-6 space-y-6">
+    <div className="bg-[#0F121A] text-white p-4 pt-0">
+      <div className="max-w-3xl mx-auto bg-[#13171E] border border-[#2A2A2A] rounded-lg p-4 space-y-6">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <Input
             label="Full Name"
