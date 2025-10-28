@@ -382,7 +382,7 @@ export default function Layout({ children }: LayoutProps) {
             >
               <DropdownMenu.Item
                 className="px-4 py-2 text-sm text-white focus:outline-none hover:bg-[#2A2A2A] cursor-pointer"
-                onClick={() => router.push("/dashboard/profile")}
+                onClick={() => router.push("/profile")}
               >
                 My Profile
               </DropdownMenu.Item>

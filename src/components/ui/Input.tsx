@@ -52,7 +52,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
               bg-[#25262A] text-gray-100
               border border-[#666666]
               focus:outline-none focus:ring-2 focus:ring-[#bfa30a] focus:border-transparent
-              disabled:bg-[#2f3035] disabled:cursor-not-allowed placeholder:text-[#5E6064]
+              disabled:bg-[#44454a] disabled:cursor-not-allowed placeholder:text-[#5E6064]
               ${icon ? "pl-10" : ""}
               ${isPassword ? "pr-10" : ""}
               ${error ? "border-red-500" : ""}
