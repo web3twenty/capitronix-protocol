@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -10,6 +10,9 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import api from "@/lib/api";
 import { AxiosError } from "axios";
 import { showSuccessAlert, showErrorAlert } from "@/components/Toast";
+import Image from "next/image";
+import { Camera } from "lucide-react";
+import { showPromiseToast } from "@/components/Toast";
 
 // Zod schema
 const profileSchema = z.object({
@@ -23,8 +26,14 @@ const profileSchema = z.object({
 
 type ProfileFormData = z.infer<typeof profileSchema>;
 
+interface ProfilePicResponse {
+  success: boolean;
+  message: string;
+}
+
 export default function ProfileForm() {
   const queryClient = useQueryClient();
+  const [isUploading, setIsUploading] = useState(false);
 
   // Fetch account data
   const { data: account, isLoading } = useQuery({
@@ -79,9 +88,90 @@ export default function ProfileForm() {
     updateMutation.mutate(data);
   };
 
+  // Upload image mutation
+  const { mutate: uploadImage } = useMutation<
+    ProfilePicResponse,
+    AxiosError<{ message: string }>,
+    FormData
+  >({
+    mutationFn: async (formData: FormData) => {
+      // ✅ return the API call so mutation can resolve it
+      return await showPromiseToast(
+        api
+          .put("/account/picture", formData, {
+            headers: { "Content-Type": "multipart/form-data" },
+          })
+          .then((res) => res.data)
+      );
+    },
+    onSuccess: (response) => {
+      queryClient.invalidateQueries({ queryKey: ["account"] });
+      showSuccessAlert(
+        response?.message || "Profile picture updated successfully!"
+      );
+      setIsUploading(false);
+    },
+    onError: (error) => {
+      showErrorAlert(error.response?.data?.message || error.message);
+      setIsUploading(false);
+    },
+  });
+
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setIsUploading(true);
+    try {
+      const { readAndCompressImage } = await import("browser-image-resizer");
+      const config = {
+        quality: 0.7,
+        maxWidth: 150,
+        maxHeight: 150,
+        mimeType: "image/jpeg",
+      };
+      const resizedImage = await readAndCompressImage(file, config);
+      const formData = new FormData();
+      formData.append("profilePicture", resizedImage);
+      uploadImage(formData);
+    } catch (err) {
+      console.error(err);
+      showErrorAlert("Failed to process image.");
+      setIsUploading(false);
+    }
+  };
+
   return (
     <div className="bg-[#0F121A] text-white p-4 pt-0">
-      <div className="max-w-3xl mx-auto bg-[#13171E] border border-[#2A2A2A] rounded-lg p-4 space-y-6">
+      <div className="max-w-3xl mx-auto bg-[#13171E] border border-[#2A2A2A] rounded-lg p-4 md:p-6 space-y-6">
+        <div className="flex flex-col items-center space-y-4">
+          <div className="relative w-24 h-24 rounded-full">
+            <Image
+              src={account?.profilePicture || "/default-avatar.png"}
+              alt="Profile"
+              fill
+              className="object-cover rounded-full"
+            />
+
+            <button className="absolute bottom-0 right-0 bg-transparent">
+              <label htmlFor="profile-upload">
+                <Camera
+                  size={25}
+                  className="bg-white rounded-full text-black h-9 w-9 p-2 border-2 border-gray-400 shadow-lg cursor-pointer hover:bg-gray-300"
+                />
+              </label>
+            </button>
+          </div>
+
+          {/* Hidden file input */}
+          <input
+            type="file"
+            accept="image/*"
+            id="profile-upload"
+            className="hidden"
+            onChange={handleImageChange}
+          />
+        </div>
+
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <Input
             label="Full Name"

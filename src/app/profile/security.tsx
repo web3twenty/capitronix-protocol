@@ -62,7 +62,7 @@ export default function SecurityForm() {
 
   return (
     <div className="bg-[#0F121A] text-white p-4 pt-0">
-      <div className="max-w-3xl mx-auto bg-[#13171E] border border-[#2A2A2A] rounded-lg p-4 space-y-6">
+      <div className="max-w-3xl mx-auto bg-[#13171E] border border-[#2A2A2A] rounded-lg p-4 md:p-6 space-y-6">
         <h2 className="text-xl font-semibold mb-4">Update Password</h2>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
