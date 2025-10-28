@@ -139,38 +139,42 @@ export default function WithdrawCards() {
           </h1>
         </div>
 
-        <table className="w-full text-sm text-left text-gray-300 bg-[#03070D] divide-y divide-[#2A2A2A] rounded-lg">
-          <thead className="bg-[#25262A] text-gray-200">
-            <tr>
-              <th className="px-4 py-3">Level</th>
-              <th className="px-4 py-3 text-center">Total Members</th>
-              <th className="px-4 py-3 text-center hidden sm:table-cell">
-                Active
-              </th>
-              <th className="px-4 py-3 text-center hidden sm:table-cell">
-                Inactive
-              </th>
-              <th className="px-4 py-3 text-center">Total Sales (3TWENTY)</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-[#2A2A2A]">
-            {stats.map((item: ReferralStat) => (
-              <tr key={item.level}>
-                <td className="px-4 py-3 text-[#FFC200] whitespace-nowrap">Tier {item.level}</td>
-                <td className="px-4 py-3 text-center">{item.total}</td>
-                <td className="px-4 py-3 text-center text-green-400 hidden sm:table-cell">
-                  {item.active}
-                </td>
-                <td className="px-4 py-3 text-center text-yellow-400 hidden sm:table-cell">
-                  {item.inactive}
-                </td>
-                <td className="px-4 py-3 text-center">
-                  {Number(item.totalSales || 0).toFixed(2)}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <div className="overflow-x-auto w-full">
+          <div className="min-w-max">
+            <table className="w-full text-sm text-left text-gray-300 bg-[#03070D] divide-y divide-[#2A2A2A] rounded-lg">
+              <thead className="bg-[#25262A] text-gray-200">
+                <tr>
+                  <th className="px-4 py-3">Level</th>
+                  <th className="px-4 py-3 text-center">Total Members</th>
+                  <th className="px-4 py-3 text-center">Active</th>
+                  <th className="px-4 py-3 text-center">Inactive</th>
+                  <th className="px-4 py-3 text-center">
+                    Total Sales (3TWENTY)
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-[#2A2A2A]">
+                {stats.map((item: ReferralStat) => (
+                  <tr key={item.level}>
+                    <td className="px-4 py-3 text-[#FFC200] whitespace-nowrap">
+                      Tier {item.level}
+                    </td>
+                    <td className="px-4 py-3 text-center">{item.total}</td>
+                    <td className="px-4 py-3 text-center text-green-400">
+                      {item.active}
+                    </td>
+                    <td className="px-4 py-3 text-center text-yellow-400">
+                      {item.inactive}
+                    </td>
+                    <td className="px-4 py-3 text-center">
+                      {Number(item.totalSales || 0).toFixed(2)}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </section>
   );

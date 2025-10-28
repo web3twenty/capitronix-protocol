@@ -55,85 +55,96 @@ export default function Stakings() {
           </h2>
         </div>
 
-        <table className="w-full text-sm text-left text-gray-300 bg-[#03070D] divide-y divide-[#2A2A2A] rounded-lg">
-          <thead className="bg-[#25262A] text-gray-200">
-            <tr>
-              {/* Desktop Only */}
-              <th scope="col" className="px-4 py-3 hidden sm:table-cell">
-                SL
-              </th>
-              <th scope="col" className="px-4 py-3 hidden sm:table-cell">
-                Date
-              </th>
+        <div className="overflow-x-auto w-full">
+          <div className="min-w-max">
+            <table className="w-full text-sm text-left text-gray-300 bg-[#03070D] divide-y divide-[#2A2A2A] rounded-lg">
+              <thead className="bg-[#25262A] text-gray-200">
+                <tr>
+                  {/* Desktop Only */}
+                  <th scope="col" className="px-4 py-3">
+                    SL
+                  </th>
+                  <th scope="col" className="px-4 py-3">
+                    Date
+                  </th>
 
-              {/* Always Visible */}
-              <th scope="col" className="px-4 py-3">
-                Amount
-              </th>
-              <th scope="col" className="px-4 py-3 hidden sm:table-cell">
-                Daily Reward
-              </th>
-              <th scope="col" className="px-4 py-3">
-                Received Days
-              </th>
-              <th scope="col" className="px-4 py-3">
-                APY (%)
-              </th>
+                  {/* Always Visible */}
+                  <th scope="col" className="px-4 py-3">
+                    Amount
+                  </th>
+                  <th scope="col" className="px-4 py-3">
+                    Daily Reward
+                  </th>
+                  <th scope="col" className="px-4 py-3">
+                    Received Days
+                  </th>
+                  <th scope="col" className="px-4 py-3">
+                    APY (%)
+                  </th>
 
-              {/* Desktop Only */}
-              <th scope="col" className="px-4 py-3 hidden sm:table-cell">
-                Status
-              </th>
-            </tr>
-          </thead>
+                  {/* Desktop Only */}
+                  <th scope="col" className="px-4 py-3">
+                    Status
+                  </th>
+                </tr>
+              </thead>
 
-          <tbody className="divide-y divide-[#2A2A2A]">
-            {stakings.map((stake, index) => (
-              <tr key={stake.id}>
-                {/* Desktop Only */}
-                <td className="px-4 py-3 hidden sm:table-cell">{index + 1}</td>
-                <td className="px-4 py-3 hidden sm:table-cell">
-                  {new Date(stake.createdAt).toLocaleDateString("en-US", {
-                    day: "numeric",
-                    month: "short",
-                    year: "numeric",
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  })}
-                </td>
+              <tbody className="divide-y divide-[#2A2A2A]">
+                {stakings.map((stake, index) => (
+                  <tr key={stake.id}>
+                    {/* Desktop Only */}
+                    <td className="px-4 py-3">{index + 1}</td>
+                    <td className="px-4 py-3">
+                      {new Date(stake.createdAt).toLocaleDateString("en-US", {
+                        day: "numeric",
+                        month: "short",
+                        year: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                    </td>
 
-                {/* Always Visible */}
-                <td className="px-4 py-3">{Number(stake.amount).toFixed(2)}</td>
-                <td className="px-4 py-3 hidden sm:table-cell">
-                  {Number(stake.dailyReward).toFixed(2)}
-                </td>
-                <td className="px-4 py-3">{`${stake.receivedDays} / ${stake.durationDays} days`}</td>
-                <td className="px-4 py-3">{Number(stake.apy).toFixed(2)}%</td>
+                    {/* Always Visible */}
+                    <td className="px-4 py-3">
+                      {Number(stake.amount).toFixed(2)}
+                    </td>
+                    <td className="px-4 py-3">
+                      {Number(stake.dailyReward).toFixed(2)}
+                    </td>
+                    <td className="px-4 py-3">{`${stake.receivedDays} / ${stake.durationDays} days`}</td>
+                    <td className="px-4 py-3">
+                      {Number(stake.apy).toFixed(2)}%
+                    </td>
 
-                {/* Desktop Only */}
-                <td className="px-4 py-3 hidden sm:table-cell">
-                  {stake.status === "Running" ? (
-                    <span className="px-2 py-1 text-xs font-medium rounded-full bg-yellow-500/20 text-yellow-400">
-                      {stake.status}
-                    </span>
-                  ) : (
-                    <span className="px-2 py-1 text-xs font-medium rounded-full bg-red-500/20 text-red-400">
-                      {stake.status}
-                    </span>
-                  )}
-                </td>
-              </tr>
-            ))}
+                    {/* Desktop Only */}
+                    <td className="px-4 py-3">
+                      {stake.status === "Running" ? (
+                        <span className="px-2 py-1 text-xs font-medium rounded-full bg-yellow-500/20 text-yellow-400">
+                          {stake.status}
+                        </span>
+                      ) : (
+                        <span className="px-2 py-1 text-xs font-medium rounded-full bg-red-500/20 text-red-400">
+                          {stake.status}
+                        </span>
+                      )}
+                    </td>
+                  </tr>
+                ))}
 
-            {stakings.length === 0 && !isFetching && (
-              <tr>
-                <td colSpan={7} className="px-4 py-6 text-center text-gray-400">
-                  No stakings found.
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
+                {stakings.length === 0 && !isFetching && (
+                  <tr>
+                    <td
+                      colSpan={7}
+                      className="px-4 py-6 text-center text-gray-400"
+                    >
+                      No stakings found.
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </section>
   );
