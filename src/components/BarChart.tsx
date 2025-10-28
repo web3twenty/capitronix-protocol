@@ -27,13 +27,7 @@ const data = [
 
 const SimpleBarChart = () => {
   return (
-    <div
-      style={{
-        width: "100%",
-        height: "40vh",
-        margin: "auto",
-      }}
-    >
+    <div className="h-[280px] m-auto w-full">
       <ResponsiveContainer>
         <BarChart
           data={data}
