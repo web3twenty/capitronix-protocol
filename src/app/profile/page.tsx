@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import ProfileForm from "./profile";
+import SecurityForm from "./security";
 
 export default function Profile() {
   const searchParams = useSearchParams();
@@ -73,9 +74,7 @@ export default function Profile() {
         {/* Tab Content */}
         <div>
           {activeTab === "profile" && <ProfileForm />}
-          {activeTab === "security" && (
-            <div className="text-[#E6E6E7]">Security content goes here...</div>
-          )}
+          {activeTab === "security" && <SecurityForm />}
         </div>
       </main>
     </div>
