@@ -340,7 +340,7 @@ export default function Layout({ children }: LayoutProps) {
             </Link>
           </div>
 
-          {account?.isVerified === 0 && (
+          {account?.isActive === 0 && (
             <div className="hidden lg:block">
               <Button
                 className="h-8 me-3"
