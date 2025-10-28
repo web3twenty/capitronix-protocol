@@ -70,7 +70,7 @@ export default function ProfileForm() {
       showSuccessAlert(data.message);
       queryClient.invalidateQueries({ queryKey: ["account"] });
     },
-    onError: (error: any) => {
+    onError: (error) => {
       showErrorAlert(error.response?.data?.message || error.message);
     },
   });
