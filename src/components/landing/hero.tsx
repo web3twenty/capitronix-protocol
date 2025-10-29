@@ -7,14 +7,14 @@ export default function Hero() {
   return (
     <section
       id="home"
-      className="relative px-8 py-16 sm:p-12 md:p-16 text-white flex items-start bg-black overflow-hidden"
+      className="relative px-8 pt-16 pb-0 sm:px-12 pt-12 md:px-16 md:pt-16 text-white flex items-start bg-black overflow-hidden pb-0"
     >
       {/* Left reflection */}
       <div className="absolute w-40 h-40 sm:w-52 sm:h-52 -top-6 -left-6 sm:-top-10 sm:-left-10 bg-green-400/30 rounded-full blur-3xl pointer-events-none"></div>
       {/* Right reflection */}
-      <div className="absolute w-56 h-56 sm:w-72 sm:h-72 -bottom-10 -right-10 sm:-bottom-20 sm:-right-20 bg-green-400/20 rounded-full blur-3xl pointer-events-none"></div>
+      <div className="absolute w-56 h-56 hidden md:block sm:w-72 sm:h-72 -bottom-10 -right-10 sm:bottom-10 sm:-right-20 bg-green-400/20 rounded-full blur-3xl pointer-events-none"></div>
 
-      <div className="max-w-5xl mx-auto my-16 sm:my-20 grid grid-cols-1 lg:grid-cols-2 relative z-10 gap-8 sm:gap-12">
+      <div className="max-w-5xl mx-auto mt-16 mb-8 sm:mt-20 my:10 grid grid-cols-1 lg:grid-cols-2 relative z-10 gap-8 sm:gap-12">
         <div className="flex flex-col justify-center text-center md:text-left">
           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 sm:mb-5">
             Web3Twenty <span className="text-[#11B97E]">Ecosystem</span>
