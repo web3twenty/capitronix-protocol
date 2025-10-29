@@ -8,7 +8,7 @@ export default function Header() {
       <div className="max-w-7xl mx-auto flex items-center justify-between w-full px-2 md:px-6">
         {/* Logo */}
         <Link href="/dashboard" className="block flex-shrink-0">
-          <Image src="/icon-300x100.png" alt="Logo" width={150} height={70} />
+          <Image src="/icon-300x100.png" alt="Logo" width={150} height={70} className="w-30 md:w-40" />
         </Link>
 
         {/* Center nav */}
