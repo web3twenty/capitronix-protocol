@@ -31,13 +31,13 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="bg-gradient-to-r from-[#004d5c] to-[#006875] text-white">
+    <footer className="bg-gradient-to-r from-gray-950 to-gray-900 text-white">
       <div className="container mx-auto px-6 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Brand Section */}
           <div className="space-y-4">
             <Image src="/icon-300x100.png" alt="Logo" width={150} height={40} />
-            <p className="text-cyan-100 text-sm leading-relaxed">
+            <p className="text-gray-400 text-sm leading-relaxed">
               We started 3Twenty Coin to inspire a new generation of Web3
               believers, where innovation meets purpose and community drives
               value.
@@ -46,7 +46,7 @@ const Footer = () => {
               <Link
                 href="https://www.facebook.com/web3twenty"
                 target="_blank"
-                className="bg-white text-[#004d5c] size-10 flex items-center justify-center rounded-full hover:bg-cyan-100 transition-colors"
+                className="bg-gray-800 text-gray-400 w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-700 hover:text-white transition-colors"
                 aria-label="Facebook"
               >
                 <i className="mgc_facebook_fill text-2xl"></i>
@@ -55,7 +55,7 @@ const Footer = () => {
               <Link
                 href="https://x.com/3twentycoin"
                 target="_blank"
-                className="bg-white text-[#004d5c] size-10 flex items-center justify-center rounded-full hover:bg-cyan-100 transition-colors"
+                className="bg-gray-800 text-gray-400 w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-700 hover:text-white transition-colors"
                 aria-label="Twitter"
               >
                 <i className="mgc_twitter_fill text-2xl"></i>
@@ -64,7 +64,7 @@ const Footer = () => {
               <Link
                 href="https://t.me/web3twenty1"
                 target="_blank"
-                className="bg-white text-[#004d5c] size-10 flex items-center justify-center rounded-full hover:bg-cyan-100 transition-colors"
+                className="bg-gray-800 text-gray-400 w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-700 hover:text-white transition-colors"
                 aria-label="Telegram"
               >
                 <i className="mgc_telegram_fill text-2xl"></i>
@@ -73,7 +73,7 @@ const Footer = () => {
               <Link
                 href="https://www.youtube.com/@Web3Twenty"
                 target="_blank"
-                className="bg-white text-[#004d5c] size-10 flex items-center justify-center rounded-full hover:bg-cyan-100 transition-colors"
+                className="bg-gray-800 text-gray-400 w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-700 hover:text-white transition-colors"
                 aria-label="YouTube"
               >
                 <i className="mgc_youtube_fill text-2xl"></i>
@@ -83,13 +83,15 @@ const Footer = () => {
 
           {/* Our Products */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">Ecosystem</h3>
+            <h3 className="text-lg font-semibold mb-4 text-gray-200">
+              Ecosystem
+            </h3>
             <ul className="space-y-2">
               {productLinks.map((link) => (
                 <li key={link.name}>
                   <Link
                     href={link.href}
-                    className="text-cyan-100 hover:text-white transition-colors text-sm"
+                    className="text-gray-400 hover:text-white transition-colors text-sm"
                   >
                     {link.name}
                   </Link>
@@ -100,13 +102,15 @@ const Footer = () => {
 
           {/* Pages */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">Resources</h3>
+            <h3 className="text-lg font-semibold mb-4 text-gray-200">
+              Resources
+            </h3>
             <ul className="space-y-2">
               {pageLinks.map((link) => (
                 <li key={link.name}>
                   <Link
                     href={link.href}
-                    className="text-cyan-100 hover:text-white transition-colors text-sm"
+                    className="text-gray-400 hover:text-white transition-colors text-sm"
                   >
                     {link.name}
                   </Link>
@@ -117,13 +121,13 @@ const Footer = () => {
 
           {/* Contact */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">Others</h3>
+            <h3 className="text-lg font-semibold mb-4 text-gray-200">Others</h3>
             <ul className="space-y-2">
               {otherLinks.map((link) => (
                 <li key={link.name}>
                   <Link
                     href={link.href}
-                    className="text-cyan-100 hover:text-white transition-colors text-sm"
+                    className="text-gray-400 hover:text-white transition-colors text-sm"
                   >
                     {link.name}
                   </Link>
