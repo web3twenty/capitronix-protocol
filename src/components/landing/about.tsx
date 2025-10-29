@@ -5,7 +5,7 @@ export default function About() {
   return (
     <section
       id="about"
-      className="max-w-6xl mx-auto px-6 sm:px-10 py-16 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center"
+      className="max-w-6xl mx-auto px-6 sm:px-10 py-8 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center"
     >
       {/* Left Image */}
       <div className="border-2 border-white/20 rounded-2xl overflow-hidden shadow-lg hover:shadow-[#11B97E]/40 transition-all duration-300">
