@@ -7,7 +7,7 @@ export default function Hero() {
   return (
     <section
       id="home"
-      className="relative p-8 sm:p-12 md:p-16 text-white flex items-start bg-black overflow-hidden"
+      className="relative px-8 py-20 sm:p-12 md:p-16 text-white flex items-start bg-black overflow-hidden"
     >
       {/* Left reflection */}
       <div className="absolute w-40 h-40 sm:w-52 sm:h-52 -top-6 -left-6 sm:-top-10 sm:-left-10 bg-green-400/30 rounded-full blur-3xl pointer-events-none"></div>
