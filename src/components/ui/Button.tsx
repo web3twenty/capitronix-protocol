@@ -1,7 +1,13 @@
 import React from "react";
 
 interface ButtonProps {
-  variant?: "primary" | "secondary" | "outline" | "ghost" | "danger";
+  variant?:
+    | "primary"
+    | "secondary"
+    | "outline"
+    | "ghost"
+    | "danger"
+    | "outline-secondary";
   size?: "sm" | "md" | "lg";
   loading?: boolean;
   icon?: React.ReactNode;
@@ -38,6 +44,8 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         "bg-[#11B97E] text-gray-200 hover:bg-[#0e9465] focus:ring-gray-500",
       outline:
         "border-2 border-[#FFC200] text-[#FFC200] hover:bg-[#3a3b41] focus:ring-[#FFC200]",
+      "outline-secondary":
+        "border-2 border-[#11B97E] text-[#11B97E] hover:bg-[#0e9465] focus:ring-[#11B97E]",
       ghost: "text-[#FFC200] hover:bg-[#3a3b41] focus:ring-[#FFC200]",
       danger: "bg-red-600 text-white hover:bg-red-700 focus:ring-red-500",
     };
