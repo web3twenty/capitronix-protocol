@@ -47,18 +47,25 @@ export default function About() {
   ];
 
   return (
-    <section id="about" className="max-w-6xl mx-auto px-6 sm:px-10 py-8">
-      {/* Left Image */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-        <div className="border-2 border-white/20 rounded-2xl overflow-hidden shadow-lg hover:shadow-[#11B97E]/40 transition-all duration-300">
-          <Image
-            src="/landing-about.jpg"
-            alt="About Web3Twenty"
-            width={600}
-            height={400}
-            className="w-full h-auto object-cover"
-            priority
-          />
+    <section
+      id="about"
+      className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-12 sm:py-16 lg:py-20"
+    >
+      {/* Hero Section */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-16 items-center mb-16 sm:mb-20 lg:mb-28">
+        {/* Left Image */}
+        <div className="order-2 lg:order-1 group">
+          <div className="relative border-2 border-white/10 rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl hover:shadow-[#11B97E]/30 transition-all duration-500 hover:border-[#11B97E]/30 hover:scale-[1.02]">
+            <div className="absolute inset-0 bg-gradient-to-br from-[#11B97E]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10" />
+            <Image
+              src="/landing-about.jpg"
+              alt="About Web3Twenty"
+              width={600}
+              height={400}
+              className="w-full h-auto object-cover"
+              priority
+            />
+          </div>
         </div>
 
         {/* Right Content */}
@@ -80,7 +87,8 @@ export default function About() {
         </div>
       </div>
 
-      <div className="space-y-8 sm:space-y-12 mt-8">
+      {/* Products Section */}
+      <div className="space-y-8 sm:space-y-12">
         <div className="text-center space-y-3">
           <div className="inline-block">
             <h2 className="text-[#11B97E] text-xs sm:text-sm font-bold uppercase tracking-[0.2em] bg-[#11B97E]/10 px-4 py-2 rounded-full border border-[#11B97E]/20">
@@ -88,22 +96,39 @@ export default function About() {
             </h2>
           </div>
         </div>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-10">
           {features.map((feature, index) => (
-            <div key={index} className="border-2 hover:scale-105 border-white/20 rounded-2xl overflow-hidden shadow-lg hover:shadow-[#11B97E]/40 transition-all duration-300">
-              <Image
-                src={feature.icon}
-                alt="Mountain landscape"
-                className="w-full h-35 object-cover"
-                width={600}
-                height={300}
-              />
-              <div className="p-6">
-                <h2 className="text-2xl font-bold text-white mb-2">
+            <div
+              key={index}
+              className="group relative rounded-2xl sm:rounded-3xl border-2 border-white/10 shadow-xl overflow-hidden bg-gradient-to-br from-gray-900/30 to-black/30 backdrop-blur-sm hover:border-[#11B97E]/30 transition-all duration-500 hover:shadow-2xl hover:shadow-[#11B97E]/20 hover:scale-[1.02]"
+            >
+              {/* Image Container */}
+              <div className="relative h-35 overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent z-10" />
+                <Image
+                  src={feature.icon}
+                  alt={feature.title}
+                  className="w-full h-35 object-cover transition-transform duration-700 group-hover:scale-110"
+                  width={600}
+                  height={300}
+                />
+                {/* Animated gradient overlay */}
+                <div className="absolute inset-0 bg-gradient-to-br from-[#11B97E]/0 to-[#11B97E]/0 group-hover:from-[#11B97E]/10 group-hover:to-transparent transition-all duration-500 z-10" />
+              </div>
+
+              {/* Content */}
+              <div className="p-5 sm:p-6 lg:p-8 space-y-3">
+                <h2 className="text-xl sm:text-2xl font-bold text-white group-hover:text-[#11B97E] transition-colors duration-300">
                   {feature.title}
                 </h2>
-                <p className="text-gray-200 text-sm">{feature.description}</p>
+                <p className="text-gray-300 text-sm sm:text-base leading-relaxed">
+                  {feature.description}
+                </p>
               </div>
+
+              {/* Bottom accent line */}
+              <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[#11B97E] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             </div>
           ))}
         </div>
