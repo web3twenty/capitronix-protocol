@@ -175,7 +175,7 @@ export default function Layout({ children }: LayoutProps) {
       ),
     onSuccess: (response) => {
       Cookies.remove("accessToken");
-      router.replace("/auth/login");
+      window.location.href = "/auth/login";
     },
     onError: (error) => {
       showErrorAlert(error.response?.data?.message || error.message);

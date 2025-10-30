@@ -59,7 +59,7 @@ export default function LoginForm() {
     onSuccess: (response) => {
       showSuccessAlert(response.message);
       Cookies.set("accessToken", response.payload.accessToken, { expires: 30 });
-      router.replace("/dashboard");
+      window.location.href = "/dashboard";
     },
     onError: (error) => {
       showErrorAlert(error.response?.data?.message || error.message);
