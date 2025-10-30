@@ -104,14 +104,14 @@ export default function About() {
               className="group relative rounded-2xl sm:rounded-3xl border-2 border-white/10 shadow-xl overflow-hidden bg-gradient-to-br from-gray-900/30 to-black/30 backdrop-blur-sm hover:border-[#11B97E]/30 transition-all duration-500 hover:shadow-2xl hover:shadow-[#11B97E]/20 hover:scale-[1.02]"
             >
               {/* Image Container */}
-              <div className="relative h-35 overflow-hidden">
+              <div className="relative overflow-hidden aspect-[3.15/1] sm:aspect-[3.15/1] lg:aspect-[3.15/1]">
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent z-10" />
                 <Image
                   src={feature.icon}
                   alt={feature.title}
-                  className="w-full h-35 object-cover transition-transform duration-700 group-hover:scale-110"
-                  width={600}
-                  height={300}
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  width={630}
+                  height={200}
                 />
                 {/* Animated gradient overlay */}
                 <div className="absolute inset-0 bg-gradient-to-br from-[#11B97E]/0 to-[#11B97E]/0 group-hover:from-[#11B97E]/10 group-hover:to-transparent transition-all duration-500 z-10" />
