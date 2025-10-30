@@ -59,7 +59,7 @@ export default function ResetPasswordForm() {
       api.post(`/auth/reset-password/${token}`, data).then((res) => res.data),
     onSuccess: (response) => {
       showSuccessAlert(response.message);
-      router.replace("/auth/login");
+      window.location.href = "/auth/login";
     },
     onError: (error) => {
       showErrorAlert(error.response?.data?.message || error.message);
