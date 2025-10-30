@@ -9,7 +9,7 @@ import {
   Rocket,
 } from "lucide-react";
 
-const RoadmapSection = () => {
+const Roadmap = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [cardsPerSlide, setCardsPerSlide] = useState(2);
 
@@ -172,9 +172,9 @@ const RoadmapSection = () => {
       id="roadmap"
       className="py-6 sm:py-8 lg:py-12 px-4 relative overflow-hidden !pt-0"
     >
-      {/* Background Effects */}
+      {/* Background Effects
       <div className="absolute w-96 h-96 -top-48 -left-48 bg-[#11B97E]/10 rounded-full blur-3xl pointer-events-none"></div>
-      <div className="absolute w-96 h-96 -bottom-48 -right-48 bg-[#11B97E]/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div className="absolute w-96 h-96 -bottom-48 -right-48 bg-[#11B97E]/10 rounded-full blur-3xl pointer-events-none"></div> */}
 
       <div className="container max-w-7xl mx-auto relative z-10">
         {/* Header */}
@@ -280,11 +280,11 @@ const RoadmapSection = () => {
                           </h3>
 
                           {/* Items List */}
-                          <div className="space-y-1">
+                          <div className="space-y-1 flex flex-col h-full">
                             {phase.items.map((item, i) => (
                               <div
                                 key={i}
-                                className="group/item relative bg-black/30 hover:bg-black/50 rounded-xl sm:rounded-2xl p-3 sm:p-3 border border-white/5 hover:border-[#11B97E]/30 transition-all duration-300 hover:translate-x-1"
+                                className="group/item flex-1 flex items-stretch bg-black/30 hover:bg-black/50 rounded-xl sm:rounded-2xl p-3 border border-white/5 hover:border-[#11B97E]/30 transition-all duration-300 hover:translate-x-1"
                               >
                                 <div className="flex items-start gap-3 text-gray-300 group-hover/item:text-white transition-colors duration-300">
                                   <div
@@ -336,7 +336,7 @@ const RoadmapSection = () => {
           </button>
 
           {/* Dots Indicator */}
-          <div className="flex justify-center mt-0 gap-2 sm:gap-3">
+          <div className="flex justify-center mt-4 gap-2 sm:gap-3">
             {slides.map((_, index) => (
               <button
                 key={index}
@@ -356,4 +356,4 @@ const RoadmapSection = () => {
   );
 };
 
-export default RoadmapSection;
+export default Roadmap;

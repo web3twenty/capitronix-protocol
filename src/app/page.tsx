@@ -2,7 +2,7 @@ import About from "@/components/landing/about";
 import Footer from "@/components/landing/footer";
 import Header from "@/components/landing/header";
 import Hero from "@/components/landing/hero";
-import RoadmapSection from "@/components/landing/roadmap";
+import Roadmap from "@/components/landing/roadmap";
 
 export default function LandingPage() {
   return (
@@ -10,7 +10,7 @@ export default function LandingPage() {
       <Header />
       <Hero />
       <About />
-      <RoadmapSection />
+      <Roadmap />
       <Footer />
     </div>
   );
