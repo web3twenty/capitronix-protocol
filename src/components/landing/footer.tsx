@@ -4,8 +4,7 @@ import Image from "next/image";
 const Footer = () => {
   const productLinks = [
     { name: "About", href: "#about" },
-    { name: "Token & Presale", href: "#token-presale" },
-    { name: "Tokenomics", href: "#tokenomics" },
+    { name: "Token & Tokenomics", href: "#token-presale" },
     { name: "Revenue Sharing", href: "#revenue-sharing" },
     { name: "Roadmap", href: "#roadmap" },
   ];

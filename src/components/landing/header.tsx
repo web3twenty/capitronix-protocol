@@ -7,7 +7,7 @@ export default function Header() {
     <header className="flex items-center justify-between fixed left-0 top-0 right-0 z-999 border-b border-[#2A2A2A] bg-[#13171E] p-2">
       <div className="max-w-7xl mx-auto flex items-center justify-between w-full px-2 md:px-6">
         {/* Logo */}
-        <Link href="/dashboard" className="block flex-shrink-0">
+        <Link href="/" className="block flex-shrink-0">
           <Image
             src="/icon-300x100.png"
             alt="Logo"
@@ -23,8 +23,7 @@ export default function Header() {
             {[
               { title: "Home", link: "#" },
               { title: "About", link: "#about" },
-              { title: "Token & Presale", link: "#token-presale" },
-              { title: "Tokenomics", link: "#tokenomics" },
+              { title: "Token & Tokenomics", link: "#token-presale" },
               { title: "Revenue Sharing", link: "#revenue-sharing" },
               { title: "Roadmap", link: "#roadmap" },
             ].map((item, index) => (
