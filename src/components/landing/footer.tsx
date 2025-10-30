@@ -5,7 +5,6 @@ const Footer = () => {
   const productLinks = [
     { name: "About", href: "#about" },
     { name: "Token & Tokenomics", href: "#token-presale" },
-    { name: "Revenue Sharing", href: "#revenue-sharing" },
     { name: "Roadmap", href: "#roadmap" },
   ];
 

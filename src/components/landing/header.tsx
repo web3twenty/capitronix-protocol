@@ -24,7 +24,6 @@ export default function Header() {
               { title: "Home", link: "#" },
               { title: "About", link: "#about" },
               { title: "Token & Tokenomics", link: "#token-presale" },
-              { title: "Revenue Sharing", link: "#revenue-sharing" },
               { title: "Roadmap", link: "#roadmap" },
             ].map((item, index) => (
               <li key={index}>
