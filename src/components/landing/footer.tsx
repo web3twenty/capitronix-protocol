@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { Facebook, Twitter, Youtube, Phone, Clock, Mail } from "lucide-react";
 import Image from "next/image";
 
 const Footer = () => {
