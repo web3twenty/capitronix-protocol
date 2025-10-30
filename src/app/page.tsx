@@ -2,6 +2,7 @@ import About from "@/components/landing/about";
 import Footer from "@/components/landing/footer";
 import Header from "@/components/landing/header";
 import Hero from "@/components/landing/hero";
+import ReferralAndRankRewards from "@/components/landing/referralandranking";
 import Roadmap from "@/components/landing/roadmap";
 
 export default function LandingPage() {
@@ -10,6 +11,7 @@ export default function LandingPage() {
       <Header />
       <Hero />
       <About />
+      <ReferralAndRankRewards />
       <Roadmap />
       <Footer />
     </div>

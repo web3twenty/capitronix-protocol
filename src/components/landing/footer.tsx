@@ -8,7 +8,6 @@ const Footer = () => {
     { name: "Tokenomics", href: "#tokenomics" },
     { name: "Revenue Sharing", href: "#revenue-sharing" },
     { name: "Roadmap", href: "#roadmap" },
-    { name: "Community", href: "#community" },
   ];
 
   const pageLinks = [
