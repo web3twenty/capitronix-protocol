@@ -52,8 +52,8 @@ const ReferralAndRankRewards = () => {
   return (
     <section className="py-6 sm:py-8 lg:py-12 px-4 relative overflow-hidden !pt-0">
       {/* Background Effects */}
-      <div className="absolute w-96 h-96 -top-48 -left-48 bg-[#11B97E]/10 rounded-full blur-3xl pointer-events-none"></div>
-      <div className="absolute w-96 h-96 -bottom-48 -right-48 bg-[#11B97E]/10 rounded-full blur-3xl pointer-events-none"></div>
+      {/* <div className="absolute w-96 h-96 -top-48 -left-48 bg-[#11B97E]/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div className="absolute w-96 h-96 -bottom-48 -right-48 bg-[#11B97E]/10 rounded-full blur-3xl pointer-events-none"></div> */}
 
       <div className="container max-w-7xl mx-auto relative z-10">
         {/* Header */}
