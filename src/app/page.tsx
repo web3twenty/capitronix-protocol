@@ -4,6 +4,7 @@ import Header from "@/components/landing/header";
 import Hero from "@/components/landing/hero";
 import ReferralAndRankRewards from "@/components/landing/referralandranking";
 import Roadmap from "@/components/landing/roadmap";
+import SupportedWallets from "@/components/landing/wallets";
 
 export default function LandingPage() {
   return (
@@ -12,6 +13,7 @@ export default function LandingPage() {
       <Hero />
       <About />
       <ReferralAndRankRewards />
+      <SupportedWallets />
       <Roadmap />
       <Footer />
     </div>
