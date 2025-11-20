@@ -35,7 +35,7 @@ export default function Header() {
 
         {/* Button */}
         <div className="flex-shrink-0">
-          <Link href="/auth/login">
+          <a href="/auth/login">
             <Button
               variant="secondary"
               roundedClass="rounded-full"
@@ -43,7 +43,7 @@ export default function Header() {
             >
               <span className="px-3">Launch App</span>
             </Button>
-          </Link>
+          </a>
         </div>
       </div>
     </header>
