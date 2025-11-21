@@ -2,7 +2,14 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
-    domains: ["api.3twentycoin.com"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "api.3twentycoin.com",
+        port: "",
+        pathname: "/**",
+      },
+    ],
   },
 };
 

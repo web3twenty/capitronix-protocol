@@ -73,9 +73,9 @@ export default function Hero() {
             {/* Main circle with enhanced shadow */}
             <div className="relative rounded-full h-56 w-56 sm:h-64 sm:w-64 md:h-72 md:w-72 lg:h-80 lg:w-80 p-3 bg-gradient-to-br from-[#11B97E]/30 to-[#0E966F]/20 shadow-2xl shadow-[#11B97E]/50 flex items-center justify-center group-hover:shadow-[#11B97E]/70 transition-all duration-500 group-hover:scale-105">
               {/* Inner border with gradient */}
-              <div className="rounded-full w-full h-full border-4 border-[#11B97EFF] p-0 relative overflow-hidden bg-gradient-to-br from-[#0E966F]/10 to-transparent">
+              <div className="rounded-full w-full h-full border-4 border-[#11B97EFF] p-0 shadow-lg relative overflow-hidden bg-gradient-to-br from-[#0E966F]/10 to-transparent">
                 <Image
-                  src="/3twentyIcon.png"
+                  src="/3twenty.png"
                   alt="Logo"
                   width={250}
                   height={250}
