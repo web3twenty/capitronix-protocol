@@ -9,15 +9,24 @@ const Footer = () => {
   ];
 
   const pageLinks = [
-    { name: "Whitepaper", href: "/3twenty.pdf" },
-    { name: "Web3Twenty", href: "https://web3twenty.com/" },
+    { name: "Whitepaper", href: "/3twenty.pdf", external: true },
+    { name: "Web3Twenty", href: "https://web3twenty.com/", external: true },
     {
       name: "BscScan",
       href: "https://bscscan.com/address/0x2ffbdfa8638422bf3a5134434387b8fb5962da2c",
+      external: true,
     },
-    { name: "CoinGecko", href: "https://www.coingecko.com" },
-    { name: "CoinMarketCap", href: "https://coinmarketcap.com" },
-    { name: "BlockchainLovers", href: "https://blockchainlovers.com" },
+    { name: "CoinGecko", href: "https://www.coingecko.com", external: true },
+    {
+      name: "CoinMarketCap",
+      href: "https://coinmarketcap.com",
+      external: true,
+    },
+    {
+      name: "BlockchainLovers",
+      href: "https://blockchainlovers.com",
+      external: true,
+    },
   ];
 
   const otherLinks = [
@@ -39,41 +48,49 @@ const Footer = () => {
               value.
             </p>
             <div className="flex items-center gap-3">
-              <Link
+              <a
                 href="https://www.facebook.com/web3twenty"
                 target="_blank"
+                rel="noopener noreferrer"
                 className="bg-gray-800 text-gray-400 w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-700 hover:text-white transition-colors"
                 aria-label="Facebook"
+                title="Facebook"
               >
                 <i className="mgc_facebook_fill text-2xl"></i>
-              </Link>
+              </a>
 
-              <Link
+              <a
                 href="https://x.com/3twentycoin"
                 target="_blank"
+                rel="noopener noreferrer"
                 className="bg-gray-800 text-gray-400 w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-700 hover:text-white transition-colors"
-                aria-label="Twitter"
+                aria-label="X (Twitter)"
+                title="X (Twitter)"
               >
-                <i className="mgc_twitter_fill text-2xl"></i>
-              </Link>
+                <i className="mgc_social_x_fill text-2xl"></i>
+              </a>
 
-              <Link
+              <a
                 href="https://t.me/web3twenty1"
                 target="_blank"
+                rel="noopener noreferrer"
                 className="bg-gray-800 text-gray-400 w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-700 hover:text-white transition-colors"
                 aria-label="Telegram"
+                title="Telegram"
               >
                 <i className="mgc_telegram_fill text-2xl"></i>
-              </Link>
+              </a>
 
-              <Link
+              <a
                 href="https://www.youtube.com/@Web3Twenty"
                 target="_blank"
+                rel="noopener noreferrer"
                 className="bg-gray-800 text-gray-400 w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-700 hover:text-white transition-colors"
                 aria-label="YouTube"
+                title="YouTube"
               >
                 <i className="mgc_youtube_fill text-2xl"></i>
-              </Link>
+              </a>
             </div>
           </div>
 
@@ -85,12 +102,12 @@ const Footer = () => {
             <ul className="space-y-2">
               {productLinks.map((link) => (
                 <li key={link.name}>
-                  <Link
+                  <a
                     href={link.href}
                     className="text-gray-400 hover:text-white transition-colors text-sm"
                   >
                     {link.name}
-                  </Link>
+                  </a>
                 </li>
               ))}
             </ul>
@@ -104,12 +121,14 @@ const Footer = () => {
             <ul className="space-y-2">
               {pageLinks.map((link) => (
                 <li key={link.name}>
-                  <Link
+                  <a
                     href={link.href}
+                    target={link.external ? "_blank" : undefined}
+                    rel={link.external ? "noopener noreferrer" : undefined}
                     className="text-gray-400 hover:text-white transition-colors text-sm"
                   >
                     {link.name}
-                  </Link>
+                  </a>
                 </li>
               ))}
             </ul>
