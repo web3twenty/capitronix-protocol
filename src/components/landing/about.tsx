@@ -3,13 +3,6 @@ import Image from "next/image";
 export default function About() {
   const features = [
     {
-      icon: "/icon-08.jpg",
-      title: "3Twenty Smart Chain",
-      description:
-        "A next-generation blockchain built for scalability, low fees, and high-speed decentralized applications (dApps).",
-      color: "from-brand-accent to-brand-gold",
-    },
-    {
       icon: "/icon-06.jpg",
       title: "3TWenty Pay",
       description:
@@ -22,6 +15,13 @@ export default function About() {
       description:
         "The native digital currency powering the Web3Twenty ecosystem, used for payments, staking, governance, and rewards.",
       color: "from-brand-gold to-brand-teal",
+    },
+    {
+      icon: "/icon-08.jpg",
+      title: "3Twenty Smart Chain",
+      description:
+        "A next-generation blockchain built for scalability, low fees, and high-speed decentralized applications (dApps).",
+      color: "from-brand-accent to-brand-gold",
     },
     {
       icon: "/icon-07.jpg",
