@@ -18,7 +18,7 @@ export default function Header() {
 
   return (
     <header className="flex flex-col fixed left-0 top-0 right-0 z-50 border-b border-[#2A2A2A] bg-[#13171E]">
-      <div className="max-w-7xl mx-auto flex items-center justify-between w-full px-2 md:px-6 py-2">
+      <div className="max-w-7xl mx-auto flex items-center justify-between w-full px-2 py-1 md:px-6 py-2">
         {/* Logo */}
         <Link href="/" className="block flex-shrink-0">
           <Image
