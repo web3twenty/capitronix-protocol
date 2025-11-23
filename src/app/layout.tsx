@@ -10,7 +10,7 @@ const roboto = Roboto({
 });
 
 export const metadata = {
-  title: "3Twentycoin | Your Digital Bridge To The Future",
+  title: "3Twenty Coin | The Future of Digital Currency",
   description:
     "3Twenty Coin delivers a fast, secure, and utility-driven digital currency experience designed for users, developers, and businesses, shaping the next generation of blockchain innovation.",
   keywords: [
@@ -27,7 +27,7 @@ export const metadata = {
   creator: "3Twentycoin Team",
   publisher: "3Twentycoin",
   openGraph: {
-    title: "3Twentycoin | Your Digital Bridge To The Future",
+    title: "3Twenty Coin | The Future of Digital Currency",
     description:
       "3Twenty Coin delivers a fast, secure, and utility-driven digital currency experience designed for users, developers, and businesses, shaping the next generation of blockchain innovation.",
     url: "https://3twentycoin.com",
@@ -45,7 +45,7 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "3Twentycoin | Your Digital Bridge To The Future",
+    title: "3Twenty Coin | The Future of Digital Currency",
     description:
       "3Twenty Coin delivers a fast, secure, and utility-driven digital currency experience designed for users, developers, and businesses, shaping the next generation of blockchain innovation.",
     site: "@3Twentycoin",

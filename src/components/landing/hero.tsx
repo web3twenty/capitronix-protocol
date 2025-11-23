@@ -25,11 +25,11 @@ export default function Hero() {
         <div className="flex flex-col justify-center text-center lg:text-left space-y-6 sm:space-y-8">
           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-tight">
             <span className="bg-gradient-to-r from-white via-gray-100 to-gray-300 bg-clip-text text-transparent inline-block animate-fade-in">
-              Web3Twenty
+              The Future Of
             </span>
             <br />
             <span className="bg-gradient-to-r from-[#11B97E] via-[#0fcc88] to-[#0E966F] bg-clip-text text-transparent inline-block mt-2 animate-fade-in-delay">
-              Ecosystem
+              Digital Currency
             </span>
           </h1>
 
