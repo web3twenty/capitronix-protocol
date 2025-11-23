@@ -42,7 +42,7 @@ export default function Hero() {
           <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 sm:gap-5 pt-2">
             <a href="/auth/login" className="group w-full sm:w-auto">
               <Button variant="secondary" roundedClass="rounded-full">
-                <span className="px-4">Buy 3TWENTY Now</span>
+                <span className="px-4">Buy 3TWENTY</span>
                 <ChevronRight className="text-white w-4 group-hover:translate-x-1 transition-transform duration-300" />
               </Button>
             </a>
