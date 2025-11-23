@@ -34,7 +34,7 @@ export const metadata = {
     siteName: "3Twentycoin",
     images: [
       {
-        url: "/og-image.jpg",
+        url: "https://3twentycoin.com/og-image.jpg",
         width: 1200,
         height: 630,
         alt: "3Twentycoin - Digital Currency",
@@ -50,7 +50,7 @@ export const metadata = {
       "3Twenty Coin delivers a fast, secure, and utility-driven digital currency experience designed for users, developers, and businesses, shaping the next generation of blockchain innovation.",
     site: "@3Twentycoin",
     creator: "@3Twentycoin",
-    images: ["/twitter-image.jpg"],
+    images: ["https://3twentycoin.com/twitter-image.jpg"],
   },
   robots: {
     index: true,
@@ -64,9 +64,9 @@ export const metadata = {
     },
   },
   icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon-32x32.png",
-    apple: "/apple-touch-icon.png",
+    icon: "https://3twentycoin.com/favicon.ico",
+    shortcut: "https://3twentycoin.com/favicon-32x32.png",
+    apple: "https://3twentycoin.com/apple-touch-icon.png",
   },
 };
 
