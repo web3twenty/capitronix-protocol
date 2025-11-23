@@ -357,13 +357,20 @@ export default function Layout({ children }: LayoutProps) {
           <DropdownMenu.Root>
             <DropdownMenu.Trigger asChild>
               <div className="flex items-center gap-3 p-0.5 border border-[#2A2A2A] rounded-lg hover:bg-[#2A2A2A] cursor-pointer max-w-[200px] md:max-w-[350px] min-w-0">
-                <Image
-                  src={account?.profilePicture ?? "/default-avatar.png"}
-                  alt="Profile"
-                  width={40}
-                  height={40}
-                  className="rounded-full object-cover w-10 h-10 border-2 border-brand-accent/30"
-                />
+                <div className="relative">
+                  <Image
+                    src={account?.profilePicture ?? "/default-avatar.png"}
+                    alt="Profile"
+                    width={40}
+                    height={40}
+                    className="rounded-full object-cover w-10 h-10"
+                  />
+                  {account?.isActive === 0 ? (
+                    <span className="absolute bottom-0 right-0 text-red-600 mgc_warning_fill bg-white rounded-full"></span>
+                  ) : (
+                    <span className="absolute bottom-0 right-0 text-green-600 mgc_check_circle_fill bg-white rounded-full"></span>
+                  )}
+                </div>
                 <div className="min-w-0 flex-1">
                   <p className="text-[14px] text-white font-semibold truncate">
                     {account?.name || "Loading..."}
