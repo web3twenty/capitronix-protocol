@@ -38,7 +38,7 @@ jobs:
               git pull origin main
 
               echo "📦 Installing dependencies..."
-              npm install
+              pnpm install
 
               echo "🛠️ Building Next.js app..."
               npm run build
