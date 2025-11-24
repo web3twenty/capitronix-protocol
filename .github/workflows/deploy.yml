@@ -1,0 +1,52 @@
+name: Deploy Next.js to VPS
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          password: ${{ secrets.SERVER_PASSWORD }}
+          port: 22
+          script: |
+            echo "🚀 Connecting to VPS..."
+            cd htdocs/3twentycoin.com
+
+            echo "🧠 Loading NVM..."
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
+            echo "🧠 Checking for updates..."
+            git fetch origin main
+            LOCAL=$(git rev-parse @)
+            REMOTE=$(git rev-parse origin/main)
+
+            if [ "$LOCAL" != "$REMOTE" ]; then
+              echo "📦 Pulling latest changes..."
+              git pull origin main
+
+              echo "📦 Installing dependencies..."
+              npm install
+
+              echo "🛠️ Building Next.js app..."
+              npm run build
+
+              echo "♻️ Restarting PM2 app..."
+              pm2 restart 0
+
+              echo "✅ Deployment complete!"
+            else
+              echo "👌 No changes to deploy."
+            fi
