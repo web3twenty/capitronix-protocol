@@ -340,7 +340,7 @@ export default function Layout({ children }: LayoutProps) {
             </Link>
           </div>
 
-          {account?.isActive === 0 && (
+          {/* {account?.isActive === 0 && (
             <div className="hidden lg:block">
               <Button
                 className="h-8 me-3"
@@ -352,7 +352,7 @@ export default function Layout({ children }: LayoutProps) {
                 Activate Now
               </Button>
             </div>
-          )}
+          )} */}
 
           <DropdownMenu.Root>
             <DropdownMenu.Trigger asChild>
@@ -365,9 +365,14 @@ export default function Layout({ children }: LayoutProps) {
                     height={40}
                     className="rounded-full object-cover w-10 h-10"
                   />
-                  {account?.isActive === 0 ? (
+                  {account?.isFounder === 1 ? (
+                    // Founder icon
+                    <span className="absolute bottom-0 right-0 text-blue-500 mgc_star_fill bg-white rounded-full"></span>
+                  ) : account?.isActive === 0 ? (
+                    // Inactive icon
                     <span className="absolute bottom-0 right-0 text-red-600 mgc_warning_fill bg-white rounded-full"></span>
                   ) : (
+                    // Active icon
                     <span className="absolute bottom-0 right-0 text-green-600 mgc_check_circle_fill bg-white rounded-full"></span>
                   )}
                 </div>
@@ -435,7 +440,7 @@ export default function Layout({ children }: LayoutProps) {
           )}
 
           {/* Activation card */}
-          {account?.isActive === 0 && (
+          {/* {account?.isActive === 0 && (
             <div className="flex md:hidden gap-5 flex-col rounded-lg border border-[#11B97E] bg-[#25262A] p-5">
               <div className="flex items-center gap-4">
                 <div className="w-10 h-10 bg-[#11B97E] flex-shrink-0 rounded flex items-center justify-center">
@@ -470,7 +475,7 @@ export default function Layout({ children }: LayoutProps) {
                 </Button>
               </div>
             </div>
-          )}
+          )} */}
 
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
             {/* Greeting */}
