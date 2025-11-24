@@ -30,6 +30,15 @@ export default function WithdrawCards() {
     },
   });
 
+  // ✅ Fetch stats for referral hint
+  const { data: dashboardStats } = useQuery({
+    queryKey: ["stats"],
+    queryFn: async () => {
+      const response = await api.get("/dashboard/stats");
+      return response.data.payload;
+    },
+  });
+
   const stats = referralStats?.stats ?? [];
 
   interface ReferralStat {
@@ -69,7 +78,7 @@ export default function WithdrawCards() {
                   Total Team Size
                 </small>
                 <p className="text-white text-2xl font-semibold mt-1">
-                  {Number(referralStats?.totalReferrals || 0).toFixed(2)}
+                  {Number(referralStats?.totalReferrals || 0)}
                 </p>
               </div>
             </div>
@@ -111,7 +120,8 @@ export default function WithdrawCards() {
             <div className="flex items-center gap-2 flex-1 flex-wrap">
               {account?.isActive === 0 ? (
                 <small className="text-white text-sm">
-                  Please activate your account first!
+                  Buy tokens worth at least {dashboardStats?.ACTIVATION_USDT}{" "}
+                  USDT to activate your referral link.
                 </small>
               ) : (
                 <>

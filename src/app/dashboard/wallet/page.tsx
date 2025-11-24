@@ -3,15 +3,13 @@
 import Image from "next/image";
 import api from "@/lib/api";
 import { useQuery } from "@tanstack/react-query";
-import Link from "next/link";
 
-interface Transaction {
+interface History {
   id: number;
   userId: number;
   transactionType: string;
   amount: string;
-  currency: string;
-  phaseId: number | null;
+  from: string;
   status: "Completed" | "Pending";
   createdAt: string;
   updatedAt: string;
@@ -22,7 +20,7 @@ interface TransactionPayload {
   totalPages: number;
   currentPage: number;
   limit: number;
-  transactions: Transaction[];
+  histories: History[];
 }
 
 interface TransactionResponse {
@@ -51,14 +49,14 @@ export default function WalletWithTransactions() {
 
   // Top 5 transactions query
   const { data: transData, isFetching } = useQuery<TransactionResponse>({
-    queryKey: ["transactions", "top5"],
+    queryKey: ["histories", "top5"],
     queryFn: async () => {
-      const response = await api.get("/transactions?page=1&limit=5");
+      const response = await api.get("/wallet/history?limit=5");
       return response.data as TransactionResponse;
     },
   });
 
-  const transactions = transData?.payload.transactions ?? [];
+  const transactions = transData?.payload.histories ?? [];
 
   return (
     <section className="p-4 md:px-6 md:py-2">
@@ -111,12 +109,12 @@ export default function WalletWithTransactions() {
             <h1 className="text-lg text-white font-medium">
               Recent Transactions
             </h1>
-            <Link
+            {/* <Link
               href="/dashboard/transactions"
               className="text-[#FFC200] text-[14px] font-medium hover:text-[#E6AC00]"
             >
               View All
-            </Link>
+            </Link> */}
           </div>
 
           <table className="w-full text-sm text-left text-gray-300 bg-[#03070D] divide-y divide-[#2A2A2A] rounded-lg">
@@ -132,7 +130,7 @@ export default function WalletWithTransactions() {
                   Amount
                 </th>
                 <th scope="col" className="px-4 py-3 hidden sm:table-cell">
-                  Currency
+                  From
                 </th>
                 <th scope="col" className="px-4 py-3">
                   Status
@@ -153,13 +151,10 @@ export default function WalletWithTransactions() {
                     })}
                   </td>
                   <td className="px-4 py-3 text-center">
-                    {parseFloat(tx.amount) > 0 ? "+" : ""}
-                    {new Intl.NumberFormat("en-US").format(
-                      parseFloat(tx.amount)
-                    )}
+                    {Number(tx.amount).toFixed(2)} USDT
                   </td>
                   <td className="px-4 py-3 hidden sm:table-cell">
-                    {tx.currency}
+                    {tx.from || "N/A"}
                   </td>
                   <td className="px-4 py-3">
                     {tx.status === "Completed" ? (

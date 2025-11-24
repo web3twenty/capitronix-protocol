@@ -363,11 +363,15 @@ export default function Layout({ children }: LayoutProps) {
                     alt="Profile"
                     width={40}
                     height={40}
-                    className="rounded-full object-cover w-10 h-10"
+                    className={`rounded-full object-cover w-10 h-10 ${
+                      account && account?.isFounder
+                        ? "border-2 border-green-500"
+                        : ""
+                    }`}
                   />
                   {account?.isFounder === 1 ? (
                     // Founder icon
-                    <span className="absolute bottom-0 right-0 text-blue-500 mgc_star_fill bg-white rounded-full"></span>
+                    <span className="absolute bottom-0 right-0 text-[#FDAD15] mgc_VIP_2_fill bg-white rounded-full"></span>
                   ) : account?.isActive === 0 ? (
                     // Inactive icon
                     <span className="absolute bottom-0 right-0 text-red-600 mgc_warning_fill bg-white rounded-full"></span>

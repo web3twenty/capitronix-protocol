@@ -113,10 +113,7 @@ export default function Transactions() {
                       })}
                     </td>
                     <td className="px-4 py-3 text-center">
-                      {parseFloat(tx.amount) > 0 ? "+" : ""}
-                      {new Intl.NumberFormat("en-US").format(
-                        parseFloat(tx.amount)
-                      )}
+                      {Number(tx.amount).toFixed(2)}
                     </td>
                     <td className="px-4 py-3">{tx.currency}</td>
                     <td className="px-4 py-3">
