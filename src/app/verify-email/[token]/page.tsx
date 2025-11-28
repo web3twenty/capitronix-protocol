@@ -17,7 +17,7 @@ const VerifyEmail = () => {
     onSuccess: () => {
       // redirect after a short delay to show success
       setTimeout(() => {
-        router.push("/login");
+        location.href = "/auth/login";
       }, 1500);
     },
   });
