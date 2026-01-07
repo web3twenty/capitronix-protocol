@@ -43,7 +43,7 @@ export default function Stakings() {
 
   return (
     <section className="p-4 md:px-6 md:py-2">
-      <div className="max-w-7xl bg-[#13171E] border border-[#2A2A2A] rounded-lg overflow-hidden mb-8">
+      <div className="max-w-7xl bg-[#13171E] border border-[#2A2A2A] rounded-lg overflow-hidden mb-8 mx-auto">
         <div className="flex items-center justify-between px-[20px] py-[10px]">
           <h1 className="text-lg text-white font-medium">My Stakings</h1>
           <h2 className="font-medium">
