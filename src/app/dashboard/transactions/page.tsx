@@ -78,7 +78,7 @@ export default function Transactions() {
         </h1>
 
         <div className="overflow-x-auto w-full">
-          <div className="min-w-max">
+          <div className="min-w-max mx-auto">
             <table className="w-full text-sm text-left text-gray-300 bg-[#03070D] divide-y divide-[#2A2A2A] rounded-lg">
               <thead className="bg-[#25262A] text-gray-200">
                 <tr>
