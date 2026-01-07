@@ -51,7 +51,7 @@ export default function WithdrawCards() {
 
   return (
     <section className="p-4 md:px-6 md:py-2">
-      <div className="max-w-7xl mx-auto mb-8 grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-4">
+      <div className="max-w-7xl mx-auto mb-8 grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-4 mx-auto">
         <div>
           <h2 className="text-white mb-2">Affiliate Program</h2>
           <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-4">
