@@ -142,7 +142,7 @@ export default function WithdrawCards() {
       </div>
 
       {/* ✅ Referral Stats Table */}
-      <div className="max-w-7xl bg-[#13171E] border border-[#2A2A2A] rounded-lg mt-8 mb-8 overflow-hidden">
+      <div className="max-w-7xl bg-[#13171E] border border-[#2A2A2A] rounded-lg mt-8 mb-8 overflow-hidden mx-auto">
         <div className="flex items-center justify-between px-[20px] py-[10px]">
           <h1 className="text-lg text-white font-medium">
             6-Level Team Overview
