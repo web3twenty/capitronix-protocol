@@ -55,9 +55,24 @@ export default function Home() {
       value: `$${Number(account?.usdt || 0).toFixed(2)}`,
     },
     {
+      icon: "mgc_coin_2_line",
+      label: "Current Staked Balance",
+      value: `${Number(stats?.stakedBalance || 0).toFixed(2)}`,
+    },
+    {
+      icon: "mgc_award_line",
+      label: "Current Reward Balance",
+      value: `${Number(account?.reward || 0).toFixed(2)}`,
+    },
+    {
       icon: "mgc_user_add_2_line",
       label: "Referral Earnings",
       value: `$${Number(stats?.referralEarnings || 0).toFixed(2)}`,
+    },
+    {
+      icon: "mgc_card_pay_line",
+      label: "Total Withdraw",
+      value: `$${Number(stats?.totalWithdraw || 0).toFixed(2)}`,
     },
   ];
 
@@ -76,7 +91,7 @@ export default function Home() {
         {statItems.map((stat, index) => (
           <div
             key={index}
-            className="p-[0.8px] rounded-[12px] flex-shrink-0 rounded-lg border border-[#2A2A2A]"
+            className="p-[0.9px] rounded-[12px] flex-shrink-0 rounded-lg border border-[#2A2A2A]"
             style={{
               background:
                 "linear-gradient(110.57deg, #FFC200 -10.98%, #2A2A2A 23.32%)",

@@ -113,6 +113,7 @@ export default function Transactions() {
                       })}
                     </td>
                     <td className="px-4 py-3 text-center">
+                      {Number(tx.amount) > 0 ? "+" : ""}
                       {Number(tx.amount).toFixed(2)}
                     </td>
                     <td className="px-4 py-3">{tx.currency}</td>
