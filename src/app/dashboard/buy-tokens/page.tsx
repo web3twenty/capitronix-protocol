@@ -31,21 +31,31 @@ export default function TokenTabs() {
 
   const tabClasses = (tab: TabType) =>
     `px-4 py-2 rounded-t-lg font-semibold cursor-pointer ${
-      activeTab === tab ? "bg-[#13171E] text-white" : "bg-[#03070D] text-[#888]"
+      activeTab === tab
+        ? "text-white border-b border-[#FFC200]"
+        : "bg-[#03070D] text-[#888]"
     }`;
 
   return (
     <section className="p-4 md:px-6 md:py-2">
       {/* 🏷 Tabs */}
-      <div className="max-w-2xl mx-auto mb-4 flex border-b border-[#2A2A2A]">
-        <div className={tabClasses("buy")} onClick={() => changeTab("buy")}>
+      <div className="max-w-2xl mx-auto mb-6 flex border-b border-[#2A2A2A]">
+        <div
+          className={`${tabClasses("buy")} flex-1 text-center cursor-pointer`}
+          onClick={() => changeTab("buy")}
+        >
           Buy
         </div>
-        <div className={tabClasses("sell")} onClick={() => changeTab("sell")}>
+        <div
+          className={`${tabClasses("sell")} flex-1 text-center cursor-pointer`}
+          onClick={() => changeTab("sell")}
+        >
           Sell
         </div>
         <div
-          className={tabClasses("exchange")}
+          className={`${tabClasses(
+            "exchange"
+          )} flex-1 text-center cursor-pointer`}
           onClick={() => changeTab("exchange")}
         >
           Exchange

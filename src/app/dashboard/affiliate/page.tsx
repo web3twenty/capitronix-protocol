@@ -3,6 +3,7 @@
 import { useQuery } from "@tanstack/react-query";
 import api from "@/lib/api";
 import { showSuccessAlert } from "@/components/Toast";
+import Button from "@/components/ui/Button";
 
 export default function WithdrawCards() {
   const handleCopy = () => {

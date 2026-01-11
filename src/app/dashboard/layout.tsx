@@ -3,7 +3,7 @@
 import { useState, useEffect, ReactNode } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import Image from "next/image";
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import api from "@/lib/api";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import Cookies from "js-cookie";
@@ -15,6 +15,7 @@ import {
   showPromiseToast,
 } from "@/components/Toast";
 import { AxiosError } from "axios";
+import Modal from "react-responsive-modal";
 
 type NavigationItem = {
   name: string;
@@ -45,6 +46,9 @@ export default function Layout({ children }: LayoutProps) {
   );
   const pathname = usePathname();
   const router = useRouter();
+  const queryClient = useQueryClient();
+  const [isActivationModalOpen, setIsActivationModalOpen] =
+    useState<boolean>(false);
 
   const navigation: NavigationItem[] = [
     { name: "Overview", href: "/dashboard", icon: "mgc_open_door_line" },
@@ -156,6 +160,8 @@ export default function Layout({ children }: LayoutProps) {
       api.post("/account/activate", formData).then((res) => res.data),
     onSuccess: (response) => {
       showSuccessAlert(response.message);
+      queryClient.invalidateQueries({ queryKey: ["account"] });
+      setIsActivationModalOpen(false);
     },
     onError: (error) => {
       showErrorAlert(error.response?.data?.message || error.message);
@@ -194,153 +200,203 @@ export default function Layout({ children }: LayoutProps) {
   }, [sidebarOpen]);
 
   return (
-    <div className="min-h-screen flex bg-[#03070D]">
-      {/* Sidebar */}
-      <aside
-        className={`fixed inset-y-0 left-0 z-50 w-64 bg-[#13171E] text-gray-200 flex flex-col transition-transform duration-300 ease-in-out lg:translate-x-0 ${
-          sidebarOpen ? "translate-x-0" : "-translate-x-full"
-        }`}
+    <>
+      <Modal
+        open={isActivationModalOpen}
+        onClose={() => setIsActivationModalOpen(false)}
+        center
+        styles={{
+          modal: {
+            borderRadius: "8px",
+            backgroundColor: "#03070D",
+            padding: 0,
+          },
+          overlay: { backgroundColor: "#4A4A4AC2" },
+        }}
       >
-        {/* Sidebar Header */}
-        <div className="items-center justify-center hidden lg:flex h-[85px] border-b border-r border-[#2A2A2A] flex-shrink-0">
-          <Link href="/dashboard">
-            <Image
-              src="/icon-300x100.png"
-              alt="Logo"
-              width={150}
-              height={85}
-              className="w-32"
-            />
-          </Link>
+        {/* Modal Header */}
+        <div className="bg-[#13171E] px-5 py-3 rounded-t-lg">
+          <h2 className="text-xl text-white font-semibold">
+            Confirm Activation
+          </h2>
+          <small className="text-[#E6E6E7]">
+            Activaton will unlock your referral link
+          </small>
         </div>
 
-        {/* Close button for mobile */}
-        <button
-          onClick={() => setSidebarOpen(false)}
-          className="absolute top-4 right-4 cursor-pointer lg:hidden p-2 rounded-md text-white hover:text-[#FFC200]"
+        {/* Modal Body */}
+        <div className="p-4 space-y-4">
+          {/* Optional: You can keep a breakdown component if needed */}
+          {/* For example, showing amount and fees */}
+          <div className="text-white">
+            <p>
+              Activation Fee: <strong>{stats?.ACTIVATION_USDT}$</strong>
+            </p>
+            <p>Do you want to proceed?</p>
+          </div>
+        </div>
+
+        {/* Modal Footer */}
+        <div className="p-4">
+          <Button
+            className="w-full"
+            loading={activateMutation.isPending}
+            onClick={() => activateMutation.mutate()}
+          >
+            Confirm Activation
+          </Button>
+        </div>
+      </Modal>
+
+      <div className="min-h-screen flex bg-[#03070D]">
+        {/* Sidebar */}
+        <aside
+          className={`fixed inset-y-0 left-0 z-50 w-64 bg-[#13171E] text-gray-200 flex flex-col transition-transform duration-300 ease-in-out lg:translate-x-0 ${
+            sidebarOpen ? "translate-x-0" : "-translate-x-full"
+          }`}
         >
-          <span className="mgc_close_line text-[24px]"></span>
-        </button>
-
-        {/* Scrollable Nav */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-2">
-          {navigation.map((item) => {
-            const isActive = pathname === item.href;
-
-            if (item.children) {
-              const isOpen = openSubmenus[item.name];
-
-              return (
-                <div key={item.name} className="space-y-1">
-                  <button
-                    onClick={() => toggleSubmenu(item.name)}
-                    className="group flex items-center w-full px-3 py-2.5 font-medium rounded-md text-[#CFD0D2] hover:text-[#FFC200]"
-                  >
-                    <span
-                      className={`mr-3 h-5 w-5 ${
-                        isOpen
-                          ? "text-[#FFC200]"
-                          : "text-[#CFD0D2] group-hover:text-[#FFC200]"
-                      }`}
-                    >
-                      <span className={`${item.icon} text-[20px]`}></span>
-                    </span>
-                    <span className="flex-1 text-left">{item.name}</span>
-                    <span
-                      className={`transition-transform duration-200 ${
-                        isOpen ? "rotate-180 text-[#FFC200]" : "text-[#CFD0D2]"
-                      }`}
-                    >
-                      <i className="mgc_down_line text-[20px]"></i>
-                    </span>
-                  </button>
-
-                  <div
-                    className={`overflow-hidden transition-all duration-300 ml-4 space-y-1 ${
-                      isOpen ? "max-h-96" : "max-h-0"
-                    }`}
-                  >
-                    <div className="border-l border-gray-600 pl-4 space-y-1">
-                      {item.children.map((child) => (
-                        <Link
-                          key={child.name}
-                          href={child.href}
-                          onClick={() => setSidebarOpen(false)}
-                          className={`block px-3 py-2 rounded-md font-medium relative ${
-                            pathname === child.href
-                              ? "text-[#FFC200]"
-                              : "text-[#CFD0D2] hover:text-[#FFC200]"
-                          }`}
-                        >
-                          <span>{child.name}</span>
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              );
-            }
-
-            return (
-              <Link
-                key={item.name}
-                href={item.href}
-                onClick={() => setSidebarOpen(false)}
-                className={`group flex items-center px-3 py-2.5 font-medium rounded-md ${
-                  isActive
-                    ? "text-[#FFC200]"
-                    : "text-[#CFD0D2] hover:text-[#FFC200]"
-                }`}
-              >
-                <span
-                  className={`mr-3 h-5 w-5 ${
-                    isActive
-                      ? "text-[#FFC200]"
-                      : "text-[#CFD0D2] group-hover:text-[#FFC200]"
-                  }`}
-                >
-                  <span className={`${item.icon} text-[20px]`}></span>
-                </span>
-                <span>{item.name}</span>
-              </Link>
-            );
-          })}
-        </div>
-      </aside>
-
-      {/* Overlay for mobile */}
-      {sidebarOpen && (
-        <div
-          className="fixed inset-0 z-40 bg-black opacity-50 transition-opacity lg:hidden"
-          onClick={() => setSidebarOpen(false)}
-        />
-      )}
-
-      {/* Main area */}
-      <main className="flex-1 bg-[#03070D] lg:pl-64 mt-[68px] md:mt-[85px] overflow-x-auto">
-        {/* Fixed Header */}
-
-        {/* Content */}
-        <header className="flex items-center h-[68px] md:h-[85px] border-b border-[#2A2A2A] bg-[#13171E] px-2 fixed left-0 right-0 top-0 z-30">
-          <div className="flex items-center gap-3 me-auto flex-shrink-0">
-            <button
-              onClick={() => setSidebarOpen(true)}
-              className="lg:hidden p-2 rounded-md cursor-pointer text-white hover:text-[#FFC200]"
-            >
-              <span className="mgc_menu_line text-[24px]"></span>
-            </button>
+          {/* Sidebar Header */}
+          <div className="items-center justify-center hidden lg:flex h-[85px] border-b border-r border-[#2A2A2A] flex-shrink-0">
             <Link href="/dashboard">
               <Image
                 src="/icon-300x100.png"
                 alt="Logo"
-                width={75}
-                height={37}
-                className="block lg:hidden"
+                width={150}
+                height={85}
+                className="w-32"
               />
             </Link>
           </div>
 
-          {/* {account?.isActive === 0 && (
+          {/* Close button for mobile */}
+          <button
+            onClick={() => setSidebarOpen(false)}
+            className="absolute top-4 right-4 cursor-pointer lg:hidden p-2 rounded-md text-white hover:text-[#FFC200]"
+          >
+            <span className="mgc_close_line text-[24px]"></span>
+          </button>
+
+          {/* Scrollable Nav */}
+          <div className="flex-1 overflow-y-auto p-4 space-y-2">
+            {navigation.map((item) => {
+              const isActive = pathname === item.href;
+
+              if (item.children) {
+                const isOpen = openSubmenus[item.name];
+
+                return (
+                  <div key={item.name} className="space-y-1">
+                    <button
+                      onClick={() => toggleSubmenu(item.name)}
+                      className="group flex items-center w-full px-3 py-2.5 font-medium rounded-md text-[#CFD0D2] hover:text-[#FFC200]"
+                    >
+                      <span
+                        className={`mr-3 h-5 w-5 ${
+                          isOpen
+                            ? "text-[#FFC200]"
+                            : "text-[#CFD0D2] group-hover:text-[#FFC200]"
+                        }`}
+                      >
+                        <span className={`${item.icon} text-[20px]`}></span>
+                      </span>
+                      <span className="flex-1 text-left">{item.name}</span>
+                      <span
+                        className={`transition-transform duration-200 ${
+                          isOpen
+                            ? "rotate-180 text-[#FFC200]"
+                            : "text-[#CFD0D2]"
+                        }`}
+                      >
+                        <i className="mgc_down_line text-[20px]"></i>
+                      </span>
+                    </button>
+
+                    <div
+                      className={`overflow-hidden transition-all duration-300 ml-4 space-y-1 ${
+                        isOpen ? "max-h-96" : "max-h-0"
+                      }`}
+                    >
+                      <div className="border-l border-gray-600 pl-4 space-y-1">
+                        {item.children.map((child) => (
+                          <Link
+                            key={child.name}
+                            href={child.href}
+                            onClick={() => setSidebarOpen(false)}
+                            className={`block px-3 py-2 rounded-md font-medium relative ${
+                              pathname === child.href
+                                ? "text-[#FFC200]"
+                                : "text-[#CFD0D2] hover:text-[#FFC200]"
+                            }`}
+                          >
+                            <span>{child.name}</span>
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                );
+              }
+
+              return (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  onClick={() => setSidebarOpen(false)}
+                  className={`group flex items-center px-3 py-2.5 font-medium rounded-md ${
+                    isActive
+                      ? "text-[#FFC200]"
+                      : "text-[#CFD0D2] hover:text-[#FFC200]"
+                  }`}
+                >
+                  <span
+                    className={`mr-3 h-5 w-5 ${
+                      isActive
+                        ? "text-[#FFC200]"
+                        : "text-[#CFD0D2] group-hover:text-[#FFC200]"
+                    }`}
+                  >
+                    <span className={`${item.icon} text-[20px]`}></span>
+                  </span>
+                  <span>{item.name}</span>
+                </Link>
+              );
+            })}
+          </div>
+        </aside>
+
+        {/* Overlay for mobile */}
+        {sidebarOpen && (
+          <div
+            className="fixed inset-0 z-40 bg-black opacity-50 transition-opacity lg:hidden"
+            onClick={() => setSidebarOpen(false)}
+          />
+        )}
+
+        {/* Main area */}
+        <main className="flex-1 bg-[#03070D] lg:pl-64 mt-[68px] md:mt-[85px] overflow-x-auto">
+          {/* Fixed Header */}
+
+          {/* Content */}
+          <header className="flex items-center h-[68px] md:h-[85px] border-b border-[#2A2A2A] bg-[#13171E] px-2 fixed left-0 right-0 top-0 z-30">
+            <div className="flex items-center gap-3 me-auto flex-shrink-0">
+              <button
+                onClick={() => setSidebarOpen(true)}
+                className="lg:hidden p-2 rounded-md cursor-pointer text-white hover:text-[#FFC200]"
+              >
+                <span className="mgc_menu_line text-[24px]"></span>
+              </button>
+              <Link href="/dashboard">
+                <Image
+                  src="/icon-300x100.png"
+                  alt="Logo"
+                  width={75}
+                  height={37}
+                  className="block lg:hidden"
+                />
+              </Link>
+            </div>
+
+            {/* {account?.isActive === 0 && (
             <div className="hidden lg:block">
               <Button
                 className="h-8 me-3"
@@ -354,97 +410,123 @@ export default function Layout({ children }: LayoutProps) {
             </div>
           )} */}
 
-          <DropdownMenu.Root>
-            <DropdownMenu.Trigger asChild>
-              <div className="flex items-center gap-3 p-0.5 border border-[#2A2A2A] rounded-lg hover:bg-[#2A2A2A] cursor-pointer max-w-[200px] md:max-w-[350px] min-w-0">
-                <div className="relative">
-                  <Image
-                    src={account?.profilePicture ?? "/default-avatar.png"}
-                    alt="Profile"
-                    width={40}
-                    height={40}
-                    className={`rounded-full object-cover w-10 h-10 ${
-                      account && account?.isFounder
-                        ? "border-2 border-green-500"
-                        : ""
-                    }`}
-                  />
-                  {account?.isFounder === 1 ? (
-                    // Founder icon
-                    <span className="absolute bottom-0 right-0 text-[#FDAD15] mgc_VIP_2_fill bg-white rounded-full"></span>
-                  ) : account?.isActive === 0 ? (
-                    // Inactive icon
-                    <span className="absolute bottom-0 right-0 text-red-600 mgc_warning_fill bg-white rounded-full"></span>
-                  ) : (
-                    // Active icon
-                    <span className="absolute bottom-0 right-0 text-green-600 mgc_check_circle_fill bg-white rounded-full"></span>
-                  )}
+            <DropdownMenu.Root>
+              <DropdownMenu.Trigger asChild>
+                <div className="flex items-center gap-3 p-0.5 border border-[#2A2A2A] rounded-lg hover:bg-[#2A2A2A] cursor-pointer max-w-[200px] md:max-w-[350px] min-w-0">
+                  <div className="relative">
+                    <Image
+                      src={account?.profilePicture ?? "/default-avatar.png"}
+                      alt="Profile"
+                      width={40}
+                      height={40}
+                      className={`rounded-full object-cover w-10 h-10 ${
+                        account && account?.isFounder
+                          ? "border-2 border-green-500"
+                          : ""
+                      }`}
+                    />
+                    {account?.isFounder === 1 ? (
+                      // Founder icon
+                      <span className="absolute bottom-0 right-0 text-[#FDAD15] mgc_VIP_2_fill bg-white rounded-full"></span>
+                    ) : account?.isActive === 0 ? (
+                      // Inactive icon
+                      <span className="absolute bottom-0 right-0 text-red-600 mgc_warning_fill bg-white rounded-full"></span>
+                    ) : (
+                      // Active icon
+                      <span className="absolute bottom-0 right-0 text-green-600 mgc_check_circle_fill bg-white rounded-full"></span>
+                    )}
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-[14px] text-white font-semibold truncate">
+                      {account?.name || "Loading..."}
+                    </p>
+                    <p className="text-[10px] text-[#AEAFB2] truncate">
+                      {account?.rank || "..."}
+                    </p>
+                  </div>
+                  <span className="mgc_down_line text-white text-[24px] flex-shrink-0"></span>
                 </div>
-                <div className="min-w-0 flex-1">
-                  <p className="text-[14px] text-white font-semibold truncate">
-                    {account?.name || "Loading..."}
-                  </p>
-                  <p className="text-[10px] text-[#AEAFB2] truncate">
-                    {account?.rank || "..."}
-                  </p>
-                </div>
-                <span className="mgc_down_line text-white text-[24px] flex-shrink-0"></span>
-              </div>
-            </DropdownMenu.Trigger>
-            <DropdownMenu.Content
-              side="bottom"
-              align="end"
-              className="bg-[#13171E] border border-[#2A2A2A] rounded-md py-1 mt-2 w-40 shadow-lg"
-            >
-              <DropdownMenu.Item
-                className="px-4 py-2 text-sm text-white focus:outline-none hover:bg-[#2A2A2A] cursor-pointer"
-                onClick={() => router.push("/profile")}
+              </DropdownMenu.Trigger>
+              <DropdownMenu.Content
+                side="bottom"
+                align="end"
+                className="bg-[#13171E] border border-[#2A2A2A] rounded-md py-1 mt-2 w-40 shadow-lg"
               >
-                My Profile
-              </DropdownMenu.Item>
-              <DropdownMenu.Item
-                className="px-4 py-2 text-sm text-red-500 focus:outline-none hover:bg-[#2A2A2A] cursor-pointer"
-                onClick={() => {
-                  logoutMutation.mutate();
-                }}
-              >
-                Logout
-              </DropdownMenu.Item>
-            </DropdownMenu.Content>
-          </DropdownMenu.Root>
-        </header>
+                <DropdownMenu.Item
+                  className="px-4 py-2 text-sm text-white focus:outline-none hover:bg-[#2A2A2A] cursor-pointer"
+                  onClick={() => router.push("/profile")}
+                >
+                  My Profile
+                </DropdownMenu.Item>
+                <DropdownMenu.Item
+                  className="px-4 py-2 text-sm text-red-500 focus:outline-none hover:bg-[#2A2A2A] cursor-pointer"
+                  onClick={() => {
+                    logoutMutation.mutate();
+                  }}
+                >
+                  Logout
+                </DropdownMenu.Item>
+              </DropdownMenu.Content>
+            </DropdownMenu.Root>
+          </header>
 
-        <div className="p-4 md:p-6 space-y-4">
-          {/* Email verification alert */}
-          {account?.isVerified === 0 && (
-            <div className="rounded-lg bg-[#25262A] p-3 flex justify-between items-center">
-              <div className="flex items-center gap-4">
-                <div className="w-10 h-10 bg-[#DC2626] flex-shrink-0 rounded flex items-center justify-center">
-                  <span className="mgc_mail_ai_line text-2xl text-white"></span>
+          <div className="p-4 md:p-6 space-y-4">
+            {/* Email verification alert */}
+            {account?.isVerified === 0 && (
+              <div className="rounded-lg bg-[#25262A] p-3 flex justify-between items-center">
+                <div className="flex items-center gap-4">
+                  <div className="w-10 h-10 bg-[#DC2626] flex-shrink-0 rounded flex items-center justify-center">
+                    <span className="mgc_mail_ai_line text-2xl text-white"></span>
+                  </div>
+                  <div className="space-y-1 pe-5">
+                    <p className="text-md text-left font-medium leading-4 text-white">
+                      Verify Your Email
+                    </p>
+                    <p className="text-[#AEAFB2] leading-4 text-sm">
+                      {`Please verify your email. Didn’t get it? Resend below.`}
+                    </p>
+                  </div>
                 </div>
-                <div className="space-y-1 pe-5">
-                  <p className="text-md text-left font-medium leading-4 text-white">
-                    Verify Your Email
-                  </p>
-                  <p className="text-[#AEAFB2] leading-4 text-sm">
-                    {`Please verify your email. Didn’t get it? Resend below.`}
-                  </p>
-                </div>
+                <Button
+                  className="h-8 bg-white hover:bg-gray-300"
+                  roundedClass="rounded"
+                  onClick={() => verifyMutation.mutate()}
+                  loading={verifyMutation.isPending}
+                  disabled={!!isVerificationSent}
+                >
+                  Resend
+                </Button>
               </div>
-              <Button
-                className="h-8 bg-white hover:bg-gray-300"
-                roundedClass="rounded"
-                onClick={() => verifyMutation.mutate()}
-                loading={verifyMutation.isPending}
-                disabled={!!isVerificationSent}
-              >
-                Resend
-              </Button>
-            </div>
-          )}
+            )}
 
-          {/* Activation card */}
-          {/* {account?.isActive === 0 && (
+            {/* Activation card */}
+            {pathname === "/dashboard/affiliate" && account?.isActive === 0 && (
+              <div className="rounded-lg bg-[#25262A] p-3 flex justify-between items-center">
+                <div className="flex items-center gap-4">
+                  <div className="w-10 h-10 bg-[#16A34A] flex-shrink-0 rounded flex items-center justify-center">
+                    <span className="mgc_lock_line text-2xl text-white"></span>
+                  </div>
+                  <div className="space-y-1 pe-5">
+                    <p className="text-md text-left font-medium leading-4 text-white">
+                      Activate Your Account
+                    </p>
+                    <p className="text-[#AEAFB2] leading-4 text-sm">
+                      Please activate your account to get your referral link.
+                    </p>
+                  </div>
+                </div>
+                <Button
+                  className="h-8 me-3 whitespace-nowrap"
+                  roundedClass="rounded"
+                  variant="secondary"
+                  onClick={() => setIsActivationModalOpen(true)}
+                >
+                  Activate Now
+                </Button>
+              </div>
+            )}
+
+            {/* {account?.isActive === 0 && (
             <div className="flex md:hidden gap-5 flex-col rounded-lg border border-[#11B97E] bg-[#25262A] p-5">
               <div className="flex items-center gap-4">
                 <div className="w-10 h-10 bg-[#11B97E] flex-shrink-0 rounded flex items-center justify-center">
@@ -481,55 +563,56 @@ export default function Layout({ children }: LayoutProps) {
             </div>
           )} */}
 
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-            {/* Greeting */}
-            <h1 className="text-lg text-white font-medium text-left w-full md:w-auto">
-              Hy There, {account?.name || "..."}
-            </h1>
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+              {/* Greeting */}
+              <h1 className="text-lg text-white font-medium text-left w-full md:w-auto">
+                Hy There, {account?.name || "..."}
+              </h1>
 
-            {/* Buttons grid */}
-            <div className="grid grid-cols-4 gap-3 w-full md:w-auto">
-              {[
-                {
-                  label: "Deposit",
-                  icon: "mgc_cash_2_line",
-                  path: "/dashboard/deposit",
-                },
-                {
-                  label: "Withdraw",
-                  icon: "mgc_card_pay_line",
-                  path: "/dashboard/withdraw",
-                },
-                {
-                  label: "Tokens",
-                  icon: "mgc_coin_3_line",
-                  path: "/dashboard/buy-tokens",
-                },
-                {
-                  label: "Staking",
-                  icon: "mgc_coin_2_line",
-                  path: "/dashboard/staking",
-                },
-              ].map(({ label, icon, path }) => (
-                <button
-                  key={path}
-                  onClick={() => router.push(path)}
-                  className="flex text-[#121213] cursor-pointer flex-col md:flex-row items-center justify-center bg-[#25262A] hover:bg-[#3a3a3f] transition-colors duration-200 p-3 rounded-lg gap-2"
-                >
-                  <i
-                    className={`${icon} text-[20px] bg-[#FFC200] rounded-full w-8 h-8 flex items-center justify-center`}
-                  ></i>
-                  <span className="text-white text-sm text-center">
-                    {label}
-                  </span>
-                </button>
-              ))}
+              {/* Buttons grid */}
+              <div className="grid grid-cols-4 gap-3 w-full md:w-auto">
+                {[
+                  {
+                    label: "Deposit",
+                    icon: "mgc_cash_2_line",
+                    path: "/dashboard/deposit",
+                  },
+                  {
+                    label: "Withdraw",
+                    icon: "mgc_card_pay_line",
+                    path: "/dashboard/withdraw",
+                  },
+                  {
+                    label: "Trade",
+                    icon: "mgc_coin_3_line",
+                    path: "/dashboard/buy-tokens",
+                  },
+                  {
+                    label: "Staking",
+                    icon: "mgc_coin_2_line",
+                    path: "/dashboard/staking",
+                  },
+                ].map(({ label, icon, path }) => (
+                  <button
+                    key={path}
+                    onClick={() => router.push(path)}
+                    className="flex text-[#121213] cursor-pointer flex-col md:flex-row items-center justify-center bg-[#25262A] hover:bg-[#3a3a3f] transition-colors duration-200 p-3 rounded-lg gap-2"
+                  >
+                    <i
+                      className={`${icon} text-[20px] bg-[#FFC200] rounded-full w-8 h-8 flex items-center justify-center`}
+                    ></i>
+                    <span className="text-white text-sm text-center">
+                      {label}
+                    </span>
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
 
-        {children}
-      </main>
-    </div>
+          {children}
+        </main>
+      </div>
+    </>
   );
 }
