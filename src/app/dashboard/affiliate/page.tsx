@@ -121,8 +121,8 @@ export default function WithdrawCards() {
             <div className="flex items-center gap-2 flex-1 flex-wrap">
               {account?.isActive === 0 ? (
                 <small className="text-white text-sm">
-                  Buy tokens worth at least {dashboardStats?.ACTIVATION_USDT}{" "}
-                  USDT to activate your referral link.
+                  Have at least {dashboardStats?.ACTIVATION_USDT} USDT in your
+                  wallet and click "Activate" to unlock your referral link.
                 </small>
               ) : (
                 <>
