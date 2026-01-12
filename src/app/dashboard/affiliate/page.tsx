@@ -122,7 +122,7 @@ export default function WithdrawCards() {
               {account?.isActive === 0 ? (
                 <small className="text-white text-sm">
                   Have at least {dashboardStats?.ACTIVATION_USDT} USDT in your
-                  wallet and click "Activate" to unlock your referral link.
+                  wallet and click {`"Activate"`} to unlock your referral link.
                 </small>
               ) : (
                 <>
