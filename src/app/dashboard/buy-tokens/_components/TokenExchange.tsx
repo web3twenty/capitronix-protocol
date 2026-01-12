@@ -156,22 +156,15 @@ export default function TokenExchange() {
 /* 🔹 Wallet Flow UI */
 function WalletFlow({ amount }: { amount?: string }) {
   return (
-    <div className="flex items-center bg-[#13171E] rounded-lg p-4 gap-4 overflow-hidden">
-      <WalletBox title="Reward Wallet" />
-
-      <div className="flex flex-col items-center gap-1 max-w-[80px] md:max-w-[120px] shrink-0 mx-auto">
-        <ArrowRight className="text-[#FFC200]" />
+    <div className="bg-[#13171E] rounded-lg p-4 text-sm text-[#CFD0D2] space-y-3">
+      <div className="flex flex-col items-center gap-1 text-[#FFC200]">
         {amount && (
-          <small
-            className="text-[#FFC200] font-medium text-center truncate w-full"
-            title={`${amount} 3TWENTY`}
-          >
-            {amount} 3TWENTY
-          </small>
+          <span className="break-all text-center font-semibold">{amount} 3TWENTY</span>
         )}
+        <span className="mgc_arrow_down_line"></span>
       </div>
 
-      <WalletBox title="Token Wallet" />
+      <div className="text-center font-medium">Token Wallet</div>
     </div>
   );
 }
