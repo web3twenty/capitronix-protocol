@@ -506,22 +506,26 @@ export default function Layout({ children }: LayoutProps) {
 
             {/* Activation card */}
             {pathname === "/dashboard/affiliate" && account?.isActive === 0 && (
-              <div className="rounded-lg bg-[#25262A] p-3 flex justify-between items-center">
-                <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 bg-[#16A34A] flex-shrink-0 rounded flex items-center justify-center">
-                    <span className="mgc_lock_line text-2xl text-white"></span>
+              <div className="rounded-lg bg-[#25262A] p-3 sm:p-4 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
+                {/* Left content */}
+                <div className="flex items-start sm:items-center gap-3">
+                  <div className="w-8 h-8 sm:w-10 sm:h-10 bg-[#16A34A] flex-shrink-0 rounded flex items-center justify-center">
+                    <span className="mgc_lock_line text-lg sm:text-2xl text-white"></span>
                   </div>
-                  <div className="space-y-1 pe-5">
-                    <p className="text-md text-left font-medium leading-4 text-white">
+
+                  <div className="space-y-0.5 sm:space-y-1">
+                    <p className="text-sm sm:text-md font-medium leading-tight text-white">
                       Get Your Referral Link
                     </p>
-                    <p className="text-[#AEAFB2] leading-4 text-sm">
-                      Please activate your account to get your referral link.
+                    <p className="text-xs sm:text-sm text-[#AEAFB2] leading-tight">
+                      Activate your account to get your referral link.
                     </p>
                   </div>
                 </div>
+
+                {/* Button */}
                 <Button
-                  className="h-8 me-3 whitespace-nowrap"
+                  className="h-8 sm:h-9 w-full sm:w-auto text-xs sm:text-sm whitespace-nowrap"
                   roundedClass="rounded"
                   variant="secondary"
                   onClick={() => setIsActivationModalOpen(true)}
