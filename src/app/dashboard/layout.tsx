@@ -237,7 +237,7 @@ export default function Layout({ children }: LayoutProps) {
             <p>
               Activation Fee: <strong>{stats?.ACTIVATION_USDT}$</strong>
             </p>
-            <p>This will deduct activation fee from use USDT wallet.</p>
+            <p>This will deduct activation fee from your USDT wallet.</p>
           </div>
         </div>
 
