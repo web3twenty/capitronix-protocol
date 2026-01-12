@@ -199,6 +199,10 @@ export default function Layout({ children }: LayoutProps) {
     };
   }, [sidebarOpen]);
 
+  const closeIcon = (
+    <span className="mgc_close_line text-white text-[20px]"></span>
+  );
+
   return (
     <>
       <Modal
@@ -213,6 +217,7 @@ export default function Layout({ children }: LayoutProps) {
           },
           overlay: { backgroundColor: "#4A4A4AC2" },
         }}
+        closeIcon={closeIcon}
       >
         {/* Modal Header */}
         <div className="bg-[#13171E] px-5 py-3 rounded-t-lg">
@@ -232,7 +237,7 @@ export default function Layout({ children }: LayoutProps) {
             <p>
               Activation Fee: <strong>{stats?.ACTIVATION_USDT}$</strong>
             </p>
-            <p>Do you want to proceed?</p>
+            <p>This will deduct activation fee from use USDT wallet.</p>
           </div>
         </div>
 
@@ -508,7 +513,7 @@ export default function Layout({ children }: LayoutProps) {
                   </div>
                   <div className="space-y-1 pe-5">
                     <p className="text-md text-left font-medium leading-4 text-white">
-                      Activate Your Account
+                      Get Your Referral Link
                     </p>
                     <p className="text-[#AEAFB2] leading-4 text-sm">
                       Please activate your account to get your referral link.
