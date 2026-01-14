@@ -60,7 +60,7 @@ export default function Layout({ children }: LayoutProps) {
       icon: "mgc_card_pay_line",
     },
     {
-      name: "Buy Tokens",
+      name: "Trade",
       href: "/dashboard/buy-tokens",
       icon: "mgc_coin_3_line",
     },
