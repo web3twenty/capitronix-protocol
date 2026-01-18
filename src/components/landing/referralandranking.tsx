@@ -30,7 +30,7 @@ const ReferralAndRankRewards = async () => {
   // Transform the maps into arrays for rendering
   const referralLevels = Object.entries(profitMap).map(([level, bonus]) => ({
     level: `Affiliate Tier ${String(+level).padStart(2, "0")}`,
-    bonus: `${bonus * 100}%`,
+    bonus: `${Number(bonus) * 100}%`,
   }));
 
   const totalRankRewards = Object.entries(rankingMap).reduce(
