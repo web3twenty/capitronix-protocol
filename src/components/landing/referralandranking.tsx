@@ -1,5 +1,15 @@
-const ReferralAndRankRewards = () => {
-  const profitMap = {
+const ReferralAndRankRewards = async () => {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/public/configs`,
+  );
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch stats");
+  }
+
+  const data = await response.json().then((data) => data.payload);
+
+  const profitMap = data.configs.PROFIT_MAP || {
     "1": 0.08,
     "2": 0.03,
     "3": 0.02,
@@ -8,7 +18,7 @@ const ReferralAndRankRewards = () => {
     "6": 0.005,
   };
 
-  const rankingMap = {
+  const rankingMap = data.configs.RANKING_MAP || {
     "1": "20",
     "2": "32",
     "3": "64",
@@ -25,7 +35,7 @@ const ReferralAndRankRewards = () => {
 
   const totalRankRewards = Object.entries(rankingMap).reduce(
     (acc, [rank, reward]) => acc + Number(reward),
-    0
+    0,
   );
 
   const rankRewards = Object.entries(rankingMap).map(
@@ -46,7 +56,7 @@ const ReferralAndRankRewards = () => {
         condition: conditionText,
         reward: `${reward} USDT`,
       };
-    }
+    },
   );
 
   return (
