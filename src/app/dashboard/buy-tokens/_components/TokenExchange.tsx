@@ -130,7 +130,7 @@ export default function TokenExchange({ balance }: { balance: number }) {
       <form onSubmit={handleSubmit(onSubmit)} className="p-4 space-y-4">
         <div>
           <Input
-            label={`Reward (Available: ${Number(balance).toFixed(2)})`}
+            label={`Reward (Available: ${Number(balance).toFixed(2)} 3TWENTY)`}
             type="number"
             step="any"
             placeholder="Enter amount"
