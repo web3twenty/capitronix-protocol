@@ -5,6 +5,8 @@ import { useRouter, useSearchParams } from "next/navigation";
 import TokenPurchase from "./_components/TokenPurchase";
 import TokenSell from "./_components/TokenSell";
 import TokenExchange from "./_components/TokenExchange";
+import { useQuery } from "@tanstack/react-query";
+import api from "@/lib/api";
 
 type TabType = "buy" | "sell" | "exchange";
 
@@ -36,6 +38,16 @@ export default function TokenTabs() {
         : "bg-[#03070D] text-[#888]"
     }`;
 
+  const { data: account } = useQuery({
+    queryKey: ["account"],
+    queryFn: async () => {
+      const response = await api.get("/account");
+      return response.data.payload.account;
+    },
+    refetchOnMount: true,
+    staleTime: 0,
+  });
+
   return (
     <section className="p-4 md:px-6 md:py-2">
       {/* 🏷 Tabs */}
@@ -54,7 +66,7 @@ export default function TokenTabs() {
         </div>
         <div
           className={`${tabClasses(
-            "exchange"
+            "exchange",
           )} flex-1 text-center cursor-pointer`}
           onClick={() => changeTab("exchange")}
         >
@@ -63,11 +75,13 @@ export default function TokenTabs() {
       </div>
 
       {/* 🗂 Tab Content */}
-      {activeTab === "buy" && <TokenPurchase />}
+      {activeTab === "buy" && <TokenPurchase balance={account?.usdt || 0} />}
 
-      {activeTab === "sell" && <TokenSell />}
+      {activeTab === "sell" && <TokenSell balance={account?.token || 0} />}
 
-      {activeTab === "exchange" && <TokenExchange />}
+      {activeTab === "exchange" && (
+        <TokenExchange balance={account?.reward || 0} />
+      )}
     </section>
   );
 }

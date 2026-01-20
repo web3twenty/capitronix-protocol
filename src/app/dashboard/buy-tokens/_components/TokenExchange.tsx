@@ -14,7 +14,7 @@ import Modal from "react-responsive-modal";
 import { showSuccessAlert, showErrorAlert } from "@/components/Toast";
 import { ArrowRight } from "lucide-react";
 
-export default function TokenExchange() {
+export default function TokenExchange({ balance }: { balance: number }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formData, setFormData] = useState<FormData | null>(null);
 
@@ -36,7 +36,7 @@ export default function TokenExchange() {
         (v) => (!isNaN(Number(v)) && Number(v) >= stats?.minimumExchange) || 0,
         {
           message: `Minimum ${stats?.minimumExchange} 3TWENTY`,
-        }
+        },
       ),
   });
 
@@ -130,7 +130,7 @@ export default function TokenExchange() {
       <form onSubmit={handleSubmit(onSubmit)} className="p-4 space-y-4">
         <div>
           <Input
-            label="Amount (3TWENTY)"
+            label={`Reward (Available: ${Number(balance).toFixed(2)})`}
             type="number"
             step="any"
             placeholder="Enter amount"
@@ -138,7 +138,7 @@ export default function TokenExchange() {
             error={errors.amount?.message}
           />
           <p className="text-[#CFD0D2] text-[11px] pt-2">
-            MIN: {stats?.minimumExchange} 3TWENTY
+            MIN: {stats?.minimumExchange} Reward
           </p>
         </div>
 
@@ -159,7 +159,9 @@ function WalletFlow({ amount }: { amount?: string }) {
     <div className="bg-[#13171E] rounded-lg p-4 text-sm text-[#CFD0D2] space-y-3">
       <div className="flex flex-col items-center gap-1 text-[#FFC200]">
         {amount && (
-          <span className="break-all text-center font-semibold">{amount} 3TWENTY</span>
+          <span className="break-all text-center font-semibold">
+            {amount} 3TWENTY
+          </span>
         )}
         <span className="mgc_arrow_down_line"></span>
       </div>

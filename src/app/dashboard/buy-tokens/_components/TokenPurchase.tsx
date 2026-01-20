@@ -13,7 +13,7 @@ import Button from "@/components/ui/Button";
 import Modal from "react-responsive-modal";
 import { showSuccessAlert, showErrorAlert } from "@/components/Toast";
 
-export default function TokenPurchase() {
+export default function TokenPurchase({ balance }: { balance: number }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formData, setFormData] = useState<PurchaseFormData | null>(null);
   const queryClient = useQueryClient();
@@ -38,7 +38,7 @@ export default function TokenPurchase() {
           parseFloat(val) >= (stats?.minimumBuyToken || 0),
         {
           message: `Minimum purchase is ${stats?.minimumBuyToken || 0} USDT`,
-        }
+        },
       ),
   });
 
@@ -167,21 +167,27 @@ export default function TokenPurchase() {
 
       {/* 🧾 Purchase Form */}
       <form onSubmit={handleSubmit(onSubmit)} className="p-4 space-y-4">
-        <Input
-          label="Amount (USDT)"
-          type="number"
-          step="any"
-          placeholder="Enter amount"
-          {...register("amount")}
-          error={errors.amount?.message}
-        />
+        <div>
+          <Input
+            label={`USDT (Available: $${Number(balance).toFixed(2)})`}
+            type="number"
+            step="any"
+            placeholder="Enter amount"
+            {...register("amount")}
+            error={errors.amount?.message}
+          />
 
-        <Input
+          <p className="text-[#CFD0D2] text-[11px] pt-2">
+            MIN: {stats?.minimumDeposit} USDT
+          </p>
+        </div>
+
+        {/* <Input
           label="Currency"
           placeholder="USDT"
           defaultValue="USDT"
           readOnly
-        />
+        /> */}
 
         {/* ℹ️ Transaction Info */}
         <div className="space-y-4">

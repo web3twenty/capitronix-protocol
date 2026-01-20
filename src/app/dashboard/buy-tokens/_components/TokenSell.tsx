@@ -14,7 +14,7 @@ import Modal from "react-responsive-modal";
 import { showSuccessAlert, showErrorAlert } from "@/components/Toast";
 import { ArrowRight } from "lucide-react";
 
-export default function TokenPurchase() {
+export default function TokenPurchase({ balance }: { balance: number }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formData, setFormData] = useState<FormData | null>(null);
 
@@ -34,7 +34,7 @@ export default function TokenPurchase() {
       .min(1, "Amount is required")
       .refine(
         (v) => !isNaN(Number(v)) && Number(v) >= (stats?.minimumSell ?? 0),
-        { message: `Minimum ${stats?.minimumSell} 3TWENTY` }
+        { message: `Minimum ${stats?.minimumSell} 3TWENTY` },
       ),
   });
 
@@ -142,18 +142,20 @@ export default function TokenPurchase() {
 
       {/* 🧾 Form */}
       <form onSubmit={handleSubmit(onSubmit)} className="p-4 space-y-4">
-        <Input
-          label="Amount (3TWENTY)"
-          type="number"
-          step="any"
-          placeholder="Enter amount"
-          {...register("amount")}
-          error={errors.amount?.message}
-        />
+        <div>
+          <Input
+            label={`3TWENTY (Available: ${Number(balance).toFixed(2)})`}
+            type="number"
+            step="any"
+            placeholder="Enter amount"
+            {...register("amount")}
+            error={errors.amount?.message}
+          />
 
-        <p className="text-[#CFD0D2] text-[11px]">
-          MIN: {stats?.minimumSell} 3TWENTY
-        </p>
+          <p className="text-[#CFD0D2] text-[11px] pt-2">
+            MIN: {stats?.minimumSell} 3TWENTY
+          </p>
+        </div>
 
         {/* 🔄 Preview */}
         <SellBreakdown

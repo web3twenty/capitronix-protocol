@@ -44,13 +44,14 @@ export default function Transactions() {
   // ✅ Read values from URL or fallback
   const page = Number(searchParams.get("page")) || 1;
   const limit = Number(searchParams.get("limit")) || 10;
+  const type = searchParams.get("type") || "all";
 
   // ✅ Fetch data from server using query params
   const { data: transData, isFetching } = useQuery<TransactionResponse>({
-    queryKey: ["transactions", page, limit],
+    queryKey: ["transactions", page, limit, type],
     queryFn: async () => {
       const response = await api.get(
-        `/transactions?page=${page}&limit=${limit}`
+        `/transactions?page=${page}&limit=${limit}&type=${type}`,
       );
       return response.data as TransactionResponse;
     },
@@ -68,10 +69,25 @@ export default function Transactions() {
   const endIndex = Math.min(currentPage * limit, totalItems);
 
   // ✅ Helper to update URL without reload
-  const updateParams = (newParams: { page?: number; limit?: number }) => {
+  const updateParams = (newParams: {
+    page?: number;
+    limit?: number;
+    type?: string;
+  }) => {
     const params = new URLSearchParams(searchParams);
+
     if (newParams.page) params.set("page", newParams.page.toString());
     if (newParams.limit) params.set("limit", newParams.limit.toString());
+
+    if (newParams.type !== undefined) {
+      if (newParams.type === "" || newParams.type === "all") {
+        params.delete("type");
+      } else {
+        params.set("type", newParams.type);
+      }
+      params.delete("page"); // reset page when filter changes
+    }
+
     router.push(`?${params.toString()}`, { scroll: false });
   };
 
@@ -111,9 +127,40 @@ export default function Transactions() {
 
       <section className="p-4 md:px-6 md:py-2">
         <div className="max-w-7xl bg-[#13171E] border border-[#2A2A2A] rounded-lg mb-8 mx-auto">
-          <h1 className="text-lg text-white font-medium px-[20px] py-[10px]">
-            Transactions
-          </h1>
+          <div className="flex items-center justify-between px-[20px] py-[10px]">
+            <h1 className="text-lg text-white font-medium">Transactions</h1>
+
+            <div className="relative">
+              <select
+                value={type}
+                onChange={(e) => updateParams({ type: e.target.value })}
+                className="appearance-none cursor-pointer font-bold bg-[#03070D] border border-[#2A2A2A] text-white text-sm px-3 py-1.5 rounded-md pr-8"
+              >
+                <option value="all" className="bg-[#1B1F26]">
+                  All Types
+                </option>
+
+                {[
+                  "Referral",
+                  "Staking",
+                  "Purchase",
+                  "Bonus",
+                  "Activation",
+                  "Rank",
+                  "Refund",
+                  "Manual",
+                  "Sell",
+                  "Exchange",
+                ].map((t) => (
+                  <option key={t} value={t} className="bg-[#1B1F26]">
+                    {t}
+                  </option>
+                ))}
+              </select>
+
+              <ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none text-white" />
+            </div>
+          </div>
 
           <div className="overflow-x-auto w-full">
             <div className="min-w-max mx-auto">
