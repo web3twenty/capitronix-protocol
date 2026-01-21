@@ -4,12 +4,13 @@ import { useQuery } from "@tanstack/react-query";
 import api from "@/lib/api";
 import { showSuccessAlert } from "@/components/Toast";
 import Button from "@/components/ui/Button";
+import Link from "next/link";
 
 export default function WithdrawCards() {
   const handleCopy = () => {
     if (account?.referralCode) {
       navigator.clipboard.writeText(
-        `${process.env.NEXT_PUBLIC_APP_URL}/auth/register?ref=${account?.referralCode}`
+        `${process.env.NEXT_PUBLIC_APP_URL}/auth/register?ref=${account?.referralCode}`,
       );
       showSuccessAlert("Referral link copied!");
     }
@@ -148,6 +149,12 @@ export default function WithdrawCards() {
           <h1 className="text-lg text-white font-medium">
             6-Level Team Overview
           </h1>
+          <Link
+            href="/dashboard/affiliate/tree"
+            className="text-sm text-yellow-400 hover:underline"
+          >
+            View Tree
+          </Link>
         </div>
 
         <div className="overflow-x-auto w-full">
