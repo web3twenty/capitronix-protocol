@@ -69,7 +69,9 @@ export default function ReferralUsersPage() {
                         />
                       </td>
                       <td className="px-4 py-2">{user.name}</td>
-                      <td className="px-4 py-2 break-all">{user.email}</td>
+                      <td className="px-4 py-2 whitespace-nowrap">
+                        {user.email}
+                      </td>
                       <td className="px-4 py-2 text-center">
                         {user.isActive ? (
                           <span className="text-green-400">Active</span>
