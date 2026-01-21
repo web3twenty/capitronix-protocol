@@ -4,6 +4,20 @@ import { useQuery } from "@tanstack/react-query";
 import api from "@/lib/api";
 import Image from "next/image";
 
+interface ReferralUser {
+  id: number;
+  name: string;
+  email: string;
+  isActive: boolean;
+  profilePicture?: string | null;
+  totalSales: number;
+}
+
+interface ReferralLevel {
+  level: number;
+  users: ReferralUser[];
+}
+
 export default function ReferralUsersPage() {
   // Fetch referral users only
   const {
@@ -22,7 +36,7 @@ export default function ReferralUsersPage() {
     <section className="p-4 md:px-6 md:py-4 max-w-7xl mx-auto">
       <h1 className="text-white text-2xl mb-6">6-Level Referral Team</h1>
 
-      {referralUsers.map((levelItem: any) => (
+      {referralUsers.map((levelItem: ReferralLevel) => (
         <div key={levelItem.level} className="mb-8">
           <h2 className="text-yellow-400 mb-3">Tier {levelItem.level}</h2>
 
@@ -43,7 +57,7 @@ export default function ReferralUsersPage() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-[#2A2A2A]">
-                  {levelItem.users.map((user: any) => (
+                  {levelItem.users.map((user: ReferralUser) => (
                     <tr key={user.id}>
                       <td className="px-4 py-2">
                         <Image
