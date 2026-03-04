@@ -49,7 +49,7 @@ export default function Deposit() {
         </div>
         <div className="p-4 space-y-4">
           <div className="p-4 rounded bg-white w-fit mx-auto">
-            <QRCodeSVG value="hi" size={150} level="H" />
+            <QRCodeSVG value={account?.address} size={150} level="H" />
           </div>
           <small className="text-white text-center block">
             Scan QR code or copy address below
