@@ -16,12 +16,19 @@ import { showPromiseToast } from "@/components/Toast";
 
 // Zod schema
 const profileSchema = z.object({
-  name: z.string().min(3, { message: "Name must be at least 3 characters" }),
+  firstName: z
+    .string()
+    .min(3, { message: "First name must be at least 3 characters" })
+    .max(25, { message: "First name must be at most 25 characters" }),
+  lastName: z
+    .string()
+    .max(25, { message: "Last name must be at most 25 characters" })
+    .optional(),
   phone: z
     .string()
     .regex(/^01[3-9]\d{8}$/, { message: "Invalid Bangladesh phone number" }),
   dob: z.string().min(1, { message: "Date of Birth is required" }),
-  location: z.string().optional(),
+  address: z.string().optional(),
 });
 
 type ProfileFormData = z.infer<typeof profileSchema>;
@@ -36,12 +43,9 @@ export default function ProfileForm() {
   const [isUploading, setIsUploading] = useState(false);
 
   // Fetch account data
-  const { data: account, isLoading } = useQuery({
-    queryKey: ["account"],
-    queryFn: async () => {
-      const response = await api.get("/account");
-      return response.data.payload.account;
-    },
+  const { data: profile } = useQuery({
+    queryKey: ["profile"],
+    queryFn: () => api.get("/user/profile").then((res) => res.data),
   });
 
   // React Hook Form
@@ -57,16 +61,17 @@ export default function ProfileForm() {
 
   // Prefill form when account loads
   useEffect(() => {
-    if (account) {
-      setValue("name", account.name || "");
-      setValue("phone", account.phone || "");
+    if (profile) {
+      setValue("firstName", profile.firstName || "");
+      setValue("lastName", profile.lastName || "");
+      setValue("phone", profile.phone || "");
       setValue(
         "dob",
-        account.dob ? new Date(account.dob).toISOString().slice(0, 10) : ""
+        profile.dob ? new Date(profile.dob).toISOString().slice(0, 10) : "",
       );
-      setValue("location", account.location || "");
+      setValue("address", profile.address || "");
     }
-  }, [account, setValue]);
+  }, [profile, setValue]);
 
   // Mutation to update profile
   const updateMutation = useMutation<
@@ -74,13 +79,13 @@ export default function ProfileForm() {
     AxiosError<{ message: string }>,
     ProfileFormData
   >({
-    mutationFn: (data) => api.put("/account", data).then((res) => res.data),
-    onSuccess: (data) => {
-      showSuccessAlert(data.message);
-      queryClient.invalidateQueries({ queryKey: ["account"] });
+    mutationFn: (data) => api.put("/user/profile", data),
+    onSuccess: () => {
+      showSuccessAlert("Profile updated successfully");
+      queryClient.invalidateQueries({ queryKey: ["profile"] });
     },
     onError: (error) => {
-      showErrorAlert(error.response?.data?.message || error.message);
+      showErrorAlert(error.response?.data?.message.toString() || error.message);
     },
   });
 
@@ -95,24 +100,20 @@ export default function ProfileForm() {
     FormData
   >({
     mutationFn: async (formData: FormData) => {
-      // ✅ return the API call so mutation can resolve it
+      //return the API call so mutation can resolve it
       return await showPromiseToast(
-        api
-          .put("/account/picture", formData, {
-            headers: { "Content-Type": "multipart/form-data" },
-          })
-          .then((res) => res.data)
+        api.patch("/user/profile/image", formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        }),
       );
     },
-    onSuccess: (response) => {
-      queryClient.invalidateQueries({ queryKey: ["account"] });
-      showSuccessAlert(
-        response?.message || "Profile picture updated successfully!"
-      );
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["profile"] });
+      showSuccessAlert("Profile image updated successfully");
       setIsUploading(false);
     },
     onError: (error) => {
-      showErrorAlert(error.response?.data?.message || error.message);
+      showErrorAlert(error.response?.data?.message.toString() || error.message);
       setIsUploading(false);
     },
   });
@@ -131,7 +132,7 @@ export default function ProfileForm() {
       };
       const resizedImage = await readAndCompressImage(file, config);
       const formData = new FormData();
-      formData.append("profilePicture", resizedImage);
+      formData.append("image", resizedImage);
       uploadImage(formData);
     } catch (err) {
       console.error(err);
@@ -146,7 +147,7 @@ export default function ProfileForm() {
         <div className="flex flex-col items-center space-y-4">
           <div className="relative w-24 h-24 rounded-full">
             <Image
-              src={account?.profilePicture || "/default-avatar.png"}
+              src={profile?.profileImage || "/default-avatar.png"}
               alt="Profile"
               fill
               className="object-cover rounded-full"
@@ -174,16 +175,23 @@ export default function ProfileForm() {
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <Input
-            label="Full Name"
-            placeholder="Enter your name"
-            {...register("name")}
-            error={errors.name?.message}
+            label="First Name"
+            placeholder="Enter your first name"
+            {...register("firstName")}
+            error={errors.firstName?.message}
+          />
+
+          <Input
+            label="Last Name"
+            placeholder="Enter your family name"
+            {...register("lastName")}
+            error={errors.lastName?.message}
           />
 
           <div>
             <Input
               label="Email"
-              value={account?.email || ""}
+              value={profile?.email || ""}
               placeholder="Email"
               readOnly
               disabled
@@ -210,8 +218,8 @@ export default function ProfileForm() {
           <Input
             label="Address"
             placeholder="Enter your address"
-            {...register("location")}
-            error={errors.location?.message}
+            {...register("address")}
+            error={errors.address?.message}
           />
 
           <Button

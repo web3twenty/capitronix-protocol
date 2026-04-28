@@ -18,7 +18,14 @@ import { showSuccessAlert, showErrorAlert } from "@/components/Toast";
 // Zod schema
 const signupSchema = z
   .object({
-    name: z.string().min(3, { message: "Name must be at least 3 characters" }),
+    firstName: z
+      .string()
+      .min(3, { message: "First name must be at least 3 characters" })
+      .max(25, { message: "First name must be at most 25 characters" }),
+    lastName: z
+      .string()
+      .max(25, { message: "Last name must be at most 25 characters" })
+      .optional(),
     email: z.string().email({ message: "Invalid email address" }),
     password: z
       .string()
@@ -34,17 +41,13 @@ const signupSchema = z
 type SignupFormData = z.infer<typeof signupSchema>;
 
 interface SignupResponse {
-  success: boolean;
-  message: string;
-  payload: {
-    accessToken: string;
-  };
+  accessToken: string;
 }
 
 export default function SignupForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const refParam = searchParams.get("ref"); // 👈 get ?ref= value
+  const refParam = searchParams.get("ref");
 
   const {
     register,
@@ -68,16 +71,14 @@ export default function SignupForm() {
     SignupFormData
   >({
     mutationFn: (formData) =>
-      api
-        .post("/auth/register", formData, { withCredentials: true })
-        .then((res) => res.data),
-    onSuccess: (response) => {
-      showSuccessAlert(response.message);
-      Cookies.set("accessToken", response.payload.accessToken, { expires: 30 });
+      api.post("/auth/signup", formData).then((res) => res.data),
+    onSuccess: (data) => {
+      showSuccessAlert("Registration successful");
+      Cookies.set("accessToken", data.accessToken, { expires: 30 });
       window.location.href = "/dashboard";
     },
     onError: (error) => {
-      showErrorAlert(error.response?.data?.message || error.message);
+      showErrorAlert(error.response?.data?.message.toString() || error.message);
     },
   });
 
@@ -105,11 +106,19 @@ export default function SignupForm() {
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 mt-6">
           <Input
-            label="Full Name"
+            label="First Name"
             type="text"
-            placeholder="Enter your full name"
-            {...register("name")}
-            error={errors.name?.message}
+            placeholder="Enter your first name"
+            {...register("firstName")}
+            error={errors.firstName?.message}
+          />
+
+          <Input
+            label="Last Name"
+            type="text"
+            placeholder="Enter your family name"
+            {...register("lastName")}
+            error={errors.lastName?.message}
           />
 
           <Input

@@ -42,7 +42,7 @@ export default function Layout({ children }: LayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [openSubmenus, setOpenSubmenus] = useState<Record<string, boolean>>({});
   const [isVerificationSent, setIsVerificationSent] = useState<string | null>(
-    null
+    null,
   );
   const pathname = usePathname();
   const router = useRouter();
@@ -102,7 +102,7 @@ export default function Layout({ children }: LayoutProps) {
     navigation.forEach((item) => {
       if (item.children) {
         const hasActiveChild = item.children.some(
-          (child) => child.href === pathname
+          (child) => child.href === pathname,
         );
         if (hasActiveChild) {
           setOpenSubmenus((prev) => ({ ...prev, [item.name]: true }));
@@ -118,14 +118,9 @@ export default function Layout({ children }: LayoutProps) {
     }
   }, []);
 
-  const { data: account } = useQuery({
-    queryKey: ["account"],
-    queryFn: async () => {
-      const response = await api.get("/account");
-      return response.data.payload.account;
-    },
-    refetchOnMount: true,
-    staleTime: 0,
+  const { data: profile } = useQuery({
+    queryKey: ["profile"],
+    queryFn: () => api.get("/user/profile").then((res) => res.data),
   });
 
   const { data: stats } = useQuery({
@@ -162,26 +157,6 @@ export default function Layout({ children }: LayoutProps) {
       showSuccessAlert(response.message);
       queryClient.invalidateQueries({ queryKey: ["account"] });
       setIsActivationModalOpen(false);
-    },
-    onError: (error) => {
-      showErrorAlert(error.response?.data?.message || error.message);
-    },
-  });
-
-  const logoutMutation = useMutation<
-    LogoutResponse,
-    AxiosError<{ message: string }>
-  >({
-    mutationFn: () =>
-      showPromiseToast(
-        api
-          .post("/auth/logout", null, { withCredentials: true })
-          .then((res) => res.data),
-        "Logging out..."
-      ),
-    onSuccess: (response) => {
-      Cookies.remove("accessToken");
-      window.location.href = "/auth/login";
     },
     onError: (error) => {
       showErrorAlert(error.response?.data?.message || error.message);
@@ -401,7 +376,7 @@ export default function Layout({ children }: LayoutProps) {
               </Link>
             </div>
 
-            {/* {account?.isActive === 0 && (
+            {/* {profile?.isActive === 0 && (
             <div className="hidden lg:block">
               <Button
                 className="h-8 me-3"
@@ -420,20 +395,20 @@ export default function Layout({ children }: LayoutProps) {
                 <div className="flex items-center gap-3 p-0.5 border border-[#2A2A2A] rounded-lg hover:bg-[#2A2A2A] cursor-pointer max-w-[200px] md:max-w-[350px] min-w-0">
                   <div className="relative">
                     <Image
-                      src={account?.profilePicture ?? "/default-avatar.png"}
+                      src={profile?.profileImage ?? "/default-avatar.png"}
                       alt="Profile"
                       width={40}
                       height={40}
                       className={`rounded-full object-cover w-10 h-10 ${
-                        account && account?.isFounder
+                        profile && profile?.isFounder
                           ? "border-2 border-green-500"
                           : ""
                       }`}
                     />
-                    {account?.isFounder === 1 ? (
+                    {profile?.isFounder === 1 ? (
                       // Founder icon
                       <span className="absolute bottom-0 right-0 text-[#FDAD15] mgc_VIP_2_fill bg-white rounded-full"></span>
-                    ) : account?.isActive === 0 ? (
+                    ) : profile?.isActive === 0 ? (
                       // Inactive icon
                       <span className="absolute bottom-0 right-0 text-red-600 mgc_warning_fill bg-white rounded-full"></span>
                     ) : (
@@ -443,10 +418,12 @@ export default function Layout({ children }: LayoutProps) {
                   </div>
                   <div className="min-w-0 flex-1">
                     <p className="text-[14px] text-white font-semibold truncate">
-                      {account?.name || "Loading..."}
+                      {profile?.firstName || "Loading..."}
                     </p>
                     <p className="text-[10px] text-[#AEAFB2] truncate">
-                      {account?.rank || "..."}
+                      {profile?.rank === null
+                        ? "Member"
+                        : (profile?.rank ?? "...")}
                     </p>
                   </div>
                   <span className="mgc_down_line text-white text-[24px] flex-shrink-0"></span>
@@ -466,7 +443,8 @@ export default function Layout({ children }: LayoutProps) {
                 <DropdownMenu.Item
                   className="px-4 py-2 text-sm text-red-500 focus:outline-none hover:bg-[#2A2A2A] cursor-pointer"
                   onClick={() => {
-                    logoutMutation.mutate();
+                    Cookies.remove("accessToken");
+                    window.location.href = "/auth/login";
                   }}
                 >
                   Logout
@@ -477,7 +455,7 @@ export default function Layout({ children }: LayoutProps) {
 
           <div className="p-4 md:p-6 space-y-4">
             {/* Email verification alert */}
-            {account?.isVerified === 0 && (
+            {profile?.isVerified === 0 && (
               <div className="rounded-lg bg-[#25262A] p-3 flex justify-between items-center">
                 <div className="flex items-center gap-4">
                   <div className="w-10 h-10 bg-[#DC2626] flex-shrink-0 rounded flex items-center justify-center">
@@ -505,7 +483,7 @@ export default function Layout({ children }: LayoutProps) {
             )}
 
             {/* Activation card */}
-            {pathname === "/dashboard/affiliate" && account?.isActive === 0 && (
+            {pathname === "/dashboard/affiliate" && profile?.isActive === 0 && (
               <div className="rounded-lg bg-[#25262A] p-3 sm:p-4 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
                 {/* Left content */}
                 <div className="flex items-start sm:items-center gap-3">
@@ -575,7 +553,7 @@ export default function Layout({ children }: LayoutProps) {
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
               {/* Greeting */}
               <h1 className="text-lg text-white font-medium text-left w-full md:w-auto">
-                Hy There, {account?.name || "..."}
+                Hy There, {profile?.firstName || "..."}
               </h1>
 
               {/* Buttons grid */}

@@ -45,14 +45,13 @@ export default function SecurityForm() {
     AxiosError<{ message: string }>,
     PasswordFormData
   >({
-    mutationFn: (data) =>
-      api.post("/auth/update-password", data).then((res) => res.data),
-    onSuccess: (data) => {
-      showSuccessAlert(data.message);
+    mutationFn: (data) => api.post("/auth/update-password", data),
+    onSuccess: () => {
+      showSuccessAlert("Password updated successfully");
       reset();
     },
     onError: (error) => {
-      showErrorAlert(error.response?.data?.message || error.message);
+      showErrorAlert(error.response?.data?.message.toString() || error.message);
     },
   });
 

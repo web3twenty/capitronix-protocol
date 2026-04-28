@@ -15,7 +15,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { showSuccessAlert, showErrorAlert } from "@/components/Toast";
 
-// 1️⃣ Zod schema
+// Zod schema
 const loginSchema = z.object({
   email: z.string().email({ message: "Invalid email address" }),
   password: z
@@ -23,21 +23,17 @@ const loginSchema = z.object({
     .min(6, { message: "Password must be at least 6 characters" }),
 });
 
-// 2️⃣ TypeScript type inferred from schema
+// TypeScript type inferred from schema
 type LoginFormData = z.infer<typeof loginSchema>;
 
 interface LoginResponse {
-  success: boolean;
-  message: string;
-  payload: {
-    accessToken: string;
-  };
+  accessToken: string;
 }
 
 export default function LoginForm() {
   const router = useRouter();
 
-  // 3️⃣ React Hook Form with Zod resolver
+  // React Hook Form with Zod resolver
   const {
     register,
     handleSubmit,
@@ -46,27 +42,25 @@ export default function LoginForm() {
     resolver: zodResolver(loginSchema),
   });
 
-  // 4️⃣ Mutation for API call
+  // Mutation for API call
   const loginMutation = useMutation<
     LoginResponse,
     AxiosError<{ message: string }>,
     LoginFormData
   >({
     mutationFn: (formData) =>
-      api
-        .post("/auth/login", formData, { withCredentials: true })
-        .then((res) => res.data),
-    onSuccess: (response) => {
-      showSuccessAlert(response.message);
-      Cookies.set("accessToken", response.payload.accessToken, { expires: 30 });
+      api.post("/auth/login", formData).then((res) => res.data),
+    onSuccess: (data) => {
+      showSuccessAlert("Login successful");
+      Cookies.set("accessToken", data.accessToken, { expires: 30 });
       window.location.href = "/dashboard";
     },
     onError: (error) => {
-      showErrorAlert(error.response?.data?.message || error.message);
+      showErrorAlert(error.response?.data?.message.toString() || error.message);
     },
   });
 
-  // 5️⃣ Form submit handler
+  // Form submit handler
   const onSubmit = (data: LoginFormData) => {
     loginMutation.mutate(data);
   };

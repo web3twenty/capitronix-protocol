@@ -1,15 +1,13 @@
 const ReferralAndRankRewards = async () => {
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/public/configs`,
-  );
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/configs`);
 
   if (!response.ok) {
     throw new Error("Failed to fetch stats");
   }
 
-  const data = await response.json().then((data) => data.payload);
+  const data = await response.json();
 
-  const profitMap = data.configs.PROFIT_MAP || {
+  const profitMap = data.PROFIT_MAP || {
     "1": 0.08,
     "2": 0.03,
     "3": 0.02,
@@ -18,7 +16,7 @@ const ReferralAndRankRewards = async () => {
     "6": 0.005,
   };
 
-  const rankingMap = data.configs.RANKING_MAP || {
+  const rankingMap = data.RANKING_MAP || {
     "1": "20",
     "2": "32",
     "3": "64",

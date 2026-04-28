@@ -24,35 +24,29 @@ function formatNumber(value: number): string {
 }
 
 export default function Home() {
-  const { data: account } = useQuery({
-    queryKey: ["account"],
-    queryFn: async () => {
-      const response = await api.get("/account");
-      return response.data.payload.account;
-    },
+  const { data: profile } = useQuery({
+    queryKey: ["profile"],
+    queryFn: () => api.get("/user/profile").then((res) => res.data),
   });
 
   const { data: stats } = useQuery({
     queryKey: ["stats"],
-    queryFn: async () => {
-      const response = await api.get("/dashboard/stats");
-      return response.data.payload;
-    },
+    queryFn: () => api.get("/user/dashboard/stats").then((res) => res.data),
   });
 
   const statItems = [
     {
       icon: "mgc_trending_up_line",
       label: "3Twenty Coin",
-      value: Number(account?.token || 0).toFixed(2),
-      subValue: `≈$${Number(stats?.TOKEN_PRICE * account?.token || 0).toFixed(
-        2
-      )}`,
+      value: Number(profile?.tokenWallet || 0).toFixed(2),
+      subValue: `≈$${Number(
+        stats?.TOKEN_PRICE * profile?.tokenWallet || 0,
+      ).toFixed(2)}`,
     },
     {
       icon: "mgc_currency_dollar_line",
       label: "Current USDT Balance",
-      value: `$${Number(account?.usdt || 0).toFixed(2)}`,
+      value: `$${Number(profile?.usdtWallet || 0).toFixed(2)}`,
     },
     {
       icon: "mgc_coin_2_line",
@@ -62,7 +56,7 @@ export default function Home() {
     {
       icon: "mgc_award_line",
       label: "Current Reward Balance",
-      value: `${Number(account?.reward || 0).toFixed(2)}`,
+      value: `${Number(profile?.rewardWallet || 0).toFixed(2)}`,
     },
     {
       icon: "mgc_user_add_2_line",
@@ -77,9 +71,9 @@ export default function Home() {
   ];
 
   const handleCopy = () => {
-    if (account?.address) {
+    if (profile?.address) {
       navigator.clipboard.writeText(
-        "0x2FfBdfA8638422bF3A5134434387b8Fb5962DA2C"
+        "0x2FfBdfA8638422bF3A5134434387b8Fb5962DA2C",
       );
       showSuccessAlert("Address copied!");
     }
@@ -143,7 +137,7 @@ export default function Home() {
                 <span className="text-[#FFC200] font-medium">
                   {formatNumber(
                     Number(stats?.phaseInfo?.totalSupply || 0) -
-                      Number(stats?.phaseInfo?.totalAvailable || 0)
+                      Number(stats?.phaseInfo?.totalAvailable || 0),
                   )}{" "}
                   / {formatNumber(stats?.phaseInfo?.totalSupply || 0)}
                 </span>{" "}
