@@ -20,16 +20,9 @@ interface ReferralLevel {
 
 export default function ReferralUsersPage() {
   // Fetch referral users only
-  const {
-    data: referralUsers = [],
-    isLoading,
-    isError,
-  } = useQuery({
+  const { data: referralUsers = [] } = useQuery({
     queryKey: ["referral-users"],
-    queryFn: async () => {
-      const response = await api.get("/referrals/users");
-      return response.data.payload; // Should return [{ level: 1, users: [...] }, ...]
-    },
+    queryFn: () => api.get("/user/referrals/tree").then((res) => res.data),
   });
 
   return (

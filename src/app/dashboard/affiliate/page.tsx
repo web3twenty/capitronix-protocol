@@ -23,10 +23,7 @@ export default function WithdrawCards() {
 
   const { data: referralStats } = useQuery({
     queryKey: ["referral-stats"],
-    queryFn: async () => {
-      const response = await api.get("/referrals/stats");
-      return response.data.payload;
-    },
+    queryFn: () => api.get("/user/referrals/stats").then((res) => res.data),
   });
 
   // Fetch stats for referral hint
@@ -91,7 +88,7 @@ export default function WithdrawCards() {
                   Tier 1 Commission
                 </small>
                 <p className="text-white text-2xl font-semibold mt-1">
-                  {referralStats?.levelOneCommission}%
+                  {referralStats?.levelOneCommission || 0}%
                 </p>
               </div>
             </div>
@@ -124,7 +121,7 @@ export default function WithdrawCards() {
               ) : (
                 <>
                   <small className="text-white text-sm break-all flex-1">
-                    {`${process.env.NEXT_PUBLIC_APP_URL}/auth/register?ref=${profile?.referralCode}`}
+                    {`${process.env.NEXT_PUBLIC_APP_URL}/auth/register?ref=${profile?.referralCode || ""}`}
                   </small>
                   <span
                     className="px-2 py-1 text-white text-[24px] cursor-pointer rounded hover:bg-white/10 flex-shrink-0"
