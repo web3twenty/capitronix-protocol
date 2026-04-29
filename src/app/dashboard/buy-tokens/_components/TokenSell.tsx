@@ -18,23 +18,22 @@ export default function TokenPurchase({ balance }: { balance: number }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formData, setFormData] = useState<FormData | null>(null);
 
-  // 📊 Stats
+  // Stats
   const { data: stats } = useQuery({
     queryKey: ["stats"],
-    queryFn: async () => {
-      const res = await api.get("/dashboard/stats");
-      return res.data.payload;
-    },
+    queryFn: () => api.get("/user/dashboard/stats").then((res) => res.data),
   });
 
-  // ✅ Validation
+  // Validation
   const schema = z.object({
     amount: z
       .string()
       .min(1, "Amount is required")
       .refine(
-        (v) => !isNaN(Number(v)) && Number(v) >= (stats?.minimumSell ?? 0),
-        { message: `Minimum ${stats?.minimumSell} 3TWENTY` },
+        (v) =>
+          !isNaN(Number(v)) &&
+          Number(v) >= (stats?.DEPOSIT_SETTINGS?.minimumSell ?? 0),
+        { message: `Minimum ${stats?.DEPOSIT_SETTINGS?.minimumSell} 3TWENTY` },
       ),
   });
 
@@ -52,10 +51,10 @@ export default function TokenPurchase({ balance }: { balance: number }) {
 
   const amountValue = Number(watch("amount") || 0);
 
-  // 💰 Calculations (UI only)
+  // Calculations (UI only)
   const sellChargeAmount = useMemo(() => {
     if (!stats) return 0;
-    return (amountValue * stats.sellCharge) / 100;
+    return (amountValue * stats.DEPOSIT_SETTINGS?.sellCharge) / 100;
   }, [amountValue, stats]);
 
   const netTokens = useMemo(() => {
@@ -68,17 +67,20 @@ export default function TokenPurchase({ balance }: { balance: number }) {
     return netTokens * Number(stats?.TOKEN_PRICE || 0);
   }, [netTokens, stats]);
 
-  // 🔁 Sell mutation
+  // Sell mutation
   const sellMutation = useMutation<
     { success: boolean; message: string },
     AxiosError<{ message: string }>,
     FormData
   >({
-    mutationFn: (data) => api.post("/tokens/sell", data).then((r) => r.data),
+    mutationFn: (data) =>
+      api
+        .post("/user/tokens/sell", { tokenAmount: Number(data.amount) })
+        .then((r) => r.data),
     onSuccess: (res) => {
       reset();
       setIsModalOpen(false);
-      showSuccessAlert(res.message);
+      showSuccessAlert("Sell successful");
     },
     onError: (err) => {
       showErrorAlert(err.response?.data?.message || err.message);
@@ -153,7 +155,7 @@ export default function TokenPurchase({ balance }: { balance: number }) {
           />
 
           <p className="text-[#CFD0D2] text-[11px] pt-2">
-            MIN: {stats?.minimumSell} 3TWENTY
+            MIN: {stats?.DEPOSIT_SETTINGS?.minimumSell} 3TWENTY
           </p>
         </div>
 

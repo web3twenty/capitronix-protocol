@@ -18,24 +18,24 @@ export default function TokenExchange({ balance }: { balance: number }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formData, setFormData] = useState<FormData | null>(null);
 
-  // ✅ Fetch stats for min purchase / fees
+  // Fetch stats for min purchase / fees
   const { data: stats } = useQuery({
     queryKey: ["stats"],
-    queryFn: async () => {
-      const response = await api.get("/dashboard/stats");
-      return response.data.payload;
-    },
+    queryFn: () => api.get("/user/dashboard/stats").then((res) => res.data),
   });
 
-  // ✅ Validation
+  // Validation
   const schema = z.object({
     amount: z
       .string()
       .min(1, "Amount is required")
       .refine(
-        (v) => (!isNaN(Number(v)) && Number(v) >= stats?.minimumExchange) || 0,
+        (v) =>
+          (!isNaN(Number(v)) &&
+            Number(v) >= stats?.DEPOSIT_SETTINGS?.minimumExchange) ||
+          0,
         {
-          message: `Minimum ${stats?.minimumExchange} 3TWENTY`,
+          message: `Minimum ${stats?.DEPOSIT_SETTINGS?.minimumExchange} 3TWENTY`,
         },
       ),
   });
@@ -54,21 +54,23 @@ export default function TokenExchange({ balance }: { balance: number }) {
 
   const amountValue = watch("amount");
 
-  // 🔁 Exchange mutation
+  // Exchange mutation
   const exchangeMutation = useMutation<
     { success: boolean; message: string },
     AxiosError<{ message: string }>,
     FormData
   >({
     mutationFn: (data) =>
-      api.post("/tokens/exchange", data).then((r) => r.data),
-    onSuccess: (res) => {
+      api
+        .post("/user/tokens/exchange", { tokenAmount: Number(data.amount) })
+        .then((r) => r.data),
+    onSuccess: () => {
       reset();
       setIsModalOpen(false);
-      showSuccessAlert(res.message);
+      showSuccessAlert("Exchange successful");
     },
     onError: (err) => {
-      showErrorAlert(err.response?.data?.message || err.message);
+      showErrorAlert(err.response?.data?.message.toString() || err.message);
     },
   });
 
@@ -81,7 +83,7 @@ export default function TokenExchange({ balance }: { balance: number }) {
 
   return (
     <div className="max-w-2xl mx-auto border border-[#2A2A2A] rounded-lg mb-8">
-      {/* 🔔 Confirm Modal */}
+      {/* Confirm Modal */}
       <Modal
         open={isModalOpen}
         onClose={() => setIsModalOpen(false)}
@@ -138,7 +140,7 @@ export default function TokenExchange({ balance }: { balance: number }) {
             error={errors.amount?.message}
           />
           <p className="text-[#CFD0D2] text-[11px] pt-2">
-            MIN: {stats?.minimumExchange} Reward
+            MIN: {stats?.DEPOSIT_SETTINGS?.minimumExchange} Reward
           </p>
         </div>
 
@@ -167,14 +169,6 @@ function WalletFlow({ amount }: { amount?: string }) {
       </div>
 
       <div className="text-center font-medium">Token Wallet</div>
-    </div>
-  );
-}
-
-function WalletBox({ title }: { title: string }) {
-  return (
-    <div className="border border-[#2A2A2A] rounded-lg px-4 py-3 text-center w-[140px] shrink-0">
-      <p className="text-sm text-[#CFD0D2] truncate">{title}</p>
     </div>
   );
 }

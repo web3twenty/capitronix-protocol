@@ -18,14 +18,14 @@ export default function TokenTabs() {
 
   const [activeTab, setActiveTab] = useState<TabType>("buy");
 
-  // 🔁 Restore tab from URL on load / change
+  // Restore tab from URL on load / change
   useEffect(() => {
     if (tabFromUrl && ["buy", "sell", "exchange"].includes(tabFromUrl)) {
       setActiveTab(tabFromUrl);
     }
   }, [tabFromUrl]);
 
-  // 🔗 Update URL when tab changes
+  // Update URL when tab changes
   const changeTab = (tab: TabType) => {
     setActiveTab(tab);
     router.replace(`?tab=${tab}`, { scroll: false });
@@ -38,19 +38,14 @@ export default function TokenTabs() {
         : "bg-[#03070D] text-[#888]"
     }`;
 
-  const { data: account } = useQuery({
-    queryKey: ["account"],
-    queryFn: async () => {
-      const response = await api.get("/account");
-      return response.data.payload.account;
-    },
-    refetchOnMount: true,
-    staleTime: 0,
+  const { data: profile } = useQuery({
+    queryKey: ["profile"],
+    queryFn: () => api.get("/user/profile").then((res) => res.data),
   });
 
   return (
     <section className="p-4 md:px-6 md:py-2">
-      {/* 🏷 Tabs */}
+      {/* Tabs */}
       <div className="max-w-2xl mx-auto mb-6 flex border-b border-[#2A2A2A]">
         <div
           className={`${tabClasses("buy")} flex-1 text-center cursor-pointer`}
@@ -75,12 +70,16 @@ export default function TokenTabs() {
       </div>
 
       {/* 🗂 Tab Content */}
-      {activeTab === "buy" && <TokenPurchase balance={account?.usdt || 0} />}
+      {activeTab === "buy" && (
+        <TokenPurchase balance={profile?.usdtWallet || 0} />
+      )}
 
-      {activeTab === "sell" && <TokenSell balance={account?.token || 0} />}
+      {activeTab === "sell" && (
+        <TokenSell balance={profile?.tokenWallet || 0} />
+      )}
 
       {activeTab === "exchange" && (
-        <TokenExchange balance={account?.reward || 0} />
+        <TokenExchange balance={profile?.rewardWallet || 0} />
       )}
     </section>
   );

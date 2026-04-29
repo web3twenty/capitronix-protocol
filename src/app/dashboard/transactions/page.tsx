@@ -7,32 +7,27 @@ import { ChevronLeft, ChevronRight, ChevronDown } from "lucide-react";
 import Modal from "react-responsive-modal";
 import { useState } from "react";
 
-// ✅ Define TypeScript interfaces
+// ✅ Updated Types
 interface Transaction {
-  id: number;
-  userId: number;
+  id: string;
+  userId: string;
   transactionType: string;
-  amount: string;
+  amount: number;
   currency: string;
-  phaseId: number | null;
-  status: "Completed" | "Pending";
-  note?: string;
+  status: "COMPLETED" | "PENDING";
+  note?: string | null;
   createdAt: string;
   updatedAt: string;
 }
 
-interface TransactionPayload {
-  totalItems: number;
-  totalPages: number;
-  currentPage: number;
-  limit: number;
-  transactions: Transaction[];
-}
-
 interface TransactionResponse {
-  statusCode: number;
-  message: string;
-  payload: TransactionPayload;
+  data: Transaction[];
+  meta: {
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
+  };
 }
 
 export default function Transactions() {
@@ -41,34 +36,37 @@ export default function Transactions() {
   const [isInfoModalOpen, setIsInfoModalOpen] = useState<boolean>(false);
   const [note, setNote] = useState("");
 
-  // ✅ Read values from URL or fallback
   const page = Number(searchParams.get("page")) || 1;
   const limit = Number(searchParams.get("limit")) || 10;
   const type = searchParams.get("type") || "all";
 
-  // ✅ Fetch data from server using query params
   const { data: transData, isFetching } = useQuery<TransactionResponse>({
     queryKey: ["transactions", page, limit, type],
     queryFn: async () => {
-      const response = await api.get(
-        `/transactions?page=${page}&limit=${limit}&type=${type}`,
-      );
+      const params = new URLSearchParams({
+        page: String(page),
+        limit: String(limit),
+      });
+
+      if (type !== "all") {
+        params.set("type", type);
+      }
+
+      const response = await api.get(`/user/transactions?${params.toString()}`);
       return response.data as TransactionResponse;
     },
     staleTime: 1000 * 60 * 2,
     placeholderData: keepPreviousData,
   });
 
-  const payload = transData?.payload;
-  const transactions = payload?.transactions ?? [];
-  const totalItems = payload?.totalItems ?? 0;
-  const totalPages = payload?.totalPages ?? 1;
-  const currentPage = payload?.currentPage ?? page;
+  const transactions = transData?.data ?? [];
+  const totalItems = transData?.meta.total ?? 0;
+  const totalPages = transData?.meta.totalPages ?? 1;
+  const currentPage = transData?.meta.page ?? page;
 
   const startIndex = totalItems === 0 ? 0 : (currentPage - 1) * limit + 1;
   const endIndex = Math.min(currentPage * limit, totalItems);
 
-  // ✅ Helper to update URL without reload
   const updateParams = (newParams: {
     page?: number;
     limit?: number;
@@ -85,7 +83,7 @@ export default function Transactions() {
       } else {
         params.set("type", newParams.type);
       }
-      params.delete("page"); // reset page when filter changes
+      params.delete("page");
     }
 
     router.push(`?${params.toString()}`, { scroll: false });
@@ -111,7 +109,6 @@ export default function Transactions() {
         }}
         closeIcon={closeIcon}
       >
-        {/* Modal Header */}
         <div className="bg-[#13171E] px-5 py-3 rounded-t-lg">
           <h2 className="text-xl text-white font-semibold">Referral Info</h2>
           <small className="text-[#E6E6E7]">
@@ -119,7 +116,6 @@ export default function Transactions() {
           </small>
         </div>
 
-        {/* Modal Body (Text Only) */}
         <div className="p-4 text-[#E6E6E7] space-y-3 text-sm leading-relaxed">
           <p>{note}</p>
         </div>
@@ -167,21 +163,11 @@ export default function Transactions() {
               <table className="w-full text-sm text-left text-gray-300 bg-[#03070D] divide-y divide-[#2A2A2A] rounded-lg">
                 <thead className="bg-[#25262A] text-gray-200">
                   <tr>
-                    <th scope="col" className="px-4 py-3">
-                      Type
-                    </th>
-                    <th scope="col" className="px-4 py-3">
-                      Date
-                    </th>
-                    <th scope="col" className="px-4 py-3 text-center">
-                      Amount
-                    </th>
-                    <th scope="col" className="px-4 py-3">
-                      Currency
-                    </th>
-                    <th scope="col" className="px-4 py-3">
-                      Status
-                    </th>
+                    <th className="px-4 py-3">Type</th>
+                    <th className="px-4 py-3">Date</th>
+                    <th className="px-4 py-3 text-center">Amount</th>
+                    <th className="px-4 py-3">Currency</th>
+                    <th className="px-4 py-3">Status</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-[#2A2A2A]">
@@ -189,7 +175,10 @@ export default function Transactions() {
                     <tr key={tx.id}>
                       <td className="px-4 py-3">
                         <div className="flex items-center gap-2">
-                          <span>{tx.transactionType}</span>
+                          <span>
+                            {tx.transactionType.charAt(0) +
+                              tx.transactionType.slice(1).toLowerCase()}
+                          </span>
 
                           {tx.note && (
                             <span
@@ -212,13 +201,16 @@ export default function Transactions() {
                           minute: "2-digit",
                         })}
                       </td>
+
                       <td className="px-4 py-3 text-center">
-                        {Number(tx.amount) > 0 ? "+" : ""}
-                        {Number(tx.amount).toFixed(2)}
+                        {tx.amount > 0 ? "+" : ""}
+                        {tx.amount.toFixed(2)}
                       </td>
+
                       <td className="px-4 py-3">{tx.currency}</td>
+
                       <td className="px-4 py-3">
-                        {tx.status === "Completed" ? (
+                        {tx.status === "COMPLETED" ? (
                           <span className="px-2 py-1 text-xs font-medium rounded-full bg-green-500/20 text-green-400">
                             Completed
                           </span>
@@ -246,7 +238,6 @@ export default function Transactions() {
             </div>
           </div>
 
-          {/* Pagination Footer */}
           <div className="flex items-center rounded-bl-lg rounded-br-lg justify-end gap-4 px-4 py-3 border-t border-[#2A2A2A] text-sm text-gray-300 bg-[#03070D]">
             <div className="items-center space-x-2 hidden md:flex">
               <span>Rows per page:</span>
@@ -278,9 +269,9 @@ export default function Transactions() {
                     updateParams({ page: Math.max(currentPage - 1, 1) })
                   }
                   disabled={currentPage === 1}
-                  className="p-1 rounded-md hover:bg-[#1B1F26] disabled:opacity-40 cursor-pointer disabled:cursor-not-allowed"
+                  className="p-1 rounded-md hover:bg-[#1B1F26] disabled:opacity-40"
                 >
-                  <ChevronLeft className="w-5 h-5 cursor-pointer" />
+                  <ChevronLeft className="w-5 h-5" />
                 </button>
                 <button
                   onClick={() =>
@@ -290,7 +281,7 @@ export default function Transactions() {
                     })
                   }
                   disabled={currentPage >= totalPages}
-                  className="p-1 rounded-md hover:bg-[#1B1F26] disabled:opacity-40 cursor-pointer disabled:cursor-not-allowed"
+                  className="p-1 rounded-md hover:bg-[#1B1F26] disabled:opacity-40"
                 >
                   <ChevronRight className="w-5 h-5" />
                 </button>

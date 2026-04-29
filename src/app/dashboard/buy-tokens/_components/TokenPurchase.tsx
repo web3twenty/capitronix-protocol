@@ -18,16 +18,13 @@ export default function TokenPurchase({ balance }: { balance: number }) {
   const [formData, setFormData] = useState<PurchaseFormData | null>(null);
   const queryClient = useQueryClient();
 
-  // ✅ Fetch stats for min purchase / fees
+  // Fetch stats for min purchase / fees
   const { data: stats } = useQuery({
     queryKey: ["stats"],
-    queryFn: async () => {
-      const response = await api.get("/dashboard/stats");
-      return response.data.payload;
-    },
+    queryFn: () => api.get("/user/dashboard/stats").then((res) => res.data),
   });
 
-  // ✅ Validation schema (amount only)
+  // Validation schema (amount only)
   const purchaseSchema = z.object({
     amount: z
       .string()
@@ -56,16 +53,16 @@ export default function TokenPurchase({ balance }: { balance: number }) {
   >({
     mutationFn: (formData) =>
       api
-        .post("/tokens/buy", { amount: formData.amount })
+        .post("/user/tokens/buy", { usdtAmount: Number(formData.amount) })
         .then((res) => res.data),
-    onSuccess: (response) => {
+    onSuccess: () => {
       reset();
-      showSuccessAlert(response.message);
+      showSuccessAlert("Purchase successful");
       setIsModalOpen(false);
       queryClient.invalidateQueries({ queryKey: ["stats"] });
     },
     onError: (error) => {
-      showErrorAlert(error.response?.data?.message || error.message);
+      showErrorAlert(error.response?.data?.message.toString() || error.message);
     },
   });
 
