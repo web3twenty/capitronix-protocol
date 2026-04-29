@@ -11,19 +11,16 @@ import { AxiosError } from "axios";
 import { showSuccessAlert, showErrorAlert } from "@/components/Toast";
 
 export default function Deposit() {
-  // ✅ Fetch withdraw stats
+  // Fetch withdraw stats
   const { data: stats } = useQuery({
     queryKey: ["stats"],
-    queryFn: async () => {
-      const response = await api.get("/dashboard/stats");
-      return response.data.payload;
-    },
+    queryFn: () => api.get("/user/dashboard/stats").then((res) => res.data),
   });
 
-  // ✅ Simple and clean validation schema
+  // Simple and clean validation schema
   const withdrawSchema = z.object({
-    address: z.string().min(10, { message: "Recipient address is required" }),
-    amount: z
+    toAddress: z.string().min(10, { message: "Recipient address is required" }),
+    usdtAmount: z
       .string()
       .min(1, { message: "Amount is required" })
       .refine(
@@ -32,7 +29,7 @@ export default function Deposit() {
           parseFloat(val) >= (stats?.minimumWithdraw || 0),
         {
           message: `Minimum withdraw is ${stats?.minimumWithdraw || 0} USDT`,
-        }
+        },
       ),
     note: z.string().optional(),
   });
@@ -42,8 +39,8 @@ export default function Deposit() {
 
   // API data type (what gets sent to the server)
   interface WithdrawApiData {
-    address: string;
-    amount: number;
+    toAddress: string;
+    usdtAmount: number;
     note?: string;
   }
 
@@ -58,17 +55,17 @@ export default function Deposit() {
     WithdrawApiData
   >({
     mutationFn: (formData) =>
-      api.post("/wallet/withdraw", formData).then((res) => res.data),
-    onSuccess: (response) => {
+      api.post("/user/wallet/withdraw", formData).then((res) => res.data),
+    onSuccess: () => {
       reset();
-      showSuccessAlert(response.message);
+      showSuccessAlert("Withdraw request successful");
     },
     onError: (error) => {
-      showErrorAlert(error.response?.data?.message || error.message);
+      showErrorAlert(error.response?.data?.message.toString() || error.message);
     },
   });
 
-  // ✅ React Hook Form setup
+  // React Hook Form setup
   const {
     register,
     handleSubmit,
@@ -82,7 +79,7 @@ export default function Deposit() {
     // Convert form data to API data
     const apiData: WithdrawApiData = {
       ...data,
-      amount: parseFloat(data.amount),
+      usdtAmount: parseFloat(data.usdtAmount),
     };
 
     withdrawMutation.mutate(apiData, {
@@ -100,13 +97,13 @@ export default function Deposit() {
           </small>
         </div>
 
-        {/* 🧾 Withdraw Form */}
+        {/* Withdraw Form */}
         <form onSubmit={handleSubmit(onSubmit)} className="p-4 space-y-4">
           <Input
             label="Recipient Address (BEP20)"
             placeholder="Enter Recipient Address"
-            {...register("address")}
-            error={errors.address?.message}
+            {...register("toAddress")}
+            error={errors.toAddress?.message}
           />
 
           <Input
@@ -114,8 +111,8 @@ export default function Deposit() {
             type="number"
             step="any"
             placeholder="Enter Amount"
-            {...register("amount")}
-            error={errors.amount?.message}
+            {...register("usdtAmount")}
+            error={errors.usdtAmount?.message}
           />
 
           <Input
@@ -125,7 +122,7 @@ export default function Deposit() {
             error={errors.note?.message}
           />
 
-          {/* ℹ️ Transaction Info */}
+          {/* Transaction Info */}
           <div className="space-y-4">
             <div className="bg-[#13171E] px-[20px] py-[10px] rounded-lg">
               <div className="flex gap-2 items-center">
@@ -135,8 +132,8 @@ export default function Deposit() {
                 </h3>
               </div>
               <small className="text-[#E6E6E7] pt-0">
-                Transaction charge: {stats?.withdrawCharge}% (Minimum{" "}
-                {stats?.minimumWithdraw} USDT)
+                Transaction charge: {stats?.DEPOSIT_SETTINGS?.minimumWithdraw}%
+                (Minimum {stats?.DEPOSIT_SETTINGS?.minimumWithdraw} USDT)
               </small>
             </div>
           </div>

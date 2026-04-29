@@ -23,40 +23,23 @@ interface TransactionPayload {
   histories: History[];
 }
 
-interface TransactionResponse {
-  statusCode: number;
-  message: string;
-  payload: TransactionPayload;
-}
-
 export default function WalletWithTransactions() {
   // Wallet queries
-  const { data: account } = useQuery({
-    queryKey: ["account"],
-    queryFn: async () => {
-      const response = await api.get("/account");
-      return response.data.payload.account;
-    },
+  const { data: profile } = useQuery({
+    queryKey: ["profile"],
+    queryFn: () => api.get("/user/profile").then((res) => res.data),
   });
 
   const { data: stats } = useQuery({
     queryKey: ["stats"],
-    queryFn: async () => {
-      const response = await api.get("/dashboard/stats");
-      return response.data.payload;
-    },
+    queryFn: () => api.get("/user/dashboard/stats").then((res) => res.data),
   });
 
   // Top 5 transactions query
-  const { data: transData, isFetching } = useQuery<TransactionResponse>({
-    queryKey: ["histories", "top5"],
-    queryFn: async () => {
-      const response = await api.get("/wallet/history?limit=5");
-      return response.data as TransactionResponse;
-    },
+  const { data: transactions = [], isFetching } = useQuery({
+    queryKey: ["histories", "top30"],
+    queryFn: () => api.get("/user/wallet?limit=30").then((res) => res.data),
   });
-
-  const transactions = transData?.payload.histories ?? [];
 
   return (
     <section className="p-4 md:px-6 md:py-2">
@@ -74,10 +57,13 @@ export default function WalletWithTransactions() {
             <div>
               <small className="text-[#434347]">3Twenty Coin</small>
               <h3 className="text-2xl font-medium text-[#121213]">
-                {Number(account?.token || 0).toFixed(2)}
+                {Number(profile?.tokenWallet || 0).toFixed(2)}
               </h3>
               <small className="text-[#121213]">
-                ≈${Number(stats?.TOKEN_PRICE * account?.token || 0).toFixed(2)}
+                ≈$
+                {Number(stats?.TOKEN_PRICE * profile?.tokenWallet || 0).toFixed(
+                  2,
+                )}
               </small>
             </div>
           </div>
@@ -87,7 +73,7 @@ export default function WalletWithTransactions() {
             <div>
               <small className="text-[#AEAFB2]">USDT Balance</small>
               <h3 className="text-2xl font-medium text-white">
-                ${Number(account?.usdt || 0).toFixed(2)}
+                ${Number(profile?.usdtWallet || 0).toFixed(2)}
               </h3>
             </div>
           </div>
@@ -130,7 +116,7 @@ export default function WalletWithTransactions() {
                   Amount
                 </th>
                 <th scope="col" className="px-4 py-3 hidden sm:table-cell">
-                  From
+                  Txn Ref
                 </th>
                 <th scope="col" className="px-4 py-3">
                   Status
@@ -151,13 +137,13 @@ export default function WalletWithTransactions() {
                     })}
                   </td>
                   <td className="px-4 py-3 text-center">
-                    {Number(tx.amount).toFixed(2)} USDT
+                    {Number(tx.usdtAmount).toFixed(2)} USDT
                   </td>
                   <td className="px-4 py-3 hidden sm:table-cell">
-                    {tx.from || "N/A"}
+                    {tx.transactionHash || tx.toAddress || "N/A"}
                   </td>
                   <td className="px-4 py-3">
-                    {tx.status === "Completed" ? (
+                    {tx.status === "COMPLETED" ? (
                       <span className="px-2 py-1 text-xs font-medium rounded-full bg-green-500/20 text-green-400">
                         Completed
                       </span>

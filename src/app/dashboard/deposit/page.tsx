@@ -7,25 +7,19 @@ import { showSuccessAlert } from "@/components/Toast";
 import { useEffect } from "react";
 
 export default function Deposit() {
-  const { data: account } = useQuery({
-    queryKey: ["account"],
-    queryFn: async () => {
-      const response = await api.get("/account");
-      return response.data.payload.account;
-    },
+  const { data: profile } = useQuery({
+    queryKey: ["profile"],
+    queryFn: () => api.get("/user/profile").then((res) => res.data),
   });
 
   const { data: stats } = useQuery({
     queryKey: ["stats"],
-    queryFn: async () => {
-      const response = await api.get("/dashboard/stats");
-      return response.data.payload;
-    },
+    queryFn: () => api.get("/user/dashboard/stats").then((res) => res.data),
   });
 
   const handleCopy = () => {
-    if (account?.address) {
-      navigator.clipboard.writeText(account.address);
+    if (profile?.walletAddress) {
+      navigator.clipboard.writeText(profile.walletAddress);
       showSuccessAlert("Address copied!");
     }
   };
@@ -49,7 +43,7 @@ export default function Deposit() {
         </div>
         <div className="p-4 space-y-4">
           <div className="p-4 rounded bg-white w-fit mx-auto">
-            <QRCodeSVG value={account?.address} size={150} level="H" />
+            <QRCodeSVG value={profile?.walletAddress} size={150} level="H" />
           </div>
           <small className="text-white text-center block">
             Scan QR code or copy address below
@@ -58,14 +52,14 @@ export default function Deposit() {
             {/* Address: truncated on small screens, full on md+ */}
             <small className="block text-[14px] text-white">
               <span className="md:hidden">
-                {account?.address
-                  ? `${account.address.slice(0, 12)}...${account.address.slice(
-                      -12
+                {profile?.walletAddress
+                  ? `${profile.walletAddress.slice(0, 12)}...${profile.walletAddress.slice(
+                      -12,
                     )}`
                   : "No Address"}
               </span>
               <span className="hidden md:inline">
-                {account?.address || "No Address"}
+                {profile?.walletAddress || "No Address"}
               </span>
             </small>
 
@@ -81,8 +75,9 @@ export default function Deposit() {
               <h3 className="text-md text-white font-semibold">Pro Tip</h3>
             </div>
             <small className="text-[#E6E6E7] pt-0">
-              Send Minimum {stats?.minimumDeposit} USDT to this address. Sending
-              to other networks may result in permanent loss.
+              Send Minimum {stats?.DEPOSIT_SETTINGS?.minimumDeposit} USDT to
+              this address. Sending to other networks may result in permanent
+              loss.
             </small>
           </div>
         </div>
