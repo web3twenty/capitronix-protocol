@@ -17,18 +17,12 @@ export default function Staking() {
 
   const { data: account } = useQuery({
     queryKey: ["account"],
-    queryFn: async () => {
-      const response = await api.get("/account");
-      return response.data.payload.account;
-    },
+    queryFn: () => api.get("/account").then((res) => res.data),
   });
 
   const { data: stats } = useQuery({
     queryKey: ["stats"],
-    queryFn: async () => {
-      const response = await api.get("/dashboard/stats");
-      return response.data.payload;
-    },
+    queryFn: () => api.get("/user/dashboard/stats").then((res) => res.data),
   });
 
   const min = stats?.STAKING_DETAILS?.minimum;
@@ -54,17 +48,15 @@ export default function Staking() {
     AxiosError<{ message: string }>
   >({
     mutationFn: () =>
-      api
-        .post("/stakings", { amount: Number(stakeAmount) })
-        .then((res) => res.data),
-    onSuccess: (response) => {
-      showSuccessAlert(response.message);
+      api.post("/user/stakes", { tokenAmount: Number(stakeAmount) }),
+    onSuccess: () => {
+      showSuccessAlert("Staked successfully");
       setIsModalOpen(false);
-      queryClient.invalidateQueries({ queryKey: ["account"] });
+      queryClient.invalidateQueries({ queryKey: ["profile"] });
       setStakeAmount("");
     },
     onError: (error) => {
-      showErrorAlert(error.response?.data?.message || error.message);
+      showErrorAlert(error.response?.data?.message.toString() || error.message);
     },
   });
 
@@ -301,7 +293,7 @@ export default function Staking() {
                   icon: "mgc_award_line",
                   label: "Total Rewards (320 days):",
                   value: `${((Number(apy) / 100) * Number(stakeAmount)).toFixed(
-                    2
+                    2,
                   )} 3TWENTY`,
                   highlight: true,
                 },

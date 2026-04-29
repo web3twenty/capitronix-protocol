@@ -125,10 +125,7 @@ export default function Layout({ children }: LayoutProps) {
 
   const { data: stats } = useQuery({
     queryKey: ["stats"],
-    queryFn: async () => {
-      const response = await api.get("/dashboard/stats");
-      return response.data.payload;
-    },
+    queryFn: () => api.get("/user/dashboard/stats").then((res) => res.data),
   });
 
   const verifyMutation = useMutation<

@@ -19,26 +19,16 @@ interface StakingPayload {
   stakings: Staking[];
 }
 
-interface StakingResponse {
-  statusCode: number;
-  message: string;
-  payload: StakingPayload;
-}
-
 export default function Stakings() {
-  const { data: stakeData, isFetching } = useQuery<StakingResponse>({
-    queryKey: ["stakings"],
-    queryFn: async () => {
-      const response = await api.get("/stakings");
-      return response.data as StakingResponse;
-    },
+  const { data: stakings = [], isFetching } = useQuery({
+    queryKey: ["stakes"],
+    queryFn: () => api.get("/user/stakes").then((res) => res.data),
     staleTime: 1000 * 60 * 2, // 2 minutes
   });
 
-  const stakings = stakeData?.payload.stakings ?? [];
   const totalStake = stakings.reduce(
-    (acc, next) => acc + Number(next.amount),
-    0
+    (acc: number, next: any) => acc + Number(next.tokenAmount),
+    0,
   );
 
   return (
@@ -111,7 +101,7 @@ export default function Stakings() {
                     <td className="px-4 py-3">
                       {Number(stake.dailyReward).toFixed(2)}
                     </td>
-                    <td className="px-4 py-3">{`${stake.receivedDays} / ${stake.durationDays} days`}</td>
+                    <td className="px-4 py-3">{`${stake.receivedDays} / ${stake.dutationDays} days`}</td>
                     <td className="px-4 py-3">
                       {Number(stake.apy).toFixed(2)}%
                     </td>

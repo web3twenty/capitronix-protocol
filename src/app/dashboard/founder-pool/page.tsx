@@ -51,21 +51,15 @@ type FounderFormData = z.infer<typeof founderSchema>;
 export default function FounderPool() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // ✅ Fetch stats for display
+  // Fetch stats for display
   const { data: stats } = useQuery({
     queryKey: ["stats"],
-    queryFn: async () => {
-      const response = await api.get("/dashboard/stats");
-      return response.data.payload;
-    },
+    queryFn: () => api.get("/user/dashboard/stats").then((res) => res.data),
   });
 
-  const { data: account } = useQuery({
-    queryKey: ["account"],
-    queryFn: async () => {
-      const response = await api.get("/account");
-      return response.data.payload.account;
-    },
+  const { data: profile } = useQuery({
+    queryKey: ["profile"],
+    queryFn: () => api.get("/user/profile").then((res) => res.data),
   });
 
   // React Hook Form
@@ -111,7 +105,7 @@ export default function FounderPool() {
   const minimumInvestment = stats?.FOUNDER_DETAILS?.minimumInvestment;
   const tokenPrice = stats?.TOKEN_PRICE;
 
-  if (account?.isFounder === 1) {
+  if (profile?.isFounder === 1) {
     return (
       <section className="p-4 md:px-6 md:py-2">
         <div className="max-w-6xl mx-auto space-y-8 pb-5">
@@ -198,7 +192,7 @@ export default function FounderPool() {
                   label: "Tokens Allocated:",
                   value: `${
                     Number(
-                      Number(minimumInvestment || 0) / Number(tokenPrice || 0)
+                      Number(minimumInvestment || 0) / Number(tokenPrice || 0),
                     ).toFixed(2) || ""
                   } 3TWENTY`,
                   highlight: true,
@@ -220,8 +214,8 @@ export default function FounderPool() {
                   label: "Total Pool Allocation:",
                   value: `${formatNumber(
                     Number(
-                      Number(minimumInvestment || 0) / Number(tokenPrice || 0)
-                    ) * totalSeat
+                      Number(minimumInvestment || 0) / Number(tokenPrice || 0),
+                    ) * totalSeat,
                   )} 3TWENTY`,
                   highlight: true,
                 },
