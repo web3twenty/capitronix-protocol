@@ -99,7 +99,7 @@ export default function Home() {
                 backgroundClip: "padding-box",
               }}
             >
-              <div className="w-[58px] h-[58px] bg-[#313131] flex items-center justify-center rounded-full">
+              <div className="w-[58px] h-[58px] bg-[#313131] flex items-center justify-center rounded-full shrink-0">
                 {index === 0 ? (
                   <Image
                     src="/3twenty-coin.png"
@@ -114,7 +114,7 @@ export default function Home() {
                 )}
               </div>
               <div>
-                <small className="text-[#AEAFB2] text-sm">{stat.label}</small>
+                <small className="text-[#AEAFB2] text-sm line-clamp-1">{stat.label}</small>
                 <p className="text-white text-2xl font-medium">{stat.value}</p>
                 {stat.subValue && (
                   <small className="text-[#FFC200]">{stat.subValue}</small>

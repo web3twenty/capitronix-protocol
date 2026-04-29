@@ -137,6 +137,7 @@ export default function WalletWithTransactions() {
                     })}
                   </td>
                   <td className="px-4 py-3 text-center">
+                    {tx.usdtAmount > 0 ? "+" : ""}
                     {Number(tx.usdtAmount).toFixed(2)} USDT
                   </td>
                   <td className="px-4 py-3 hidden sm:table-cell">

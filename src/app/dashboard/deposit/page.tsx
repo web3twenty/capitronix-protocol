@@ -25,7 +25,7 @@ export default function Deposit() {
   };
 
   const paymentSessionMutation = useMutation({
-    mutationFn: () => api.post("/account/start-user-poll"),
+    mutationFn: () => api.post("/user/wallet/start-deposit-poll"),
   });
 
   useEffect(() => {
