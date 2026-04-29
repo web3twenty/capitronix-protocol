@@ -133,20 +133,20 @@ export default function Transactions() {
                 className="appearance-none cursor-pointer font-bold bg-[#03070D] border border-[#2A2A2A] text-white text-sm px-3 py-1.5 rounded-md pr-8"
               >
                 <option value="all" className="bg-[#1B1F26]">
-                  All Types
+                  ALL TYPES
                 </option>
 
                 {[
-                  "Referral",
-                  "Staking",
-                  "Purchase",
-                  "Bonus",
-                  "Activation",
-                  "Rank",
-                  "Refund",
-                  "Manual",
-                  "Sell",
-                  "Exchange",
+                  "REFERRAL",
+                  "STAKE",
+                  "PURCHASE",
+                  "BONUS",
+                  "ACTIVATION",
+                  "RANK",
+                  "REFUND",
+                  "MANUAL",
+                  "SELL",
+                  "EXCHANGE",
                 ].map((t) => (
                   <option key={t} value={t} className="bg-[#1B1F26]">
                     {t}
@@ -274,12 +274,16 @@ export default function Transactions() {
                   <ChevronLeft className="w-5 h-5" />
                 </button>
                 <button
-                  onClick={() =>
+                  onClick={() => {
                     updateParams({
                       page:
                         currentPage < totalPages ? currentPage + 1 : totalPages,
-                    })
-                  }
+                    });
+
+                    console.log(
+                      currentPage < totalPages ? currentPage + 1 : totalPages,
+                    );
+                  }}
                   disabled={currentPage >= totalPages}
                   className="p-1 rounded-md hover:bg-[#1B1F26] disabled:opacity-40"
                 >
