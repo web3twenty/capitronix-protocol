@@ -9,11 +9,7 @@ import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import Cookies from "js-cookie";
 import Link, { LinkProps } from "next/link";
 import Button from "@/components/ui/Button";
-import {
-  showSuccessAlert,
-  showErrorAlert,
-  showPromiseToast,
-} from "@/components/Toast";
+import { showSuccessAlert, showErrorAlert } from "@/components/Toast";
 import { AxiosError } from "axios";
 import Modal from "react-responsive-modal";
 
@@ -29,11 +25,6 @@ interface LayoutProps {
 }
 
 interface VerifyResponse {
-  success: boolean;
-  message: string;
-}
-
-interface LogoutResponse {
   success: boolean;
   message: string;
 }
@@ -148,15 +139,14 @@ export default function Layout({ children }: LayoutProps) {
     VerifyResponse,
     AxiosError<{ message: string }>
   >({
-    mutationFn: (formData) =>
-      api.post("/account/activate", formData).then((res) => res.data),
-    onSuccess: (response) => {
-      showSuccessAlert(response.message);
-      queryClient.invalidateQueries({ queryKey: ["account"] });
+    mutationFn: () => api.post("/user/profile/activate"),
+    onSuccess: () => {
+      showSuccessAlert("Account activation successful");
+      queryClient.invalidateQueries({ queryKey: ["profile"] });
       setIsActivationModalOpen(false);
     },
     onError: (error) => {
-      showErrorAlert(error.response?.data?.message || error.message);
+      showErrorAlert(error.response?.data?.message.toString() || error.message);
     },
   });
 
@@ -418,9 +408,9 @@ export default function Layout({ children }: LayoutProps) {
                       {profile?.firstName || "Loading..."}
                     </p>
                     <p className="text-[10px] text-[#AEAFB2] truncate">
-                      {profile?.rank === null
+                      {profile?.rank === 0
                         ? "Member"
-                        : (profile?.rank ?? "...")}
+                        : (`Rank ${profile?.rank}` ?? "...")}
                     </p>
                   </div>
                   <span className="mgc_down_line text-white text-[24px] flex-shrink-0"></span>
@@ -480,35 +470,36 @@ export default function Layout({ children }: LayoutProps) {
             )}
 
             {/* Activation card */}
-            {pathname === "/dashboard/affiliate" && profile?.isActive === 0 && (
-              <div className="rounded-lg bg-[#25262A] p-3 sm:p-4 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
-                {/* Left content */}
-                <div className="flex items-start sm:items-center gap-3">
-                  <div className="w-8 h-8 sm:w-10 sm:h-10 bg-[#16A34A] flex-shrink-0 rounded flex items-center justify-center">
-                    <span className="mgc_lock_line text-lg sm:text-2xl text-white"></span>
+            {pathname === "/dashboard/affiliate" &&
+              profile?.investedAt === null && (
+                <div className="rounded-lg bg-[#25262A] p-3 sm:p-4 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
+                  {/* Left content */}
+                  <div className="flex items-start sm:items-center gap-3">
+                    <div className="w-8 h-8 sm:w-10 sm:h-10 bg-[#16A34A] flex-shrink-0 rounded flex items-center justify-center">
+                      <span className="mgc_lock_line text-lg sm:text-2xl text-white"></span>
+                    </div>
+
+                    <div className="space-y-0.5 sm:space-y-1">
+                      <p className="text-sm sm:text-md font-medium leading-tight text-white">
+                        Get Your Referral Link
+                      </p>
+                      <p className="text-xs sm:text-sm text-[#AEAFB2] leading-tight">
+                        Activate your account to get your referral link.
+                      </p>
+                    </div>
                   </div>
 
-                  <div className="space-y-0.5 sm:space-y-1">
-                    <p className="text-sm sm:text-md font-medium leading-tight text-white">
-                      Get Your Referral Link
-                    </p>
-                    <p className="text-xs sm:text-sm text-[#AEAFB2] leading-tight">
-                      Activate your account to get your referral link.
-                    </p>
-                  </div>
+                  {/* Button */}
+                  <Button
+                    className="h-8 sm:h-9 w-full sm:w-auto text-xs sm:text-sm whitespace-nowrap"
+                    roundedClass="rounded"
+                    variant="secondary"
+                    onClick={() => setIsActivationModalOpen(true)}
+                  >
+                    Activate Now
+                  </Button>
                 </div>
-
-                {/* Button */}
-                <Button
-                  className="h-8 sm:h-9 w-full sm:w-auto text-xs sm:text-sm whitespace-nowrap"
-                  roundedClass="rounded"
-                  variant="secondary"
-                  onClick={() => setIsActivationModalOpen(true)}
-                >
-                  Activate Now
-                </Button>
-              </div>
-            )}
+              )}
 
             {/* {account?.isActive === 0 && (
             <div className="flex md:hidden gap-5 flex-col rounded-lg border border-[#11B97E] bg-[#25262A] p-5">
