@@ -98,7 +98,7 @@ export default function Home() {
   ];
 
   const handleCopy = () => {
-    if (profile?.address) {
+    if (profile?.walletAddress) {
       navigator.clipboard.writeText(
         "0x2FfBdfA8638422bF3A5134434387b8Fb5962DA2C",
       );
