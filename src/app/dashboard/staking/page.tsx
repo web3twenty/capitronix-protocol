@@ -15,9 +15,9 @@ export default function Staking() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const queryClient = useQueryClient();
 
-  const { data: account } = useQuery({
-    queryKey: ["account"],
-    queryFn: () => api.get("/account").then((res) => res.data),
+  const { data: profile } = useQuery({
+    queryKey: ["profile"],
+    queryFn: () => api.get("/profile").then((res) => res.data),
   });
 
   const { data: stats } = useQuery({
@@ -216,7 +216,7 @@ export default function Staking() {
                 {
                   icon: "coin",
                   label: "Available Balance:",
-                  value: `${Number(account?.token || 0).toFixed(2)} 3TWENTY`,
+                  value: `${Number(profile?.tokenWallet || 0).toFixed(2)} 3TWENTY`,
                 },
               ].map((item, idx) => (
                 <div
