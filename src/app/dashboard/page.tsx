@@ -93,7 +93,7 @@ export default function Home() {
     {
       icon: "mgc_ferris_wheel_line",
       label: "Lottery",
-      value: "Coming..",
+      value: "Upcoming..",
     },
   ];
 
@@ -246,7 +246,7 @@ export default function Home() {
           <div className="border border-[#2A2A2A] rounded-lg">
             <div className="bg-[#13171E] px-3 py-2 rounded-t-lg flex items-center justify-between">
               <h3 className="text-md text-white font-semibold">
-                Matrix Position
+                Matrix Position (Level {profile?.level || 0})
               </h3>
             </div>
 
