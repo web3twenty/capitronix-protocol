@@ -12,7 +12,6 @@ import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 import Modal from "react-responsive-modal";
 import { showSuccessAlert, showErrorAlert } from "@/components/Toast";
-import { ArrowRight } from "lucide-react";
 
 export default function TokenExchange({ balance }: { balance: number }) {
   const [isModalOpen, setIsModalOpen] = useState(false);

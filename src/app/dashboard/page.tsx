@@ -252,7 +252,7 @@ export default function Home() {
 
             {/* Demo Users */}
             <div className="p-3 space-y-3 rounded-b-lg">
-              {matrixUser.map((user) => (
+              {matrixUser.map((user: any) => (
                 <div
                   key={user.id}
                   className={`flex items-center justify-between px-3 py-2 rounded-md transition

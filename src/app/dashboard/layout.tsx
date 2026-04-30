@@ -410,7 +410,9 @@ export default function Layout({ children }: LayoutProps) {
                     <p className="text-[10px] text-[#AEAFB2] truncate">
                       {profile?.rank === 0
                         ? "Member"
-                        : (`Rank ${profile?.rank}` ?? "...")}
+                        : profile?.rank != null
+                          ? `Rank ${profile.rank}`
+                          : "..."}
                     </p>
                   </div>
                   <span className="mgc_down_line text-white text-[24px] flex-shrink-0"></span>

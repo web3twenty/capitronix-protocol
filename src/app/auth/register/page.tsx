@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import api from "@/lib/api";
 import { useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
@@ -45,7 +45,6 @@ interface SignupResponse {
 }
 
 export default function SignupForm() {
-  const router = useRouter();
   const searchParams = useSearchParams();
   const refParam = searchParams.get("ref");
 

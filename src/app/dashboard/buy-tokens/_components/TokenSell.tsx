@@ -12,7 +12,6 @@ import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 import Modal from "react-responsive-modal";
 import { showSuccessAlert, showErrorAlert } from "@/components/Toast";
-import { ArrowRight } from "lucide-react";
 
 export default function TokenPurchase({ balance }: { balance: number }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -77,7 +76,7 @@ export default function TokenPurchase({ balance }: { balance: number }) {
       api
         .post("/user/tokens/sell", { tokenAmount: Number(data.amount) })
         .then((r) => r.data),
-    onSuccess: (res) => {
+    onSuccess: () => {
       reset();
       setIsModalOpen(false);
       showSuccessAlert("Sell successful");

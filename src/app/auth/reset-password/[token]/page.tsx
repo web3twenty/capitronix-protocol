@@ -9,7 +9,7 @@ import Button from "@/components/ui/Button";
 import { useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import api from "@/lib/api";
-import { useRouter, useParams } from "next/navigation";
+import { useParams } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { showSuccessAlert, showErrorAlert } from "@/components/Toast";
@@ -36,7 +36,6 @@ interface ResetPasswordResponse {
 }
 
 export default function ResetPasswordForm() {
-  const router = useRouter();
   const params = useParams();
   const token = params.token as string;
 

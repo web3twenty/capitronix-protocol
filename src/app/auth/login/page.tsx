@@ -7,7 +7,6 @@ import { z } from "zod";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 import Cookies from "js-cookie";
-import { useRouter } from "next/navigation";
 import api from "@/lib/api";
 import { useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
@@ -31,8 +30,6 @@ interface LoginResponse {
 }
 
 export default function LoginForm() {
-  const router = useRouter();
-
   // React Hook Form with Zod resolver
   const {
     register,

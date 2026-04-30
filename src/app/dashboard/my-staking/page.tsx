@@ -80,7 +80,7 @@ export default function Stakings() {
               </thead>
 
               <tbody className="divide-y divide-[#2A2A2A]">
-                {stakings.map((stake, index) => (
+                {stakings.map((stake: any, index: number) => (
                   <tr key={stake.id}>
                     {/* Desktop Only */}
                     <td className="px-4 py-3">{index + 1}</td>

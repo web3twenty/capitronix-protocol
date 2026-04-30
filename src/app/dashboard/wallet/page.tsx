@@ -124,7 +124,7 @@ export default function WalletWithTransactions() {
               </tr>
             </thead>
             <tbody className="divide-y divide-[#2A2A2A]">
-              {transactions.map((tx) => (
+              {transactions.map((tx: any) => (
                 <tr key={tx.id}>
                   <td className="px-4 py-3">{tx.transactionType}</td>
                   <td className="px-4 py-3 hidden sm:table-cell">
