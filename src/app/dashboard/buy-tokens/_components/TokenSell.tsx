@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useContext } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -12,16 +12,12 @@ import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 import Modal from "react-responsive-modal";
 import { showSuccessAlert, showErrorAlert } from "@/components/Toast";
+import { LayoutContext } from "@/contexts/layout";
 
 export default function TokenPurchase({ balance }: { balance: number }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formData, setFormData] = useState<FormData | null>(null);
-
-  // Stats
-  const { data: stats } = useQuery({
-    queryKey: ["stats"],
-    queryFn: () => api.get("/user/dashboard/stats").then((res) => res.data),
-  });
+  const stats = useContext(LayoutContext);
 
   // Validation
   const schema = z.object({

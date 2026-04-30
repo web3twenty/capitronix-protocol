@@ -5,24 +5,21 @@ import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import api from "@/lib/api";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Modal from "react-responsive-modal";
 import { AxiosError } from "axios";
 import { showSuccessAlert, showErrorAlert } from "@/components/Toast";
+import { LayoutContext } from "@/contexts/layout";
 
 export default function Staking() {
   const [stakeAmount, setStakeAmount] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const queryClient = useQueryClient();
+  const stats = useContext(LayoutContext);
 
   const { data: profile } = useQuery({
     queryKey: ["profile"],
-    queryFn: () => api.get("/profile").then((res) => res.data),
-  });
-
-  const { data: stats } = useQuery({
-    queryKey: ["stats"],
-    queryFn: () => api.get("/user/dashboard/stats").then((res) => res.data),
+    queryFn: () => api.get("/user/profile").then((res) => res.data),
   });
 
   const min = stats?.STAKING_DETAILS?.minimum;
@@ -35,8 +32,8 @@ export default function Staking() {
     !stats?.STAKING_DETAILS ||
     !stakeAmount ||
     isNaN(amountNum) ||
-    amountNum < min ||
-    amountNum > max;
+    amountNum < Number(min) ||
+    amountNum > Number(max);
 
   interface StakingResponse {
     success: boolean;

@@ -2,21 +2,16 @@
 
 import { ReactNode, Suspense } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import LayoutProvider from "@/contexts/layout";
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      staleTime: 0,
-      refetchOnMount: true,
-      refetchOnWindowFocus: true,
-    },
-  },
-});
+const queryClient = new QueryClient();
 
 export function ClientProviders({ children }: { children: ReactNode }) {
   return (
     <QueryClientProvider client={queryClient}>
-      <Suspense>{children}</Suspense>
+      <LayoutProvider>
+        <Suspense>{children}</Suspense>
+      </LayoutProvider>
     </QueryClientProvider>
   );
 }

@@ -8,8 +8,9 @@ import Button from "@/components/ui/Button";
 import Link from "next/link";
 import Barchart from "@/components/BarChart";
 import Modal from "react-responsive-modal";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { AxiosError } from "axios";
+import { LayoutContext } from "@/contexts/layout";
 
 function formatNumber(value: number): string {
   if (value < 1000) return value.toString();
@@ -29,15 +30,11 @@ function formatNumber(value: number): string {
 export default function Home() {
   const [isActivationModalOpen, setIsActivationModalOpen] = useState(false);
   const queryClient = useQueryClient();
+  const stats = useContext(LayoutContext);
 
   const { data: profile, isLoading: isLoadingProfile } = useQuery({
     queryKey: ["profile"],
     queryFn: () => api.get("/user/profile").then((res) => res.data),
-  });
-
-  const { data: stats } = useQuery({
-    queryKey: ["stats"],
-    queryFn: () => api.get("/user/dashboard/stats").then((res) => res.data),
   });
 
   const { data: matrixUser = [] } = useQuery({
@@ -52,7 +49,7 @@ export default function Home() {
       label: "3Twenty Coin",
       value: Number(profile?.tokenWallet || 0).toFixed(2),
       subValue: `≈$${Number(
-        stats?.TOKEN_PRICE * profile?.tokenWallet || 0,
+        Number(stats?.TOKEN_PRICE) * profile?.tokenWallet || 0,
       ).toFixed(2)}`,
     },
     {
@@ -326,7 +323,7 @@ export default function Home() {
                       Number(stats?.phaseInfo?.totalSupply || 0) -
                         Number(stats?.phaseInfo?.totalAvailable || 0),
                     )}{" "}
-                    / {formatNumber(stats?.phaseInfo?.totalSupply || 0)}
+                    / {formatNumber(Number(stats?.phaseInfo?.totalSupply) || 0)}
                   </span>{" "}
                   <span className="hidden md:inline-block">Tokens Sold</span>
                 </p>

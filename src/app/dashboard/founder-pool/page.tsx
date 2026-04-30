@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Image from "next/image";
 import Button from "@/components/ui/Button";
 import { useQuery, useMutation } from "@tanstack/react-query";
@@ -12,6 +12,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { AxiosError } from "axios";
 import { showSuccessAlert, showErrorAlert } from "@/components/Toast";
+import { LayoutContext } from "@/contexts/layout";
 
 // Number formatting function
 function formatNumber(value: number): string {
@@ -49,13 +50,8 @@ const founderSchema = z.object({
 type FounderFormData = z.infer<typeof founderSchema>;
 
 export default function FounderPool() {
+  const stats = useContext(LayoutContext);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  // Fetch stats for display
-  const { data: stats } = useQuery({
-    queryKey: ["stats"],
-    queryFn: () => api.get("/user/dashboard/stats").then((res) => res.data),
-  });
 
   const { data: profile } = useQuery({
     queryKey: ["profile"],
@@ -101,7 +97,7 @@ export default function FounderPool() {
     },
   });
 
-  const totalSeat = stats?.FOUNDER_DETAILS?.totalSeat;
+  const totalSeat = Number(stats?.FOUNDER_DETAILS?.totalSeat);
   const minimumInvestment = stats?.FOUNDER_DETAILS?.minimumInvestment;
   const tokenPrice = stats?.TOKEN_PRICE;
 

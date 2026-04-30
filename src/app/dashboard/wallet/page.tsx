@@ -3,6 +3,8 @@
 import Image from "next/image";
 import api from "@/lib/api";
 import { useQuery } from "@tanstack/react-query";
+import { useContext } from "react";
+import { LayoutContext } from "@/contexts/layout";
 
 interface History {
   id: number;
@@ -24,15 +26,12 @@ interface TransactionPayload {
 }
 
 export default function WalletWithTransactions() {
+  const stats = useContext(LayoutContext);
+
   // Wallet queries
   const { data: profile } = useQuery({
     queryKey: ["profile"],
     queryFn: () => api.get("/user/profile").then((res) => res.data),
-  });
-
-  const { data: stats } = useQuery({
-    queryKey: ["stats"],
-    queryFn: () => api.get("/user/dashboard/stats").then((res) => res.data),
   });
 
   // Top 5 transactions query
@@ -61,9 +60,9 @@ export default function WalletWithTransactions() {
               </h3>
               <small className="text-[#121213]">
                 ≈$
-                {Number(stats?.TOKEN_PRICE * profile?.tokenWallet || 0).toFixed(
-                  2,
-                )}
+                {Number(
+                  Number(stats?.TOKEN_PRICE) * profile?.tokenWallet || 0,
+                ).toFixed(2)}
               </small>
             </div>
           </div>

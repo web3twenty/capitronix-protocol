@@ -4,17 +4,15 @@ import { QRCodeSVG } from "qrcode.react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import api from "@/lib/api";
 import { showSuccessAlert } from "@/components/Toast";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
+import { LayoutContext } from "@/contexts/layout";
 
 export default function Deposit() {
+  const stats = useContext(LayoutContext);
+
   const { data: profile } = useQuery({
     queryKey: ["profile"],
     queryFn: () => api.get("/user/profile").then((res) => res.data),
-  });
-
-  const { data: stats } = useQuery({
-    queryKey: ["stats"],
-    queryFn: () => api.get("/user/dashboard/stats").then((res) => res.data),
   });
 
   const handleCopy = () => {

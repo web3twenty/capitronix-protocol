@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, ReactNode } from "react";
+import { useState, useEffect, ReactNode, useContext } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import Image from "next/image";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
@@ -12,6 +12,7 @@ import Button from "@/components/ui/Button";
 import { showSuccessAlert, showErrorAlert } from "@/components/Toast";
 import { AxiosError } from "axios";
 import Modal from "react-responsive-modal";
+import { LayoutContext } from "@/contexts/layout";
 
 type NavigationItem = {
   name: string;
@@ -40,6 +41,7 @@ export default function Layout({ children }: LayoutProps) {
   const queryClient = useQueryClient();
   const [isActivationModalOpen, setIsActivationModalOpen] =
     useState<boolean>(false);
+  const stats = useContext(LayoutContext);
 
   const navigation: NavigationItem[] = [
     { name: "Overview", href: "/dashboard", icon: "mgc_open_door_line" },
@@ -112,11 +114,6 @@ export default function Layout({ children }: LayoutProps) {
   const { data: profile } = useQuery({
     queryKey: ["profile"],
     queryFn: () => api.get("/user/profile").then((res) => res.data),
-  });
-
-  const { data: stats } = useQuery({
-    queryKey: ["stats"],
-    queryFn: () => api.get("/user/dashboard/stats").then((res) => res.data),
   });
 
   const verifyMutation = useMutation<

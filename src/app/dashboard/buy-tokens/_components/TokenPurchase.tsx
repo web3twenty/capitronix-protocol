@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -12,17 +12,13 @@ import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 import Modal from "react-responsive-modal";
 import { showSuccessAlert, showErrorAlert } from "@/components/Toast";
+import { LayoutContext } from "@/contexts/layout";
 
 export default function TokenPurchase({ balance }: { balance: number }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formData, setFormData] = useState<PurchaseFormData | null>(null);
   const queryClient = useQueryClient();
-
-  // Fetch stats for min purchase / fees
-  const { data: stats } = useQuery({
-    queryKey: ["stats"],
-    queryFn: () => api.get("/user/dashboard/stats").then((res) => res.data),
-  });
+  const stats = useContext(LayoutContext);
 
   // Validation schema (amount only)
   const purchaseSchema = z.object({
@@ -32,9 +28,10 @@ export default function TokenPurchase({ balance }: { balance: number }) {
       .refine(
         (val) =>
           !isNaN(parseFloat(val)) &&
-          parseFloat(val) >= (stats?.minimumBuyToken || 0),
+          parseFloat(val) >=
+            (Number(stats?.DEPOSIT_SETTINGS?.minimumBuyToken) || 0),
         {
-          message: `Minimum purchase is ${stats?.minimumBuyToken || 0} USDT`,
+          message: `Minimum purchase is ${Number(stats?.DEPOSIT_SETTINGS?.minimumBuyToken) || 0} USDT`,
         },
       ),
   });
@@ -124,7 +121,7 @@ export default function TokenPurchase({ balance }: { balance: number }) {
             <p className="text-[#CFD0D2] text-sm">Tokens:</p>
             <p className="font-medium text-[#FFC200]">
               <span className="text-white">
-                {Number(amountValue ?? 0) / stats?.TOKEN_PRICE}
+                {Number(amountValue ?? 0) / Number(stats?.TOKEN_PRICE)}
               </span>{" "}
               3TWENTY
             </p>
@@ -175,7 +172,7 @@ export default function TokenPurchase({ balance }: { balance: number }) {
           />
 
           <p className="text-[#CFD0D2] text-[11px] pt-2">
-            MIN: {stats?.minimumDeposit} USDT
+            MIN: {stats?.DEPOSIT_SETTINGS?.minimumBuyToken} USDT
           </p>
         </div>
 

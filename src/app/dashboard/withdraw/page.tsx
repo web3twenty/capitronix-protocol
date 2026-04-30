@@ -9,13 +9,11 @@ import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 import { AxiosError } from "axios";
 import { showSuccessAlert, showErrorAlert } from "@/components/Toast";
+import { useContext } from "react";
+import { LayoutContext } from "@/contexts/layout";
 
 export default function Deposit() {
-  // Fetch withdraw stats
-  const { data: stats } = useQuery({
-    queryKey: ["stats"],
-    queryFn: () => api.get("/user/dashboard/stats").then((res) => res.data),
-  });
+  const stats = useContext(LayoutContext);
 
   // Simple and clean validation schema
   const withdrawSchema = z.object({
@@ -26,9 +24,10 @@ export default function Deposit() {
       .refine(
         (val) =>
           !isNaN(parseFloat(val)) &&
-          parseFloat(val) >= (stats?.minimumWithdraw || 0),
+          parseFloat(val) >=
+            (Number(stats?.DEPOSIT_SETTINGS?.minimumWithdraw) || 0),
         {
-          message: `Minimum withdraw is ${stats?.minimumWithdraw || 0} USDT`,
+          message: `Minimum withdraw is ${Number(stats?.DEPOSIT_SETTINGS?.minimumWithdraw) || 0} USDT`,
         },
       ),
     note: z.string().optional(),

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -12,16 +12,12 @@ import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 import Modal from "react-responsive-modal";
 import { showSuccessAlert, showErrorAlert } from "@/components/Toast";
+import { LayoutContext } from "@/contexts/layout";
 
 export default function TokenExchange({ balance }: { balance: number }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formData, setFormData] = useState<FormData | null>(null);
-
-  // Fetch stats for min purchase / fees
-  const { data: stats } = useQuery({
-    queryKey: ["stats"],
-    queryFn: () => api.get("/user/dashboard/stats").then((res) => res.data),
-  });
+  const stats = useContext(LayoutContext);
 
   // Validation
   const schema = z.object({
@@ -31,10 +27,10 @@ export default function TokenExchange({ balance }: { balance: number }) {
       .refine(
         (v) =>
           (!isNaN(Number(v)) &&
-            Number(v) >= stats?.DEPOSIT_SETTINGS?.minimumExchange) ||
+            Number(v) >= Number(stats?.DEPOSIT_SETTINGS?.minimumExchange)) ||
           0,
         {
-          message: `Minimum ${stats?.DEPOSIT_SETTINGS?.minimumExchange} 3TWENTY`,
+          message: `Minimum ${Number(stats?.DEPOSIT_SETTINGS?.minimumExchange)} Reward`,
         },
       ),
   });

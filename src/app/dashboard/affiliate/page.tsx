@@ -4,8 +4,12 @@ import { useQuery } from "@tanstack/react-query";
 import api from "@/lib/api";
 import { showSuccessAlert } from "@/components/Toast";
 import Link from "next/link";
+import { useContext } from "react";
+import { LayoutContext } from "@/contexts/layout";
 
 export default function WithdrawCards() {
+  const dashboardStats = useContext(LayoutContext);
+
   const { data: profile } = useQuery({
     queryKey: ["account"],
     queryFn: () => api.get("/user/profile").then((res) => res.data),
@@ -23,12 +27,6 @@ export default function WithdrawCards() {
   const { data: referralStats } = useQuery({
     queryKey: ["referral-stats"],
     queryFn: () => api.get("/user/referrals/stats").then((res) => res.data),
-  });
-
-  // Fetch stats for referral hint
-  const { data: dashboardStats } = useQuery({
-    queryKey: ["stats"],
-    queryFn: () => api.get("/user/dashboard/stats").then((res) => res.data),
   });
 
   const stats = referralStats?.stats ?? [];
