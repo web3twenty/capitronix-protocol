@@ -102,7 +102,7 @@ export default function WithdrawCards() {
             }}
           >
             <div className="w-[58px] h-[58px] bg-transparent flex items-center justify-center rounded-full">
-              {profile?.isActive === 0 ? (
+              {profile?.investedAt === null ? (
                 <span className="mgc_user_lock_line text-[40px] text-[#FFC200]"></span>
               ) : (
                 <span className="mgc_user_add_2_line text-[40px] text-[#FFC200]"></span>

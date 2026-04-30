@@ -360,7 +360,7 @@ export default function Layout({ children }: LayoutProps) {
               </Link>
             </div>
 
-            {/* {profile?.isActive === 0 && (
+            {/* {profile?.investedAt === null && (
             <div className="hidden lg:block">
               <Button
                 className="h-8 me-3"
@@ -441,7 +441,7 @@ export default function Layout({ children }: LayoutProps) {
 
           <div className="p-4 md:p-6 space-y-4">
             {/* Email verification alert */}
-            {profile?.isVerified === 0 && (
+            {profile?.isEmailVerified === 0 && (
               <div className="rounded-lg bg-[#25262A] p-3 flex justify-between items-center">
                 <div className="flex items-center gap-4">
                   <div className="w-10 h-10 bg-[#DC2626] flex-shrink-0 rounded flex items-center justify-center">
