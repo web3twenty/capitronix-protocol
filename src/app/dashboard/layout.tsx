@@ -395,7 +395,7 @@ export default function Layout({ children }: LayoutProps) {
                     {profile?.isFounder === 1 ? (
                       // Founder icon
                       <span className="absolute bottom-0 right-0 text-[#FDAD15] mgc_VIP_2_fill bg-white rounded-full"></span>
-                    ) : profile?.isActive === 0 ? (
+                    ) : profile?.investedAt === null ? (
                       // Inactive icon
                       <span className="absolute bottom-0 right-0 text-red-600 mgc_warning_fill bg-white rounded-full"></span>
                     ) : (
