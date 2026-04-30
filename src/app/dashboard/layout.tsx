@@ -389,7 +389,7 @@ export default function Layout({ children }: LayoutProps) {
                           : ""
                       }`}
                     />
-                    {profile?.isFounder === 1 ? (
+                    {profile?.isFounder ? (
                       // Founder icon
                       <span className="absolute bottom-0 right-0 text-[#FDAD15] mgc_VIP_2_fill bg-white rounded-full"></span>
                     ) : profile?.investedAt === null ? (
@@ -441,7 +441,7 @@ export default function Layout({ children }: LayoutProps) {
 
           <div className="p-4 md:p-6 space-y-4">
             {/* Email verification alert */}
-            {profile?.isEmailVerified === 0 && (
+            {!profile?.isEmailVerified && (
               <div className="rounded-lg bg-[#25262A] p-3 flex justify-between items-center">
                 <div className="flex items-center gap-4">
                   <div className="w-10 h-10 bg-[#DC2626] flex-shrink-0 rounded flex items-center justify-center">

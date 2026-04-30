@@ -101,7 +101,7 @@ export default function FounderPool() {
   const minimumInvestment = stats?.FOUNDER_DETAILS?.minimumInvestment;
   const tokenPrice = stats?.TOKEN_PRICE;
 
-  if (profile?.isFounder === 1) {
+  if (profile?.isFounder) {
     return (
       <section className="p-4 md:px-6 md:py-2">
         <div className="max-w-6xl mx-auto space-y-8 pb-5">
