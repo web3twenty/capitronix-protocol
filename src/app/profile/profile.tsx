@@ -131,8 +131,14 @@ export default function ProfileForm() {
         mimeType: "image/jpeg",
       };
       const resizedImage = await readAndCompressImage(file, config);
+
+      const imageFile = new File([resizedImage], file.name || "image.jpg", {
+        type: "image/jpeg",
+      });
+
       const formData = new FormData();
-      formData.append("image", resizedImage);
+      formData.append("image", imageFile);
+
       uploadImage(formData);
     } catch (err) {
       console.error(err);
