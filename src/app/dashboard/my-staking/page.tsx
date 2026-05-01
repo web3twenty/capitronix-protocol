@@ -96,7 +96,7 @@ export default function Stakings() {
 
                     {/* Always Visible */}
                     <td className="px-4 py-3">
-                      {Number(stake.amount).toFixed(2)}
+                      {Number(stake.tokenAmount).toFixed(2)}
                     </td>
                     <td className="px-4 py-3">
                       {Number(stake.dailyReward).toFixed(2)}
