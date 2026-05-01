@@ -243,7 +243,7 @@ export default function Home() {
           <div className="border border-[#2A2A2A] rounded-lg">
             <div className="bg-[#13171E] px-3 py-2 rounded-t-lg flex items-center justify-between">
               <h3 className="text-md text-white font-semibold">
-                Matrix Position (Level {profile?.level || 0})
+                Board Position (Level {profile?.level || 0})
               </h3>
             </div>
 
@@ -315,7 +315,7 @@ export default function Home() {
             <div className="border border-[#2A2A2A] rounded-lg">
               <div className="bg-[#13171E] px-3 py-2 rounded-t-lg flex items-center justify-between">
                 <h3 className="text-md text-white font-semibold">
-                  Sales Progress
+                  Token Sales Progress
                 </h3>
                 <p className="text-white text-sm">
                   <span className="text-[#FFC200] font-medium">
@@ -361,7 +361,7 @@ export default function Home() {
           <div className="border border-[#2A2A2A] rounded-lg">
             <div className="bg-[#13171E] px-3 py-2 rounded-t-lg">
               <h3 className="text-md text-white font-semibold">
-                Token Information
+                Launchpad Token Information
               </h3>
             </div>
 
