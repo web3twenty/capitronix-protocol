@@ -10,9 +10,9 @@ const roboto = Roboto({
 });
 
 export const metadata = {
-  title: "3Twenty Coin | The Future of Digital Currency",
+  title: "Capitronix | Next-Gen Launchpad & Community Growth Engine",
   description:
-    "3Twenty Coin delivers a fast, secure, and utility-driven digital currency experience designed for users, developers, and businesses, shaping the next generation of blockchain innovation.",
+    "The first protocol where community growth meets token innovation. Join Capitronix to access exclusive presales and earn through our advanced network marketing system.",
   keywords: [
     "3Twenty Coin",
     "3Twenty Ecosystem",
@@ -23,21 +23,21 @@ export const metadata = {
     "Blockchain Ecosystem",
     "CryptoFuture",
   ],
-  authors: [{ name: "3Twentycoin Team", url: "https://3twentycoin.com" }],
-  creator: "3Twentycoin Team",
-  publisher: "3Twentycoin",
+  authors: [{ name: "Capitronix Team", url: "https://capitronix.com" }],
+  creator: "Capitronix Team",
+  publisher: "Capitronix",
   openGraph: {
-    title: "3Twenty Coin | The Future of Digital Currency",
+    title: "Capitronix | Next-Gen Launchpad & Community Growth Engine",
     description:
-      "3Twenty Coin delivers a fast, secure, and utility-driven digital currency experience designed for users, developers, and businesses, shaping the next generation of blockchain innovation.",
-    url: "https://3twentycoin.com",
-    siteName: "3Twentycoin",
+      "The first protocol where community growth meets token innovation. Join Capitronix to access exclusive presales and earn through our advanced network marketing system.",
+    url: "https://capitronix.com",
+    siteName: "Capitronix",
     images: [
       {
-        url: "https://3twentycoin.com/og-image.jpg",
+        url: "https://capitronix.com/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "3Twentycoin - Digital Currency",
+        alt: "Capitronix - Digital Currency",
       },
     ],
     locale: "en_US",
@@ -45,12 +45,12 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "3Twenty Coin | The Future of Digital Currency",
+    title: "Capitronix | Next-Gen Launchpad & Community Growth Engine",
     description:
-      "3Twenty Coin delivers a fast, secure, and utility-driven digital currency experience designed for users, developers, and businesses, shaping the next generation of blockchain innovation.",
-    site: "@3Twentycoin",
-    creator: "@3Twentycoin",
-    images: ["https://3twentycoin.com/twitter-image.jpg"],
+      "The first protocol where community growth meets token innovation. Join Capitronix to access exclusive presales and earn through our advanced network marketing system.",
+    site: "@Capitronix",
+    creator: "@Capitronix",
+    images: ["https://capitronix.com/twitter-image.jpg"],
   },
   robots: {
     index: true,
@@ -64,9 +64,9 @@ export const metadata = {
     },
   },
   icons: {
-    icon: "https://3twentycoin.com/favicon.ico",
-    shortcut: "https://3twentycoin.com/favicon-32x32.png",
-    apple: "https://3twentycoin.com/apple-touch-icon.png",
+    icon: "https://capitronix.com/favicon.ico",
+    shortcut: "https://capitronix.com/favicon-32x32.png",
+    apple: "https://capitronix.com/apple-touch-icon.png",
   },
 };
 
@@ -78,16 +78,16 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <link rel="canonical" href="https://3twentycoin.com/" />
+        <link rel="canonical" href="https://capitronix.com/" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "Organization",
-              name: "3Twentycoin",
-              url: "https://3twentycoin.com",
-              logo: "https://3twentycoin.com/logo.png",
+              name: "Capitronix",
+              url: "https://capitronix.com",
+              logo: "https://capitronix.com/logo.png",
             }),
           }}
         />
