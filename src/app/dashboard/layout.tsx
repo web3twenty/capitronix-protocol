@@ -120,10 +120,11 @@ export default function Layout({ children }: LayoutProps) {
     VerifyResponse,
     AxiosError<{ message: string }>
   >({
-    mutationFn: (formData) =>
-      api.post("/auth/resend-verify-email", formData).then((res) => res.data),
-    onSuccess: (response) => {
-      showSuccessAlert(response.message);
+    mutationFn: (formData) => api.post("/auth/resend-verify-email", formData),
+    onSuccess: () => {
+      showSuccessAlert(
+        "Verification email sent. Please check your email or spam folder!",
+      );
       sessionStorage.setItem("isVerificationSent", "true");
       setIsVerificationSent("true");
     },
