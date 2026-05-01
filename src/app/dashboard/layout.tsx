@@ -77,11 +77,11 @@ export default function Layout({ children }: LayoutProps) {
       href: "/dashboard/my-staking",
       icon: "mgc_user_star_line",
     },
-    {
-      name: "Founder Pool",
-      href: "/dashboard/founder-pool",
-      icon: "mgc_user_follow_2_line",
-    },
+    // {
+    //   name: "Founder Pool",
+    //   href: "/dashboard/founder-pool",
+    //   icon: "mgc_user_follow_2_line",
+    // },
   ];
 
   const toggleSubmenu = (name: string) => {
