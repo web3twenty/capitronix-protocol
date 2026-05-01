@@ -64,6 +64,7 @@ export default function LayoutProvider({
   const { data: stats } = useQuery({
     queryKey: ["stats"],
     queryFn: () => api.get("/user/dashboard/stats").then((res) => res.data),
+    retry: false,
   });
 
   return (
