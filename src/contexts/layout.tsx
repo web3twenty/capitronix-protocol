@@ -1,6 +1,7 @@
 import api from "@/lib/api";
 import { useQuery } from "@tanstack/react-query";
 import React, { createContext } from "react";
+import Cookies from "js-cookie";
 
 export interface Stats {
   TOKEN_PRICE: number;
@@ -64,7 +65,7 @@ export default function LayoutProvider({
   const { data: stats } = useQuery({
     queryKey: ["stats"],
     queryFn: () => api.get("/user/dashboard/stats").then((res) => res.data),
-    retry: false,
+    enabled: !!Cookies.get("accessToken"),
   });
 
   return (
