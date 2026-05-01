@@ -540,7 +540,7 @@ export default function Layout({ children }: LayoutProps) {
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
               {/* Greeting */}
               <h1 className="text-lg text-white font-medium text-left w-full md:w-auto">
-                Hy There, {profile?.firstName || "..."}
+                Hey There, {profile?.firstName || "..."}
               </h1>
 
               {/* Buttons grid */}
