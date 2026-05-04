@@ -54,10 +54,11 @@ export default function ResetPasswordForm() {
     AxiosError<{ message: string }>,
     ResetPasswordFormData
   >({
-    mutationFn: (data) =>
-      api.post(`/auth/reset-password/${token}`, data).then((res) => res.data),
-    onSuccess: (response) => {
-      showSuccessAlert(response.message);
+    mutationFn: (data) => api.post(`/auth/reset-password/${token}`, data),
+    onSuccess: () => {
+      showSuccessAlert(
+        "Password updated successfully. You can now login with your new password.",
+      );
       window.location.href = "/auth/login";
     },
     onError: (error) => {
