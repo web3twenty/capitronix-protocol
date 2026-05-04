@@ -45,10 +45,11 @@ export default function ForgotPasswordForm() {
     AxiosError<{ message: string }>,
     ForgotPasswordFormData
   >({
-    mutationFn: (data) =>
-      api.post("/auth/forgot-password", data).then((res) => res.data),
-    onSuccess: (response) => {
-      showSuccessAlert(response.message);
+    mutationFn: (data) => api.post("/auth/forgot-password", data),
+    onSuccess: () => {
+      showSuccessAlert(
+        "Reset password email sent. Please check your inbox or spam folder!",
+      );
       router.replace("/auth/login");
     },
     onError: (error) => {
