@@ -336,10 +336,10 @@ function WhitelistModal({
               <CheckCircle2 className="text-green-500 w-10 h-10" />
             </div>
             <h3 className="text-2xl font-bold text-white mb-2">
-              You're on the list!
+              {`You're`} on the list!
             </h3>
             <p className="text-slate-400 mb-8">
-              Success! We've added{" "}
+              Success! {`We've`} added{" "}
               <span className="text-white font-medium">{email}</span> to the{" "}
               {projectTitle} whitelist. Check your inbox for confirmation.
             </p>
