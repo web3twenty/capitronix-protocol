@@ -47,12 +47,7 @@ export function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-2">
-            <div className="bg-gradient-to-tr from-cyan-400 to-blue-600 p-2 rounded-xl">
-              <Rocket className="w-6 h-6 text-white" />
-            </div>
-            <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-400">
-              Capitronix
-            </span>
+            <img src="/icon-300x100.png" alt="Logo" width={140} height={60} />
           </div>
 
           {/* Desktop Nav */}

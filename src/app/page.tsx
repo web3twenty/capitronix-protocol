@@ -193,9 +193,11 @@ export default function App() {
             transition={{ duration: 0.6, delay: 0.3 }}
             className="flex flex-col sm:flex-row items-center justify-center gap-4"
           >
-            <Button variant="primary" size="lg" className="w-full sm:w-auto">
-              Get Started Now
-            </Button>
+            <a href="/auth/login">
+              <Button variant="primary" size="lg" className="w-full sm:w-auto">
+                Get Started Now
+              </Button>
+            </a>
             <Button variant="outline" size="lg" className="w-full sm:w-auto">
               Explore Ecosystem
             </Button>
