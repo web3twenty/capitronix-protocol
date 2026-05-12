@@ -17,6 +17,7 @@
     "js-cookie": "^3.0.5",
     "lucide-react": "^0.546.0",
     "mingcute_icon": "^2.9.6",
+    "motion": "^12.38.0",
     "next": "15.5.9",
     "qrcode.react": "^4.2.0",
     "react": "19.1.0",
