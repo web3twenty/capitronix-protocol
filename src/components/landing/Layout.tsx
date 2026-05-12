@@ -1,3 +1,5 @@
+"use client";
+
 import { ReactNode, useState, useEffect } from "react";
 import {
   Rocket,
@@ -10,6 +12,7 @@ import {
   Linkedin,
 } from "lucide-react";
 import { Button } from "./UI";
+import Image from "next/image";
 
 interface LayoutProps {
   children: ReactNode;
@@ -40,14 +43,14 @@ export function Navbar() {
       id="navbar"
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? "bg-slate-950/80 backdrop-blur-xl border-b border-white/5 py-4"
+          ? "bg-white/80 backdrop-blur-xl border-b border-slate-200 py-4 shadow-sm"
           : "bg-transparent py-6"
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-2">
-            <img src="/icon-300x100.png" alt="Logo" width={140} height={60} />
+            <Image src="/icon-300x100.png" alt="Logo" width={170} height={75} />
           </div>
 
           {/* Desktop Nav */}
@@ -56,7 +59,7 @@ export function Navbar() {
               <a
                 key={link.name}
                 href={link.href}
-                className="text-slate-400 hover:text-cyan-400 font-medium transition-colors"
+                className="text-slate-600 hover:text-cyan-600 font-medium transition-colors"
               >
                 {link.name}
               </a>
@@ -70,7 +73,7 @@ export function Navbar() {
 
           {/* Mobile Menu Toggle */}
           <button
-            className="md:hidden text-white p-2"
+            className="md:hidden text-slate-800 p-2"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
             {isMobileMenuOpen ? <X /> : <Menu />}
@@ -80,12 +83,12 @@ export function Navbar() {
 
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className="md:hidden absolute top-full left-0 right-0 bg-slate-900 border-b border-white/5 p-4 flex flex-col gap-4 animate-in fade-in slide-in-from-top-4">
+        <div className="md:hidden absolute top-full left-0 right-0 bg-white border-b border-slate-200 p-4 flex flex-col gap-4 animate-in fade-in slide-in-from-top-4 shadow-lg">
           {navLinks.map((link) => (
             <a
               key={link.name}
               href={link.href}
-              className="text-slate-400 hover:text-cyan-400 font-medium py-2"
+              className="text-slate-600 hover:text-cyan-600 font-medium py-2"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               {link.name}
@@ -106,65 +109,78 @@ export function Footer() {
   return (
     <footer
       id="footer"
-      className="bg-slate-950 border-t border-white/5 pt-20 pb-10"
+      className="bg-slate-900 text-slate-400 border-t border-white/5 pt-24 pb-12 relative overflow-hidden"
     >
+      {/* Decorative background for footer */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(6,182,212,0.1),transparent_40%)]" />
+      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-cyan-500/20 to-transparent" />
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
-          <div className="space-y-6">
-            <div className="flex items-center gap-2">
-              <Rocket className="w-8 h-8 text-cyan-400" />
-              <span className="text-2xl font-bold text-white">Capitronix</span>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-20">
+          <div className="space-y-8">
+            <div className="flex items-center gap-3">
+              <div className="bg-cyan-500 p-2 rounded-xl shadow-lg shadow-cyan-500/20">
+                <Rocket className="w-6 h-6 text-white" />
+              </div>
+              <span className="text-2xl font-black text-white tracking-tight">
+                Capitronix
+              </span>
             </div>
-            <p className="text-slate-400 leading-relaxed">
+            <p className="text-slate-400 leading-relaxed text-sm md:text-base">
               Next-generation token marketing system designed for long-term
               blockchain growth and community adoption.
             </p>
             <div className="flex gap-4">
               <a
                 href="#"
-                className="p-2 rounded-lg bg-white/5 text-slate-400 hover:text-cyan-400 transition-colors"
+                className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:text-cyan-500 hover:bg-white/10 hover:border-cyan-500/30 transition-all duration-300 shadow-sm"
               >
-                <Twitter size={20} />
+                <Twitter size={18} />
               </a>
               <a
                 href="#"
-                className="p-2 rounded-lg bg-white/5 text-slate-400 hover:text-cyan-400 transition-colors"
+                className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:text-cyan-500 hover:bg-white/10 hover:border-cyan-500/30 transition-all duration-300 shadow-sm"
               >
-                <Github size={20} />
+                <Github size={18} />
               </a>
               <a
                 href="#"
-                className="p-2 rounded-lg bg-white/5 text-slate-400 hover:text-cyan-400 transition-colors"
+                className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:text-cyan-500 hover:bg-white/10 hover:border-cyan-500/30 transition-all duration-300 shadow-sm"
               >
-                <Linkedin size={20} />
+                <Linkedin size={18} />
               </a>
             </div>
           </div>
 
           <div>
-            <h4 className="text-white font-bold mb-6">Platform</h4>
+            <h4 className="text-white font-black uppercase tracking-widest text-xs mb-8">
+              Platform
+            </h4>
             <ul className="space-y-4">
               <li>
                 <a
                   href="#marketplace"
-                  className="text-slate-400 hover:text-cyan-400 transition-colors"
+                  className="text-slate-400 hover:text-white transition-colors flex items-center gap-2 group"
                 >
+                  <div className="w-1 h-1 rounded-full bg-cyan-600/50 group-hover:w-2 transition-all" />{" "}
                   Marketplace
                 </a>
               </li>
               <li>
                 <a
                   href="#launchpad"
-                  className="text-slate-400 hover:text-cyan-400 transition-colors"
+                  className="text-slate-400 hover:text-white transition-colors flex items-center gap-2 group"
                 >
+                  <div className="w-1 h-1 rounded-full bg-cyan-600/50 group-hover:w-2 transition-all" />{" "}
                   Launchpad
                 </a>
               </li>
               <li>
                 <a
                   href="#rewards"
-                  className="text-slate-400 hover:text-cyan-400 transition-colors"
+                  className="text-slate-400 hover:text-white transition-colors flex items-center gap-2 group"
                 >
+                  <div className="w-1 h-1 rounded-full bg-cyan-600/50 group-hover:w-2 transition-all" />{" "}
                   Ambassador Pool
                 </a>
               </li>
@@ -172,65 +188,71 @@ export function Footer() {
           </div>
 
           <div>
-            <h4 className="text-white font-bold mb-6">Support</h4>
+            <h4 className="text-white font-black uppercase tracking-widest text-xs mb-8">
+              Support
+            </h4>
             <ul className="space-y-4">
               <li>
                 <a
                   href="#"
-                  className="text-slate-400 hover:text-cyan-400 transition-colors"
+                  className="text-slate-400 hover:text-white transition-colors flex items-center gap-2 group"
                 >
+                  <div className="w-1 h-1 rounded-full bg-cyan-600/50 group-hover:w-2 transition-all" />{" "}
                   Documentation
                 </a>
               </li>
               <li>
                 <a
                   href="#"
-                  className="text-slate-400 hover:text-cyan-400 transition-colors"
+                  className="text-slate-400 hover:text-white transition-colors flex items-center gap-2 group"
                 >
+                  <div className="w-1 h-1 rounded-full bg-cyan-600/50 group-hover:w-2 transition-all" />{" "}
                   Help Center
                 </a>
               </li>
               <li>
                 <a
                   href="#"
-                  className="text-slate-400 hover:text-cyan-400 transition-colors"
+                  className="text-slate-400 hover:text-white transition-colors flex items-center gap-2 group"
                 >
+                  <div className="w-1 h-1 rounded-full bg-cyan-600/50 group-hover:w-2 transition-all" />{" "}
                   Terms of Service
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="text-slate-400 hover:text-cyan-400 transition-colors"
-                >
-                  Privacy Policy
                 </a>
               </li>
             </ul>
           </div>
 
           <div className="space-y-6">
-            <h4 className="text-white font-bold mb-6">Contact Us</h4>
-            <div className="flex items-center gap-3 text-slate-400">
-              <MapPin size={20} className="text-cyan-400 shrink-0" />
-              <span>37 Ann Siang Road, Singapore</span>
+            <h4 className="text-white font-black uppercase tracking-widest text-xs mb-8">
+              Contact Us
+            </h4>
+            <div className="flex items-start gap-4 p-4 rounded-2xl bg-white/5 border border-white/10 group hover:border-cyan-500/30 transition-colors">
+              <div className="w-10 h-10 rounded-xl bg-cyan-500/10 flex items-center justify-center text-cyan-500 shrink-0">
+                <MapPin size={20} />
+              </div>
+              <span className="text-sm">37 Ann Siang Road, Singapore</span>
             </div>
-            <div className="flex items-center gap-3 text-slate-400">
-              <Mail size={20} className="text-cyan-400 shrink-0" />
-              <span className="truncate">
+            <div className="flex items-start gap-4 p-4 rounded-2xl bg-white/5 border border-white/10 group hover:border-cyan-500/30 transition-colors">
+              <div className="w-10 h-10 rounded-xl bg-cyan-500/10 flex items-center justify-center text-cyan-500 shrink-0">
+                <Mail size={20} />
+              </div>
+              <span className="text-sm truncate">
                 info.capitronixprotocol@gmail.com
               </span>
             </div>
           </div>
         </div>
 
-        <div className="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-slate-500 text-sm">
+        <div className="border-t border-white/5 pt-10 flex flex-col md:flex-row justify-between items-center gap-6">
+          <p className="text-slate-500 text-xs font-medium uppercase tracking-tight">
             © {new Date().getFullYear()} Capitronix Protocol. All rights
             reserved.
           </p>
-          <div className="text-slate-500 text-sm">
-            Built for the future of Web3
+          <div className="flex items-center gap-6">
+            <span className="text-slate-500 text-[10px] font-black uppercase tracking-widest">
+              Built for the future of Web3
+            </span>
+            <div className="w-12 h-1 bg-cyan-600/20 rounded-full" />
           </div>
         </div>
       </div>
@@ -240,9 +262,18 @@ export function Footer() {
 
 export function Layout({ children }: LayoutProps) {
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-200 selection:bg-cyan-500/30">
+    <div className="min-h-screen bg-slate-50 text-slate-800 selection:bg-cyan-500/20 relative">
+      {/* Global Background Decorative Elements */}
+      <div className="fixed inset-0 pointer-events-none -z-10 overflow-hidden">
+        <div className="absolute top-[10%] left-[-10%] w-[40%] h-[40%] bg-cyan-200/10 rounded-full blur-[120px] animate-pulse" />
+        <div className="absolute bottom-[10%] right-[-10%] w-[35%] h-[35%] bg-blue-200/10 rounded-full blur-[100px]" />
+        <div className="absolute top-[40%] right-[10%] w-[20%] h-[20%] bg-indigo-200/10 rounded-full blur-[80px]" />
+      </div>
+
       <Navbar />
-      <main id="main-content">{children}</main>
+      <main id="main-content" className="relative">
+        {children}
+      </main>
       <Footer />
     </div>
   );

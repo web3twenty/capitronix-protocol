@@ -2,7 +2,6 @@
  * @license
  * SPDX-License-Identifier: Apache-2.0
  */
-
 "use client";
 
 import { useState, useEffect } from "react";
@@ -26,6 +25,7 @@ import {
   Briefcase,
   FileCode,
   Sparkles,
+  ShieldCheck,
 } from "lucide-react";
 import { Layout } from "@/components/landing/Layout";
 import { Button, Card, Badge } from "@/components/landing/UI";
@@ -155,77 +155,239 @@ export default function App() {
   return (
     <Layout>
       {/* Hero Section */}
-      <section id="home" className="relative pt-32 pb-20 overflow-hidden">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[800px] bg-gradient-to-b from-cyan-500/10 via-transparent to-transparent -z-10 blur-3xl opacity-50" />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-400/10 border border-cyan-400/20 text-cyan-400 text-sm font-medium mb-8"
+      <section
+        id="home"
+        className="relative pt-24 pb-0 lg:pt-32 lg:pb-0 overflow-hidden bg-gradient-to-b from-slate-100 to-slate-50"
+      >
+        {/* Decorative background elements */}
+        <div className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden text-cyan-500/10 [mask-image:linear-gradient(to_bottom,black,transparent)]">
+          <svg
+            className="absolute inset-0 h-full w-full"
+            xmlns="http://www.w3.org/2000/svg"
           >
-            <SparklesIcon className="w-4 h-4" />
-            <span>Next-Gen Web3 Protocol</span>
-          </motion.div>
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-5xl md:text-7xl font-extrabold tracking-tight text-white mb-6"
-          >
-            Capitronix <br />
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-600">
-              Launchpad Protocol
-            </span>
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-xl text-slate-400 max-w-2xl mx-auto mb-10"
-          >
-            The ultimate community growth engine connecting crypto startups with
-            global investors through strategic promotion and scalable solutions.
-          </motion.p>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4"
-          >
-            <a href="/auth/login">
-              <Button variant="primary" size="lg" className="w-full sm:w-auto">
-                Get Started Now
-              </Button>
-            </a>
-            <Button variant="outline" size="lg" className="w-full sm:w-auto">
-              Explore Ecosystem
-            </Button>
-          </motion.div>
+            <defs>
+              <pattern
+                id="hero-pattern"
+                width="60"
+                height="60"
+                patternUnits="userSpaceOnUse"
+              >
+                <path d="M.5 60V.5H60" fill="none" />
+              </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#hero-pattern)" />
+          </svg>
+        </div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+          <div className="grid lg:grid-cols-12 gap-12 items-center">
+            <div className="lg:col-span-12 xl:col-span-6 text-left relative z-20 pb-8 lg:pb-12">
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5 }}
+                className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-slate-200 text-cyan-600 text-[10px] font-black uppercase tracking-[0.2em] mb-10 shadow-sm"
+              >
+                <SparklesIcon className="w-3.5 h-3.5" />
+                <span>Next-Gen Web3 Protocol</span>
+              </motion.div>
+
+              <motion.h1
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.1 }}
+                className="text-6xl md:text-8xl font-black tracking-tight text-slate-950 mb-10 leading-[0.85]"
+              >
+                Capitronix <br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-600 via-blue-600 to-indigo-600">
+                  Launchpad
+                </span>
+              </motion.h1>
+
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.2 }}
+                className="text-xl text-slate-700 max-w-lg mb-14 leading-relaxed"
+              >
+                Connecting high-potential startups with a global network of
+                dedicated investors through our strategic growth engine.
+              </motion.p>
+
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.3 }}
+                className="flex flex-col sm:flex-row items-center gap-5"
+              >
+                <Button
+                  variant="primary"
+                  size="lg"
+                  className="w-full sm:w-auto h-16 px-12 text-lg font-bold group shadow-xl shadow-cyan-600/20"
+                >
+                  Join Protocol
+                  <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </Button>
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="w-full sm:w-auto h-16 px-12 text-lg font-bold border-slate-200 bg-white/50 backdrop-blur-sm"
+                >
+                  Explore Hub
+                </Button>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.8 }}
+                className="mt-16 flex items-center gap-8"
+              >
+                <div className="flex -space-x-3">
+                  {[1, 2, 3, 4].map((i) => (
+                    <img
+                      key={i}
+                      src={`https://i.pravatar.cc/100?u=${i + 60}`}
+                      className="w-12 h-12 rounded-full border-2 border-white shadow-md"
+                      alt="User"
+                    />
+                  ))}
+                  <div className="w-12 h-12 rounded-full bg-slate-900 border-2 border-white flex items-center justify-center text-[10px] font-black text-white shadow-md">
+                    50K+
+                  </div>
+                </div>
+                <div className="h-10 w-px bg-slate-200" />
+                <div className="text-sm">
+                  <div className="font-black text-slate-950 uppercase tracking-wider text-[10px] mb-1">
+                    Ecosystem Status
+                  </div>
+                  <div className="text-slate-600 font-medium">
+                    Growth: <span className="text-green-600">+145.8%</span>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+
+            <div className="lg:col-span-12 xl:col-span-6 relative hidden lg:block h-[650px] lg:-mr-20 xl:mr-0">
+              {/* Refined, Larger, High-Fidelity Visual */}
+              <motion.div
+                initial={{ opacity: 0, x: 60, y: 20 }}
+                animate={{ opacity: 1, x: 0, y: 0 }}
+                transition={{ duration: 1.2, ease: "easeOut" }}
+                className="relative z-10 w-full h-full flex items-center justify-end"
+              >
+                <div className="absolute -inset-20 bg-gradient-to-tr from-cyan-400/20 to-indigo-500/10 rounded-full blur-[120px] opacity-60" />
+
+                <div className="relative w-[110%] xl:w-full h-[540px] rounded-[48px] border border-white bg-white/40 backdrop-blur-xl shadow-[0_32px_64px_-12px_rgba(0,163,255,0.15)] p-5 overflow-hidden">
+                  <img
+                    src="https://images.unsplash.com/photo-1642104704074-907c0698cbd9?auto=format&fit=crop&q=80&w=2232"
+                    alt="Capitronix Ecosystem"
+                    className="w-full h-full object-cover rounded-[36px] shadow-sm contrast-[1.05]"
+                  />
+
+                  {/* Performance Badge */}
+                  <motion.div
+                    animate={{ y: [0, -10, 0] }}
+                    transition={{
+                      duration: 4,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                    }}
+                    className="absolute top-12 left-12 bg-white/90 backdrop-blur-md px-5 py-3 rounded-2xl shadow-xl border border-slate-100 flex items-center gap-3"
+                  >
+                    <div className="w-8 h-8 rounded-lg bg-green-500 flex items-center justify-center text-white">
+                      <TrendingUp size={16} />
+                    </div>
+                    <div>
+                      <div className="text-[9px] text-slate-500 font-black uppercase tracking-wider">
+                        Daily ROI
+                      </div>
+                      <div className="text-sm font-black text-slate-900">
+                        +12.4%
+                      </div>
+                    </div>
+                  </motion.div>
+
+                  {/* Asset Card Overlay */}
+                  <motion.div
+                    animate={{ x: [0, 10, 0] }}
+                    transition={{
+                      duration: 5,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                      delay: 0.5,
+                    }}
+                    className="absolute bottom-12 right-12 w-48 bg-slate-950 p-5 rounded-2xl shadow-2xl border border-white/10"
+                  >
+                    <div className="text-[8px] text-slate-400 font-bold uppercase tracking-[0.2em] mb-2">
+                      Liquidity Score
+                    </div>
+                    <div className="flex items-end justify-between">
+                      <div className="text-xl font-black text-white">98.2</div>
+                      <div className="text-[10px] text-cyan-400 font-bold mb-1">
+                        OPTIMIZED
+                      </div>
+                    </div>
+                  </motion.div>
+                </div>
+              </motion.div>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* Stats/Highlight Section */}
-      <section className="py-12 border-y border-white/5 bg-slate-900/20">
+      {/* Stats Section - Ultra-Thin, Minimal Gap */}
+      <section className="py-2 bg-slate-50/80 backdrop-blur-md relative border-b border-slate-200 z-40 sticky top-16 md:top-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 md:gap-4">
             {[
-              { label: "Network Reach", value: "Global" },
-              { label: "Project Incubation", value: "100+" },
-              { label: "Equity Reserved", value: "10%" },
-              { label: "Activation Fee", value: "$30" },
+              {
+                label: "Network Reach",
+                value: "Global",
+                icon: <Globe className="w-4 h-4" />,
+                color: "bg-blue-100/50 text-blue-600",
+              },
+              {
+                label: "Market Projects",
+                value: "120+",
+                icon: <Rocket className="w-4 h-4" />,
+                color: "bg-cyan-100/50 text-cyan-600",
+              },
+              {
+                label: "Holders",
+                value: "50K+",
+                icon: <Users className="w-4 h-4" />,
+                color: "bg-indigo-100/50 text-indigo-600",
+              },
+              {
+                label: "Platform Fee",
+                value: "$30",
+                icon: <Zap className="w-4 h-4" />,
+                color: "bg-amber-100/50 text-amber-600",
+              },
             ].map((stat, i) => (
               <motion.div
                 key={i}
-                {...fadeInUp}
-                transition={{ delay: i * 0.1 }}
-                className="text-center"
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.05 }}
+                className="group"
               >
-                <div className="text-3xl font-bold text-white mb-1">
-                  {stat.value}
-                </div>
-                <div className="text-slate-500 text-sm uppercase tracking-wider">
-                  {stat.label}
+                <div className="bg-white px-4 py-4 rounded-[20px] border border-slate-200 group-hover:border-cyan-300 group-hover:shadow-[0_15px_30px_-10px_rgba(0,163,255,0.1)] transition-all duration-300 flex items-center justify-between">
+                  <div className="text-left">
+                    <div className="text-[7px] text-slate-500 font-black uppercase tracking-[0.2em] mb-0.5 group-hover:text-cyan-600 transition-colors">
+                      {stat.label}
+                    </div>
+                    <div className="text-xl font-black text-slate-950 tracking-tighter">
+                      {stat.value}
+                    </div>
+                  </div>
+                  <div
+                    className={`w-7 h-7 rounded-lg ${stat.color} flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform`}
+                  >
+                    {stat.icon}
+                  </div>
                 </div>
               </motion.div>
             ))}
@@ -234,38 +396,77 @@ export default function App() {
       </section>
 
       {/* Launchpad Section */}
-      <Launchpad />
+      <div className="-mt-8 relative z-30">
+        <Launchpad />
+      </div>
 
-      {/* About Section */}
-      <section id="about" className="py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* About Section - Subtly Textured with Animation */}
+      <section
+        id="about"
+        className="py-24 bg-slate-50 relative overflow-hidden"
+      >
+        {/* Animated Background Elements */}
+        <div className="absolute inset-0 pointer-events-none">
+          <motion.div
+            animate={{
+              scale: [1, 1.2, 1],
+              rotate: [0, 90, 0],
+              opacity: [0.05, 0.1, 0.05],
+            }}
+            transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+            className="absolute -top-[20%] -left-[10%] w-[60%] h-[60%] bg-cyan-300 rounded-full blur-[120px]"
+          />
+          <motion.div
+            animate={{
+              scale: [1, 1.1, 1],
+              rotate: [0, -45, 0],
+              opacity: [0.03, 0.07, 0.03],
+            }}
+            transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
+            className="absolute -bottom-[20%] -right-[10%] w-[50%] h-[50%] bg-blue-300 rounded-full blur-[100px]"
+          />
+        </div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <motion.div {...fadeInUp}>
-              <Badge className="mb-4">Visionary Protocol</Badge>
-              <h2 className="text-4xl font-bold text-white mb-6">
-                What is Capitronix?
+              <Badge className="mb-6">Visionary Protocol</Badge>
+              <h2 className="text-4xl md:text-6xl font-black text-slate-950 mb-8 tracking-tight">
+                What is{" "}
+                <span className="text-cyan-600 font-black">Capitronix?</span>
               </h2>
-              <p className="text-lg text-slate-400 leading-relaxed mb-8">
-                Capitronix Launchpad Protocol is a next-generation token
-                marketing system that helps blockchain projects grow visibility,
-                build strong communities, and expand in the Web3 ecosystem.
+              <p className="text-xl text-slate-700 leading-relaxed mb-10">
+                {`Capitronix Launchpad Protocol is a next-generation token
+            marketing system engineered to solve the "Visibility Gap" in
+            Web3. We help high-potential blockchain projects cultivate
+            strong communities and achieve sustainable on-chain growth.`}
               </p>
-              <div className="space-y-4">
+
+              <div className="space-y-5">
                 {[
                   "Strategic Global Promotion",
                   "Automated Community Growth",
                   "Built-in Liquidity Mechanisms",
                   "Scalable Blockchain Adoption",
                 ].map((item, i) => (
-                  <div key={i} className="flex items-center gap-3">
-                    <div className="p-1 rounded-full bg-cyan-400/20">
-                      <CheckCircle2 className="w-4 h-4 text-cyan-400" />
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, x: -10 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ delay: i * 0.1 }}
+                    className="flex items-center gap-4 group"
+                  >
+                    <div className="p-3 rounded-2xl bg-cyan-50 border border-cyan-100 group-hover:bg-cyan-600 transition-colors">
+                      <CheckCircle2 className="w-5 h-5 text-cyan-600 group-hover:text-white transition-colors" />
                     </div>
-                    <span className="text-slate-300 font-medium">{item}</span>
-                  </div>
+                    <span className="text-slate-800 font-bold text-lg">
+                      {item}
+                    </span>
+                  </motion.div>
                 ))}
               </div>
             </motion.div>
+
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -273,39 +474,48 @@ export default function App() {
               viewport={{ once: true }}
               className="relative"
             >
-              <div className="absolute inset-0 bg-gradient-to-br from-cyan-500 to-blue-600 blur-[100px] opacity-20 -z-10" />
-              <img
-                src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fit=crop&q=80&w=2232&ixlib=rb-4.0.3"
-                alt="Web3 Visualization"
-                className="rounded-3xl border border-white/10 shadow-2xl"
-              />
+              <div className="absolute -inset-4 bg-gradient-to-tr from-cyan-500/20 to-blue-600/20 blur-[80px] opacity-20 -z-10" />
+              <div className="relative p-2 bg-white rounded-[40px] shadow-2xl border border-slate-100">
+                <img
+                  src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fit=crop&q=80&w=2232&ixlib=rb-4.0.3"
+                  alt="Web3 Visualization"
+                  className="rounded-[32px] shadow-sm"
+                />
+              </div>
             </motion.div>
           </div>
         </div>
       </section>
 
       {/* Features Section */}
-      <section id="features" className="py-16 bg-slate-900/30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-10">
-            <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">
+      <section
+        id="features"
+        className="py-24 bg-slate-100/50 relative border-y border-slate-200"
+      >
+        <div className="absolute inset-0 bg-[radial-gradient(#d1d5db_1px,transparent_1px)] [background-size:24px_24px] opacity-40" />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-5xl font-black text-slate-900 mb-6 tracking-tight">
               Strategic Advantages
             </h2>
-            <p className="text-slate-400 max-w-2xl mx-auto">
+            <p className="text-slate-700 max-w-2xl mx-auto text-lg leading-relaxed">
               Our multifaceted approach ensures massive success for both
               developers and investors.
             </p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {features.map((feature, i) => (
-              <Card key={i} className="group">
-                <div className="mb-6 p-4 rounded-2xl bg-cyan-500/10 text-cyan-400 w-fit group-hover:bg-cyan-500 group-hover:text-white transition-all duration-300">
+              <Card
+                key={i}
+                className="group shadow-sm hover:shadow-xl border-slate-200 bg-white group transition-all duration-300"
+              >
+                <div className="mb-6 p-4 rounded-2xl bg-slate-50 text-cyan-600 w-fit group-hover:bg-cyan-600 group-hover:text-white transition-all duration-300 shadow-sm">
                   {feature.icon}
                 </div>
-                <h3 className="text-xl font-bold text-white mb-3">
+                <h3 className="text-xl font-bold text-slate-900 mb-3">
                   {feature.title}
                 </h3>
-                <p className="text-slate-400 line-clamp-3">
+                <p className="text-slate-700 line-clamp-3 text-sm leading-relaxed">
                   {feature.description}
                 </p>
               </Card>
@@ -314,98 +524,120 @@ export default function App() {
         </div>
       </section>
 
-      {/* Activation Section */}
-      <section id="ecosystem" className="py-16">
+      {/* Activation Section - Dark Theme Transition */}
+      <section
+        id="ecosystem"
+        className="py-24 bg-gradient-to-br from-slate-900 via-slate-900 to-slate-950 text-white relative overflow-hidden"
+      >
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(6,182,212,0.1),transparent_50%)]" />
+        <div className="absolute top-0 left-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5 pointer-events-none" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <Card className="relative overflow-hidden border-cyan-500/50 bg-gradient-to-br from-slate-900 to-slate-950">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-500/10 blur-[100px] -z-10" />
-            <div className="grid lg:grid-cols-2 gap-12 items-center">
-              <div className="p-4 md:p-8">
-                <Badge className="mb-4">Activation Rewards</Badge>
-                <h2 className="text-4xl font-bold text-white mb-6">
-                  Unlock Pure Potential Only for $30
+          <Card className="relative overflow-hidden border-white/5 bg-white/5 backdrop-blur-md shadow-2xl p-0">
+            <div className="absolute top-0 right-0 w-96 h-96 bg-cyan-500/10 blur-[120px] -z-10" />
+            <div className="grid lg:grid-cols-2 gap-0 items-stretch">
+              <div className="p-8 md:p-12 lg:p-16">
+                <Badge className="mb-6 bg-cyan-500/20 text-cyan-400 border-cyan-500/30">
+                  Activation Rewards
+                </Badge>
+                <h2 className="text-4xl md:text-5xl font-black mb-8 tracking-tight">
+                  Unlock Pure Potential <br />
+                  Only for <span className="text-cyan-500">$30</span>
                 </h2>
-                <p className="text-slate-400 mb-8 italic">
+                <p className="text-slate-400 mb-10 text-lg">
                   One-time fee for a lifetime of passive income.
                 </p>
 
-                <div className="grid sm:grid-cols-2 gap-6">
+                <div className="grid sm:grid-cols-2 gap-8">
                   {[
                     {
-                      icon: <Gem className="text-cyan-400" />,
+                      icon: <Gem className="text-cyan-400 w-6 h-6" />,
                       title: "Digital Assets",
                       desc: "1,000 3Twenty Coins + NFT",
                     },
                     {
-                      icon: <Award className="text-yellow-400" />,
+                      icon: <Award className="text-amber-400 w-6 h-6" />,
                       title: "Rank Bonuses",
                       desc: "Up to $11,525 in pool",
                     },
                     {
-                      icon: <PieChart className="text-blue-400" />,
+                      icon: <PieChart className="text-blue-400 w-6 h-6" />,
                       title: "Profit Sharing",
                       desc: "10% Global Profit Fund",
                     },
                     {
-                      icon: <TrendingUp className="text-green-400" />,
+                      icon: <TrendingUp className="text-green-400 w-6 h-6" />,
                       title: "Board Engine",
                       desc: "$195,000+ Potential",
                     },
                   ].map((item, i) => (
-                    <div key={i} className="flex gap-4">
-                      <div className="shrink-0">{item.icon}</div>
+                    <div key={i} className="flex gap-4 group">
+                      <div className="shrink-0 p-3 rounded-xl bg-white/5 border border-white/10 group-hover:bg-cyan-500/10 transition-colors">
+                        {item.icon}
+                      </div>
                       <div>
-                        <h4 className="text-white font-bold text-sm">
+                        <h4 className="text-white font-bold text-sm mb-1">
                           {item.title}
                         </h4>
-                        <p className="text-slate-500 text-xs">{item.desc}</p>
+                        <p className="text-slate-500 text-xs leading-relaxed">
+                          {item.desc}
+                        </p>
                       </div>
                     </div>
                   ))}
                 </div>
-                <Button variant="primary" className="mt-10">
+                <Button
+                  variant="primary"
+                  size="lg"
+                  className="mt-12 h-14 px-10"
+                >
                   Activate Your Account
                 </Button>
               </div>
-              <div className="relative p-4 md:p-12 bg-white/5 border-l border-white/5">
-                <div className="space-y-6">
-                  <h3 className="text-xl font-bold text-white">
-                    Affiliate Bonus
-                  </h3>
-                  <div className="bg-slate-800/50 rounded-2xl p-6 border border-white/5">
-                    <div className="flex justify-between items-center mb-6">
-                      <span className="text-slate-400">Total Reward Cap</span>
-                      <span className="text-2xl font-bold text-cyan-400">
+              <div className="relative p-8 md:p-12 lg:p-16 bg-white/5 border-l border-white/10 flex flex-col justify-center">
+                <div className="space-y-8">
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-1 bg-cyan-500 rounded-full" />
+                    <h3 className="text-2xl font-black uppercase tracking-tighter italic">
+                      Affiliate Bonus
+                    </h3>
+                  </div>
+                  <div className="bg-slate-950 rounded-[32px] p-8 border border-white/5 shadow-2xl">
+                    <div className="flex justify-between items-center mb-8">
+                      <span className="text-slate-400 text-xs font-black uppercase tracking-widest">
+                        Total Reward Cap
+                      </span>
+                      <span className="text-3xl font-black text-cyan-400 tracking-tighter">
                         20%
                       </span>
                     </div>
-                    <div className="space-y-3">
+                    <div className="space-y-4">
                       <div className="flex justify-between text-sm">
-                        <span className="text-white font-medium">
-                          1st Level
-                        </span>
+                        <span className="text-white font-bold">1st Level</span>
                         <span className="text-cyan-400 font-bold">15%</span>
                       </div>
-                      <div className="w-full bg-slate-700 h-2 rounded-full">
-                        <div className="bg-cyan-500 h-full rounded-full w-[75%]" />
+                      <div className="w-full bg-white/5 h-3 rounded-full overflow-hidden p-0.5 border border-white/5">
+                        <div className="bg-gradient-to-r from-cyan-500 to-blue-600 h-full rounded-full w-[100%]" />
                       </div>
-                      {[2, 3, 4, 5, 6].map((lvl) => (
-                        <div
-                          key={lvl}
-                          className="flex justify-between text-xs text-slate-500 pt-1"
-                        >
-                          <span>
-                            {lvl}
-                            {lvl === 2 ? "nd" : lvl === 3 ? "rd" : "th"} Level
-                          </span>
-                          <span>1%</span>
-                        </div>
-                      ))}
+                      <div className="grid grid-cols-5 gap-2 pt-4">
+                        {[2, 3, 4, 5, 6].map((lvl) => (
+                          <div key={lvl} className="flex flex-col items-center">
+                            <div className="text-[10px] text-slate-500 font-bold mb-2">
+                              L{lvl}
+                            </div>
+                            <div className="w-full h-1.5 bg-white/5 rounded-full overflow-hidden">
+                              <div className="bg-cyan-500/40 h-full w-full" />
+                            </div>
+                            <div className="text-[10px] text-cyan-400/60 font-black mt-2">
+                              1%
+                            </div>
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   </div>
-                  <p className="text-slate-500 text-sm italic">
-                    The 6-level system is designed to drive viral community
-                    growth.
+                  <p className="text-slate-500 text-sm italic leading-relaxed text-center">
+                    The 6-level high-velocity system is engineered to drive
+                    viral community growth automatically.
                   </p>
                 </div>
               </div>
@@ -417,24 +649,24 @@ export default function App() {
       {/* Ambassador & Rewards Section */}
       <section
         id="rewards"
-        className="py-16 bg-slate-950 relative overflow-hidden"
+        className="py-24 bg-slate-50 relative overflow-hidden border-b border-slate-200"
       >
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-600/10 rounded-full blur-[120px] -z-10" />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="absolute top-0 right-0 w-full h-full bg-[radial-gradient(ellipse_at_top_right,rgba(6,182,212,0.1),transparent_50%)]" />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="grid lg:grid-cols-2 gap-16 items-start">
             {/* Left side: Ambassador Info */}
             <motion.div {...fadeInUp}>
               <Badge className="mb-4">Exclusive Elite Group</Badge>
-              <h2 className="text-4xl font-bold text-white mb-6">
+              <h2 className="text-4xl font-bold text-slate-900 mb-6">
                 Become a Global <br />
-                <span className="text-cyan-400">Ambassador</span>
+                <span className="text-cyan-600">Ambassador</span>
               </h2>
-              <p className="text-slate-400 mb-6 leading-relaxed">
+              <p className="text-slate-700 mb-6 leading-relaxed">
                 By achieving{" "}
-                <span className="text-white font-bold">Rank 6</span>, you
+                <span className="text-slate-900 font-bold">Rank 6</span>, you
                 automatically ascend to the status of an Ambassador. Join an
                 exclusive group of only{" "}
-                <span className="text-white font-bold">
+                <span className="text-slate-900 font-bold">
                   100 Ambassadors globally
                 </span>
                 .
@@ -457,28 +689,30 @@ export default function App() {
                 ].map((item, i) => (
                   <div
                     key={i}
-                    className="flex gap-4 p-3 rounded-2xl bg-white/5 border border-white/5 hover:border-cyan-500/30 transition-colors"
+                    className="flex gap-4 p-3 rounded-2xl bg-white border border-slate-200 hover:border-cyan-400 transition-colors shadow-sm"
                   >
-                    <div className="w-10 h-10 rounded-full bg-cyan-500/20 flex items-center justify-center shrink-0">
-                      <Trophy className="w-5 h-5 text-cyan-400" />
+                    <div className="w-10 h-10 rounded-full bg-cyan-100 flex items-center justify-center shrink-0">
+                      <Trophy className="w-5 h-5 text-cyan-600" />
                     </div>
                     <div>
-                      <h4 className="text-white font-bold">{item.title}</h4>
-                      <p className="text-slate-400 text-sm">{item.desc}</p>
+                      <h4 className="text-slate-900 font-bold">{item.title}</h4>
+                      <p className="text-slate-600 text-sm">{item.desc}</p>
                     </div>
                   </div>
                 ))}
               </div>
 
               <div className="grid grid-cols-2 gap-4">
-                <Card className="flex flex-col items-center text-center p-6 bg-slate-900/40">
-                  <div className="text-3xl font-bold text-white mb-1">100</div>
+                <Card className="flex flex-col items-center text-center p-6 bg-white border-slate-200 shadow-sm">
+                  <div className="text-3xl font-bold text-slate-900 mb-1">
+                    100
+                  </div>
                   <div className="text-slate-500 text-xs uppercase tracking-tighter">
                     Global Slots
                   </div>
                 </Card>
-                <Card className="flex flex-col items-center text-center p-6 bg-slate-900/40">
-                  <div className="text-3xl font-bold text-cyan-400 mb-1">
+                <Card className="flex flex-col items-center text-center p-6 bg-white border-slate-200 shadow-sm">
+                  <div className="text-3xl font-bold text-cyan-600 mb-1">
                     10%
                   </div>
                   <div className="text-slate-500 text-xs uppercase tracking-tighter">
@@ -494,17 +728,17 @@ export default function App() {
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
-              className="bg-slate-900/30 p-1 rounded-[32px] border border-white/10 overflow-hidden"
+              className="bg-white p-1 rounded-[32px] border border-slate-200 shadow-xl overflow-hidden"
             >
               <div className="p-8">
-                <h3 className="text-2xl font-bold text-white mb-6 flex items-center gap-3">
-                  <Award className="text-yellow-500" />
+                <h3 className="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-3">
+                  <Award className="text-amber-500" />
                   Rank and Reward Tiers
                 </h3>
                 <div className="overflow-x-auto">
                   <table className="w-full text-left border-collapse">
                     <thead>
-                      <tr className="border-b border-white/5">
+                      <tr className="border-b border-slate-100">
                         <th className="pb-4 text-slate-500 text-xs uppercase font-bold tracking-widest">
                           Rank
                         </th>
@@ -520,26 +754,26 @@ export default function App() {
                       {rewardTiers.map((tier, i) => (
                         <tr
                           key={i}
-                          className="group border-b border-white/5 last:border-0"
+                          className="group border-b border-slate-50 last:border-0"
                         >
-                          <td className="py-4 font-bold text-white">
+                          <td className="py-4 font-bold text-slate-900">
                             <span
                               className={`inline-flex items-center justify-center w-6 h-6 rounded text-[10px] mr-2 ${
                                 i === 5
-                                  ? "bg-yellow-500 text-slate-900"
-                                  : "bg-slate-800 text-slate-400"
+                                  ? "bg-amber-500 text-white"
+                                  : "bg-slate-100 text-slate-500"
                               }`}
                             >
                               {i + 1}
                             </span>
                             {tier.rank}
                           </td>
-                          <td className="py-4 text-slate-400 text-sm">
+                          <td className="py-4 text-slate-600 text-sm">
                             {tier.condition}
                           </td>
                           <td className="py-4">
                             <span
-                              className={`font-mono font-bold ${i === 5 ? "text-cyan-400" : "text-white"}`}
+                              className={`font-mono font-bold ${i === 5 ? "text-cyan-600" : "text-slate-900"}`}
                             >
                               {tier.reward}
                             </span>
@@ -549,8 +783,8 @@ export default function App() {
                     </tbody>
                   </table>
                 </div>
-                <div className="mt-8 pt-8 border-t border-white/5">
-                  <p className="text-xs text-slate-500 italic text-center">
+                <div className="mt-8 pt-8 border-t border-slate-100">
+                  <p className="text-xs text-slate-400 italic text-center">
                     * Achievers of Rank 6 earn exclusive Ambassador status
                     automatically.
                   </p>
@@ -564,73 +798,106 @@ export default function App() {
       {/* Board Token Sales Engine */}
       <section
         id="boards"
-        className="py-16 bg-slate-900/40 relative overflow-hidden"
+        className="py-24 bg-slate-50 relative overflow-hidden border-y border-slate-200"
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16 px-4">
-            <Badge className="mb-4">Strategic Milestones</Badge>
-            <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">
-              Board Token <span className="text-cyan-400">Sales Engine</span>
+        {/* Decorative elements */}
+        <div className="absolute top-0 right-0 w-full h-full bg-[radial-gradient(circle_at_100%_0%,rgba(6,182,212,0.1),transparent_40%)]" />
+        <div className="absolute bottom-0 left-0 w-full h-full bg-[radial-gradient(circle_at_0%_100%,rgba(59,130,246,0.1),transparent_40%)]" />
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+          <div className="text-center mb-20">
+            <Badge className="mb-6 bg-cyan-100 text-cyan-600 border-cyan-200">
+              Growth Protocol
+            </Badge>
+            <h2 className="text-4xl md:text-6xl font-black text-slate-950 mb-8 tracking-tight">
+              Board Token{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-600 to-blue-600">
+                Sales Engine
+              </span>
             </h2>
-            <p className="text-slate-400 max-w-2xl mx-auto text-sm md:text-base">
-              Scale through our automated 1:5 filling mechanism across four
-              strategic boards. Reaching the pinnacle unlocks life-changing
-              rewards and guaranteed lifetime passive income.
+            <p className="text-slate-600 max-w-3xl mx-auto text-lg leading-relaxed">
+              Scale through our proprietary{" "}
+              <span className="text-slate-950 font-bold">
+                1:5 automated filling mechanism
+              </span>{" "}
+              across four strategic tiers. Each board completion unlocks
+              substantial capital and premium ecosystem status.
             </p>
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-8 items-stretch">
-            {/* Left side: CAR Achievements */}
+          <div className="grid lg:grid-cols-2 gap-12 items-stretch">
+            {/* Left side: Luxury CAR Achievements */}
             <motion.div {...fadeInUp} className="flex flex-col h-full">
-              <div className="mb-6 px-2">
-                <h3 className="text-2xl font-bold text-white mb-2">
-                  Luxury CAR Achievement
+              <div className="mb-8 flex items-center gap-4">
+                <div className="w-12 h-1 bg-cyan-600 rounded-full" />
+                <h3 className="text-2xl font-black text-slate-950 uppercase tracking-tighter italic">
+                  The Pinnacle Reward
                 </h3>
-                <p className="text-slate-500 text-sm">
-                  Ultimate goal for serious Capitronix entrepreneurs.
-                </p>
               </div>
 
               <div className="relative group flex-grow">
-                <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-3xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
-                <Card className="relative h-full p-8 md:p-10 bg-slate-900/80 border-cyan-500/30 flex flex-col justify-between">
-                  <div className="flex items-center gap-6 mb-10">
-                    <div className="w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-cyan-500/20 flex items-center justify-center text-cyan-400 shrink-0">
-                      <Car size={36} />
-                    </div>
-                    <div>
-                      <h4 className="text-2xl md:text-3xl font-bold text-white mb-1">
-                        $150,000 + Luxury Car
-                      </h4>
-                      <p className="text-slate-500 text-base">
-                        Board 4 Completion Reward
-                      </p>
+                <div className="absolute -inset-2 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-[40px] blur-2xl opacity-10 group-hover:opacity-20 transition duration-1000"></div>
+                <Card className="relative h-full overflow-hidden bg-slate-950 border-white/10 flex flex-col shadow-2xl rounded-[32px]">
+                  <div className="absolute top-0 right-0 p-8">
+                    <div className="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-cyan-400 backdrop-blur-sm">
+                      <Car size={32} />
                     </div>
                   </div>
-                  <div className="space-y-8">
-                    <div>
-                      <div className="flex justify-between items-center mb-4">
-                        <span className="text-slate-400 text-base md:text-lg">
-                          Cash Bonus Milestone
+
+                  <div className="p-8 md:p-12 flex-grow flex flex-col justify-center">
+                    <div className="mb-10">
+                      <Badge className="mb-4 bg-amber-500/20 text-amber-500 border-amber-500/30">
+                        Tier 4 Completion
+                      </Badge>
+                      <h4 className="text-4xl md:text-5xl font-black text-white mb-2 tracking-tight">
+                        $150,000{" "}
+                        <span className="text-slate-500 font-medium text-2xl">
+                          + Car
                         </span>
-                        <span className="text-white font-bold text-lg md:text-xl">
-                          $100,000
-                        </span>
-                      </div>
-                      <div className="w-full bg-slate-800 h-3 rounded-full overflow-hidden">
-                        <motion.div
-                          initial={{ width: 0 }}
-                          whileInView={{ width: "100%" }}
-                          transition={{ duration: 1.5, ease: "easeOut" }}
-                          className="bg-gradient-to-r from-cyan-500 to-blue-600 h-full"
-                        />
+                      </h4>
+                      <p className="text-slate-400 text-lg">
+                        The ultimate entrepreneurial milestone in our ecosystem.
+                      </p>
+                    </div>
+
+                    <div className="space-y-8">
+                      <div>
+                        <div className="flex justify-between items-end mb-4">
+                          <div>
+                            <span className="text-slate-600 text-xs font-black uppercase tracking-widest block mb-1">
+                              Status
+                            </span>
+                            <span className="text-white font-bold">
+                              Cash Bonus Milestone
+                            </span>
+                          </div>
+                          <span className="text-cyan-400 font-black text-2xl tracking-tighter">
+                            $100,000
+                          </span>
+                        </div>
+                        <div className="w-full bg-white/5 h-4 rounded-full overflow-hidden border border-white/5 p-1">
+                          <motion.div
+                            initial={{ width: 0 }}
+                            whileInView={{ width: "100%" }}
+                            transition={{ duration: 2, ease: "circOut" }}
+                            className="bg-gradient-to-r from-cyan-500 to-blue-600 h-full rounded-full shadow-[0_0_20px_rgba(6,182,212,0.5)]"
+                          />
+                        </div>
                       </div>
                     </div>
-                    <div className="flex justify-between items-center pt-8 border-t border-white/5">
-                      <span className="text-slate-400 text-base md:text-lg whitespace-nowrap">
-                        Achievement Potential
-                      </span>
-                      <span className="text-cyan-400 font-bold text-2xl md:text-3xl tracking-tight">
+                  </div>
+
+                  <div className="p-8 md:px-12 md:pb-12 mt-auto">
+                    <div className="bg-white/5 rounded-[24px] p-6 border border-white/10 backdrop-blur-md flex items-center justify-between">
+                      <div className="flex items-center gap-4">
+                        <div className="w-10 h-10 rounded-full bg-cyan-500/20 flex items-center justify-center text-cyan-400">
+                          <Zap size={20} />
+                        </div>
+                        <span className="text-slate-300 font-medium">
+                          Total Potential Reward
+                        </span>
+                      </div>
+                      <span className="text-white font-black text-2xl md:text-3xl tracking-tight">
                         $195,000+
                       </span>
                     </div>
@@ -641,68 +908,77 @@ export default function App() {
 
             {/* Right side: Board Income Chart */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6 }}
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
               viewport={{ once: true }}
               className="flex flex-col h-full"
             >
-              <div className="mb-6 px-2">
-                <h3 className="text-2xl font-bold text-white mb-2">
-                  Board Income Chart
+              <div className="mb-8 flex items-center gap-4">
+                <div className="w-12 h-1 bg-slate-200 rounded-full" />
+                <h3 className="text-2xl font-black text-slate-950 uppercase tracking-tighter">
+                  Earnings Breakdown
                 </h3>
-                <p className="text-slate-500 text-sm">
-                  Automated filling mechanism result tracking.
-                </p>
               </div>
 
-              <div className="flex-grow flex flex-col justify-between rounded-[32px] border border-white/10 bg-slate-950/40 p-1">
-                <div className="p-4 md:p-6">
-                  <table className="w-full text-left border-collapse">
+              <div className="flex-grow flex flex-col bg-white rounded-[32px] border border-slate-200 shadow-xl overflow-hidden">
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left">
                     <thead>
-                      <tr className="bg-slate-900/50">
-                        <th className="py-4 px-3 md:px-6 text-slate-300 font-bold border-b border-white/5 rounded-tl-2xl text-xs md:text-sm">
-                          Board
+                      <tr className="bg-slate-50 border-b border-slate-100">
+                        <th className="py-6 px-6 text-slate-900 font-black uppercase text-[10px] tracking-widest">
+                          Board Level
                         </th>
-                        <th className="py-4 px-3 md:px-6 text-slate-400 font-medium border-b border-white/5 whitespace-nowrap text-xs md:text-sm">
+                        <th className="py-6 px-4 text-slate-500 font-bold text-[10px] tracking-widest uppercase">
                           L-1 (5u)
                         </th>
-                        <th className="py-4 px-3 md:px-6 text-slate-400 font-medium border-b border-white/5 whitespace-nowrap text-xs md:text-sm">
+                        <th className="py-6 px-4 text-slate-500 font-bold text-[10px] tracking-widest uppercase">
                           L-2 (25u)
                         </th>
-                        <th className="py-4 px-3 md:px-6 text-slate-400 font-medium border-b border-white/5 whitespace-nowrap text-xs md:text-sm">
+                        <th className="py-6 px-4 text-slate-500 font-bold text-[10px] tracking-widest uppercase">
                           L-3 (125u)
                         </th>
-                        <th className="py-4 px-3 md:px-6 text-cyan-400 font-bold border-b border-white/5 whitespace-nowrap rounded-tr-2xl text-xs md:text-sm">
-                          Total
+                        <th className="py-6 px-6 text-cyan-600 font-black text-[10px] tracking-widest uppercase text-right">
+                          Yield
                         </th>
                       </tr>
                     </thead>
-                    <tbody>
+                    <tbody className="divide-y divide-slate-50">
                       {boardBenefits.map((board, i) => (
                         <tr
                           key={i}
-                          className="hover:bg-white/5 transition-colors border-b border-white/5 last:border-0"
+                          className="hover:bg-slate-50/80 transition-colors group"
                         >
-                          <td className="py-4 px-3 md:px-6">
-                            <div
-                              className={`font-bold text-base md:text-lg ${i === 3 ? "text-yellow-500" : "text-white"}`}
-                            >
-                              {board.level.split(" ")[1]}
+                          <td className="py-5 px-6">
+                            <div className="flex items-center gap-3">
+                              <div
+                                className={`w-8 h-8 rounded-lg flex items-center justify-center font-black text-xs ${
+                                  i === 3
+                                    ? "bg-amber-100 text-amber-600"
+                                    : "bg-slate-100 text-slate-600 group-hover:bg-cyan-100 group-hover:text-cyan-600"
+                                } transition-colors`}
+                              >
+                                {i + 1}
+                              </div>
+                              <span
+                                className={`font-black text-base md:text-lg tracking-tight ${i === 3 ? "text-amber-500" : "text-slate-900"}`}
+                              >
+                                {board.level.split(" ")[1]}
+                              </span>
                             </div>
                           </td>
-                          <td className="py-4 px-3 md:px-6 text-slate-400 text-xs md:text-sm">
+                          <td className="py-5 px-4 text-slate-500 font-bold text-sm">
                             {board.bonus1}
                           </td>
-                          <td className="py-4 px-3 md:px-6 text-slate-400 text-xs md:text-sm">
+                          <td className="py-5 px-4 text-slate-500 font-bold text-sm">
                             {board.bonus2}
                           </td>
-                          <td className="py-4 px-3 md:px-6 text-slate-400 text-xs md:text-sm">
+                          <td className="py-5 px-4 text-slate-500 font-bold text-sm">
                             {board.bonus3.split(" ")[0]}
                           </td>
-                          <td className="py-4 px-3 md:px-6">
+                          <td className="py-5 px-6 text-right">
                             <span
-                              className={`font-bold text-xs md:text-base ${i === 3 ? "text-cyan-400 text-lg" : "text-slate-300"}`}
+                              className={`font-black text-base md:text-xl tracking-tighter ${i === 3 ? "text-cyan-600" : "text-slate-900"}`}
                             >
                               {board.total.includes("+")
                                 ? board.total.split(" ")[0]
@@ -715,10 +991,23 @@ export default function App() {
                   </table>
                 </div>
 
-                <div className="m-4 md:m-6 p-6 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 text-center">
-                  <p className="text-cyan-400 font-bold uppercase tracking-widest text-sm">
-                    TOTAL ECOSYSTEM POTENTIAL: OVER $195,000 USDT
-                  </p>
+                <div className="mt-auto p-8 bg-slate-50/50 border-t border-slate-100">
+                  <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+                    <div className="flex items-center gap-3">
+                      <div className="w-3 h-3 rounded-full bg-cyan-500 animate-pulse" />
+                      <span className="text-slate-600 text-sm font-bold uppercase tracking-widest">
+                        Active Pool Status
+                      </span>
+                    </div>
+                    <div className="text-center md:text-right">
+                      <div className="text-slate-500 text-[10px] font-black uppercase tracking-widest mb-1">
+                        Total System Liquidity
+                      </div>
+                      <div className="text-2xl font-black text-slate-950 tracking-tighter bg-cyan-100 px-4 py-1 rounded-xl">
+                        $195,000 USDT
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </motion.div>
@@ -729,16 +1018,19 @@ export default function App() {
       {/* Final CTA: List Your Project */}
       <section
         id="list-project"
-        className="py-24 border-t border-white/5 relative overflow-hidden"
+        className="py-24 relative overflow-hidden bg-gradient-to-bl from-slate-900 to-slate-950 text-white"
       >
-        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-cyan-500/5 to-transparent -z-10" />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10 pointer-events-none" />
+        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-tr from-cyan-500/5 via-transparent to-blue-600/5 -z-10" />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <motion.div {...fadeInUp}>
-              <Badge className="mb-4">For Project Owners</Badge>
-              <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+              <Badge className="mb-4 bg-cyan-500/20 text-cyan-400 border-cyan-500/30">
+                For Project Owners
+              </Badge>
+              <h2 className="text-4xl md:text-5xl font-black mb-6 tracking-tight">
                 Ready to Launch Your <br />
-                <span className="text-cyan-400">Token or NFT Project?</span>
+                <span className="text-cyan-500">Token or NFT Project?</span>
               </h2>
               <p className="text-slate-400 text-lg mb-8 leading-relaxed">
                 Connect with a global network of dedicated investors and
@@ -759,16 +1051,16 @@ export default function App() {
                     desc: "Gain immediate access to over 50,000+ active users globally within our ecosystem.",
                   },
                   {
-                    icon: <FileCode className="text-purple-400" />,
+                    icon: <FileCode className="text-indigo-400" />,
                     title: "Strategic Listing",
                     desc: "Showcase your project on our professional marketplace and launchpad protocal.",
                   },
                 ].map((item, i) => (
                   <div
                     key={i}
-                    className="flex gap-4 p-4 rounded-2xl bg-white/5 border border-white/5"
+                    className="flex gap-4 p-4 rounded-2xl bg-white/5 border border-white/10 shadow-sm backdrop-blur-sm group hover:border-cyan-500/30 transition-all"
                   >
-                    <div className="w-12 h-12 rounded-xl bg-slate-900 flex items-center justify-center shrink-0">
+                    <div className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center shrink-0 shadow-sm border border-white/10 group-hover:bg-cyan-500/10 transition-colors">
                       {item.icon}
                     </div>
                     <div>
@@ -787,13 +1079,13 @@ export default function App() {
               viewport={{ once: true }}
               className="relative"
             >
-              <div className="absolute -inset-4 bg-gradient-to-tr from-cyan-500/20 to-blue-600/20 rounded-[40px] blur-2xl -z-10" />
-              <Card className="p-8 md:p-12 border-cyan-500/30 bg-slate-900/80 backdrop-blur-md">
+              <div className="absolute -inset-4 bg-gradient-to-tr from-cyan-500/10 to-blue-600/10 rounded-[40px] blur-2xl -z-10" />
+              <Card className="p-8 md:p-12 border-slate-200 bg-white shadow-2xl">
                 <div className="text-center mb-8">
-                  <div className="w-16 h-16 bg-cyan-400/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                    <Rocket className="text-cyan-400 w-8 h-8" />
+                  <div className="w-16 h-16 bg-cyan-50 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-cyan-100">
+                    <Rocket className="text-cyan-600 w-8 h-8" />
                   </div>
-                  <h3 className="text-2xl font-bold text-white">
+                  <h3 className="text-2xl font-bold text-slate-900">
                     Apply for Listing
                   </h3>
                   <p className="text-slate-500">
@@ -806,9 +1098,9 @@ export default function App() {
                     <input
                       type="text"
                       placeholder="Project Name"
-                      className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-cyan-500/50"
+                      className="bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-900 focus:outline-none focus:border-cyan-500 transition-all"
                     />
-                    <select className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-slate-400 focus:outline-none focus:border-cyan-500/50">
+                    <select className="bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-600 focus:outline-none focus:border-cyan-500 transition-all">
                       <option>Token Launch</option>
                       <option>NFT Collection</option>
                       <option>Other</option>
@@ -817,25 +1109,26 @@ export default function App() {
                   <input
                     type="email"
                     placeholder="Your Work Email"
-                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-cyan-500/50"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-900 focus:outline-none focus:border-cyan-500 transition-all"
                   />
                   <textarea
                     placeholder="Tell us briefly about your project..."
                     rows={3}
-                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-cyan-500/50 resize-none"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-900 focus:outline-none focus:border-cyan-500 transition-all resize-none"
                   ></textarea>
                   <Button className="w-full py-4 text-lg">
                     Submit Application
                   </Button>
                 </form>
 
-                <div className="mt-8 pt-8 border-t border-white/5 flex items-center justify-between">
+                <div className="mt-8 pt-8 border-t border-slate-100 flex items-center justify-between">
                   <div className="flex -space-x-2">
                     {[1, 2, 3, 4].map((i) => (
                       <img
                         key={i}
                         src={`https://i.pravatar.cc/100?u=${i + 10}`}
-                        className="w-8 h-8 rounded-full border-2 border-slate-900"
+                        className="w-8 h-8 rounded-full border-2 border-white shadow-sm"
+                        alt="Founder"
                       />
                     ))}
                   </div>

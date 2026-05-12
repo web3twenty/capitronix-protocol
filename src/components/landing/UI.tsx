@@ -26,9 +26,9 @@ export function Button({
   const variants = {
     primary:
       "bg-gradient-to-r from-cyan-400 to-blue-600 text-white hover:from-cyan-500 hover:to-blue-700 shadow-lg shadow-blue-500/20",
-    secondary: "bg-white text-slate-900 hover:bg-slate-100",
-    outline: "border-2 border-cyan-500/50 text-cyan-400 hover:bg-cyan-500/10",
-    ghost: "text-slate-400 hover:text-white hover:bg-slate-800",
+    secondary: "bg-slate-900 text-white hover:bg-slate-800 shadow-md",
+    outline: "border-2 border-cyan-400 text-cyan-500 hover:bg-cyan-50",
+    ghost: "text-slate-500 hover:text-slate-900 hover:bg-slate-100",
   };
 
   const sizes = {
@@ -64,7 +64,7 @@ export function Card({ children, className = "", onClick, id }: CardProps) {
     <div
       id={id}
       onClick={onClick}
-      className={`bg-slate-900/50 backdrop-blur-xl border border-white/10 rounded-3xl p-6 hover:border-cyan-500/30 transition-colors duration-300 ${className}`}
+      className={`bg-white border border-slate-200 rounded-3xl p-6 hover:border-cyan-400 hover:shadow-xl hover:shadow-cyan-500/5 transition-all duration-300 ${className}`}
     >
       {children}
     </div>
@@ -83,7 +83,7 @@ export function Badge({
   return (
     <span
       id={id}
-      className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-cyan-400/10 text-cyan-400 border border-cyan-400/20 ${className}`}
+      className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-cyan-50 text-cyan-700 border border-cyan-200 ${className}`}
     >
       {children}
     </span>
