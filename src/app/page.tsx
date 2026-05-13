@@ -224,6 +224,7 @@ export default function App() {
                   variant="primary"
                   size="lg"
                   className="w-full sm:w-auto h-16 px-12 text-lg font-bold group shadow-xl shadow-cyan-600/20"
+                  onClick={() => (location.href = "/auth/login")}
                 >
                   Join Protocol
                   <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -337,7 +338,7 @@ export default function App() {
       </section>
 
       {/* Stats Section - Ultra-Thin, Minimal Gap */}
-      <section className="py-2 bg-slate-50/80 backdrop-blur-md relative border-b border-slate-200 z-40 sticky top-16 md:top-20">
+      <section className="py-2 bg-slate-50/80 backdrop-blur-md relative z-40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 md:gap-4">
             {[
@@ -730,35 +731,37 @@ export default function App() {
               viewport={{ once: true }}
               className="bg-white p-1 rounded-[32px] border border-slate-200 shadow-xl overflow-hidden"
             >
-              <div className="p-8">
-                <h3 className="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-3">
-                  <Award className="text-amber-500" />
+              <div className="p-4 sm:p-6 md:p-8">
+                <h3 className="text-xl sm:text-2xl font-bold text-slate-900 mb-4 sm:mb-6 flex items-center gap-2 sm:gap-3">
+                  <Award className="text-amber-500 w-5 h-5 sm:w-6 sm:h-6" />
                   Rank and Reward Tiers
                 </h3>
+
                 <div className="overflow-x-auto">
-                  <table className="w-full text-left border-collapse">
+                  <table className="w-full min-w-[500px] text-left border-collapse">
                     <thead>
                       <tr className="border-b border-slate-100">
-                        <th className="pb-4 text-slate-500 text-xs uppercase font-bold tracking-widest">
+                        <th className="pb-3 sm:pb-4 text-slate-500 text-[10px] sm:text-xs uppercase font-bold tracking-widest">
                           Rank
                         </th>
-                        <th className="pb-4 text-slate-500 text-xs uppercase font-bold tracking-widest">
+                        <th className="pb-3 sm:pb-4 text-slate-500 text-[10px] sm:text-xs uppercase font-bold tracking-widest">
                           Condition
                         </th>
-                        <th className="pb-4 text-slate-500 text-xs uppercase font-bold tracking-widest">
+                        <th className="pb-3 sm:pb-4 text-slate-500 text-[10px] sm:text-xs uppercase font-bold tracking-widest">
                           Reward
                         </th>
                       </tr>
                     </thead>
+
                     <tbody>
                       {rewardTiers.map((tier, i) => (
                         <tr
                           key={i}
                           className="group border-b border-slate-50 last:border-0"
                         >
-                          <td className="py-4 font-bold text-slate-900">
+                          <td className="py-3 sm:py-4 font-bold text-slate-900 text-sm sm:text-base whitespace-nowrap">
                             <span
-                              className={`inline-flex items-center justify-center w-6 h-6 rounded text-[10px] mr-2 ${
+                              className={`inline-flex items-center justify-center w-5 h-5 sm:w-6 sm:h-6 rounded text-[9px] sm:text-[10px] mr-2 ${
                                 i === 5
                                   ? "bg-amber-500 text-white"
                                   : "bg-slate-100 text-slate-500"
@@ -768,12 +771,16 @@ export default function App() {
                             </span>
                             {tier.rank}
                           </td>
-                          <td className="py-4 text-slate-600 text-sm">
+
+                          <td className="py-3 sm:py-4 text-slate-600 text-xs sm:text-sm">
                             {tier.condition}
                           </td>
-                          <td className="py-4">
+
+                          <td className="py-3 sm:py-4">
                             <span
-                              className={`font-mono font-bold ${i === 5 ? "text-cyan-600" : "text-slate-900"}`}
+                              className={`font-mono font-bold text-xs sm:text-sm ${
+                                i === 5 ? "text-cyan-600" : "text-slate-900"
+                              }`}
                             >
                               {tier.reward}
                             </span>
@@ -783,8 +790,9 @@ export default function App() {
                     </tbody>
                   </table>
                 </div>
-                <div className="mt-8 pt-8 border-t border-slate-100">
-                  <p className="text-xs text-slate-400 italic text-center">
+
+                <div className="mt-6 sm:mt-8 pt-6 sm:pt-8 border-t border-slate-100">
+                  <p className="text-[10px] sm:text-xs text-slate-400 italic text-center px-2">
                     * Achievers of Rank 6 earn exclusive Ambassador status
                     automatically.
                   </p>
@@ -824,80 +832,94 @@ export default function App() {
               substantial capital and premium ecosystem status.
             </p>
           </div>
-
-          <div className="grid lg:grid-cols-2 gap-12 items-stretch">
-            {/* Left side: Luxury CAR Achievements */}
-            <motion.div {...fadeInUp} className="flex flex-col h-full">
-              <div className="mb-8 flex items-center gap-4">
-                <div className="w-12 h-1 bg-cyan-600 rounded-full" />
-                <h3 className="text-2xl font-black text-slate-950 uppercase tracking-tighter italic">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-12">
+            {/* ================= LEFT: PINNACLE ================= */}
+            <motion.div {...fadeInUp} className="flex flex-col">
+              {/* Header */}
+              <div className="mb-6 flex items-center gap-3">
+                <div className="w-8 sm:w-12 h-1 bg-cyan-600 rounded-full" />
+                <h3 className="text-lg sm:text-2xl font-black text-slate-950 uppercase italic">
                   The Pinnacle Reward
                 </h3>
               </div>
 
-              <div className="relative group flex-grow">
-                <div className="absolute -inset-2 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-[40px] blur-2xl opacity-10 group-hover:opacity-20 transition duration-1000"></div>
-                <Card className="relative h-full overflow-hidden bg-slate-950 border-white/10 flex flex-col shadow-2xl rounded-[32px]">
-                  <div className="absolute top-0 right-0 p-8">
-                    <div className="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-cyan-400 backdrop-blur-sm">
-                      <Car size={32} />
+              <div className="relative group">
+                <Card className="bg-slate-950 border-white/10 rounded-2xl sm:rounded-[32px] overflow-hidden shadow-lg">
+                  {/* MOBILE */}
+                  <div className="block sm:hidden p-5 space-y-5">
+                    <div className="flex justify-between items-center">
+                      <Badge className="bg-amber-500/20 text-amber-500 text-xs">
+                        Tier 4 Completion
+                      </Badge>
+                      <Car size={20} className="text-cyan-400" />
+                    </div>
+
+                    <div>
+                      <h4 className="text-2xl font-black text-white">
+                        $150,000
+                      </h4>
+                      <p className="text-slate-400 text-sm">+ Car reward</p>
+                    </div>
+
+                    <div>
+                      <div className="flex justify-between text-xs mb-2">
+                        <span className="text-slate-500">Cash Bonus</span>
+                        <span className="text-cyan-400">$100,000</span>
+                      </div>
+                      <div className="h-2 bg-white/10 rounded-full overflow-hidden">
+                        <motion.div
+                          initial={{ width: 0 }}
+                          whileInView={{ width: "100%" }}
+                          className="h-full bg-cyan-500"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="flex justify-between items-center bg-white/5 p-4 rounded-xl">
+                      <span className="text-sm text-slate-300">Total</span>
+                      <span className="text-white font-bold">$195K+</span>
                     </div>
                   </div>
 
-                  <div className="p-8 md:p-12 flex-grow flex flex-col justify-center">
-                    <div className="mb-10">
-                      <Badge className="mb-4 bg-amber-500/20 text-amber-500 border-amber-500/30">
+                  {/* DESKTOP */}
+                  <div className="hidden sm:flex flex-col p-8 md:p-12">
+                    <div className="mb-8">
+                      <Badge className="mb-4 bg-amber-500/20 text-amber-500">
                         Tier 4 Completion
                       </Badge>
-                      <h4 className="text-4xl md:text-5xl font-black text-white mb-2 tracking-tight">
+
+                      <h4 className="text-4xl md:text-5xl font-black text-white">
                         $150,000{" "}
-                        <span className="text-slate-500 font-medium text-2xl">
-                          + Car
-                        </span>
+                        <span className="text-slate-500 text-2xl">+ Car</span>
                       </h4>
-                      <p className="text-slate-400 text-lg">
-                        The ultimate entrepreneurial milestone in our ecosystem.
+
+                      <p className="text-slate-400 mt-2">
+                        The ultimate milestone.
                       </p>
                     </div>
 
-                    <div className="space-y-8">
-                      <div>
-                        <div className="flex justify-between items-end mb-4">
-                          <div>
-                            <span className="text-slate-600 text-xs font-black uppercase tracking-widest block mb-1">
-                              Status
-                            </span>
-                            <span className="text-white font-bold">
-                              Cash Bonus Milestone
-                            </span>
-                          </div>
-                          <span className="text-cyan-400 font-black text-2xl tracking-tighter">
-                            $100,000
-                          </span>
-                        </div>
-                        <div className="w-full bg-white/5 h-4 rounded-full overflow-hidden border border-white/5 p-1">
-                          <motion.div
-                            initial={{ width: 0 }}
-                            whileInView={{ width: "100%" }}
-                            transition={{ duration: 2, ease: "circOut" }}
-                            className="bg-gradient-to-r from-cyan-500 to-blue-600 h-full rounded-full shadow-[0_0_20px_rgba(6,182,212,0.5)]"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="p-8 md:px-12 md:pb-12 mt-auto">
-                    <div className="bg-white/5 rounded-[24px] p-6 border border-white/10 backdrop-blur-md flex items-center justify-between">
-                      <div className="flex items-center gap-4">
-                        <div className="w-10 h-10 rounded-full bg-cyan-500/20 flex items-center justify-center text-cyan-400">
-                          <Zap size={20} />
-                        </div>
-                        <span className="text-slate-300 font-medium">
-                          Total Potential Reward
+                    <div className="mb-6">
+                      <div className="flex justify-between mb-2">
+                        <span className="text-slate-400">Cash Bonus</span>
+                        <span className="text-cyan-400 font-bold">
+                          $100,000
                         </span>
                       </div>
-                      <span className="text-white font-black text-2xl md:text-3xl tracking-tight">
+
+                      <div className="h-3 bg-white/10 rounded-full overflow-hidden">
+                        <motion.div
+                          initial={{ width: 0 }}
+                          whileInView={{ width: "100%" }}
+                          className="h-full bg-gradient-to-r from-cyan-500 to-blue-600"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="bg-white/5 p-6 rounded-2xl flex justify-between">
+                      <span className="text-slate-300">
+                        Total Potential Reward
+                      </span>
+                      <span className="text-white text-2xl font-black">
                         $195,000+
                       </span>
                     </div>
@@ -906,23 +928,44 @@ export default function App() {
               </div>
             </motion.div>
 
-            {/* Right side: Board Income Chart */}
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-              className="flex flex-col h-full"
-            >
-              <div className="mb-8 flex items-center gap-4">
-                <div className="w-12 h-1 bg-slate-200 rounded-full" />
-                <h3 className="text-2xl font-black text-slate-950 uppercase tracking-tighter">
+            {/* ================= RIGHT: EARNINGS ================= */}
+            <motion.div className="flex flex-col">
+              {/* Header */}
+              <div className="mb-6 flex items-center gap-3">
+                <div className="w-8 sm:w-12 h-1 bg-slate-300 rounded-full" />
+                <h3 className="text-lg sm:text-2xl font-black text-slate-950 uppercase">
                   Earnings Breakdown
                 </h3>
               </div>
 
-              <div className="flex-grow flex flex-col bg-white rounded-[32px] border border-slate-200 shadow-xl overflow-hidden">
-                <div className="overflow-x-auto">
+              <div className="bg-white rounded-2xl sm:rounded-[32px] border border-slate-200 shadow-xl overflow-hidden flex flex-col">
+                {/* ================= MOBILE (UNCHANGED) ================= */}
+                <div className="block md:hidden p-4 space-y-4">
+                  {boardBenefits.map((board, i) => (
+                    <div
+                      key={i}
+                      className="p-4 rounded-xl border border-slate-100 bg-slate-50"
+                    >
+                      <div className="flex justify-between mb-2">
+                        <span className="font-bold text-slate-900">
+                          Level {i + 1}
+                        </span>
+                        <span className="text-cyan-600 font-bold">
+                          {board.total}
+                        </span>
+                      </div>
+
+                      <div className="text-xs text-slate-500 space-y-1">
+                        <div>L1: {board.bonus1}</div>
+                        <div>L2: {board.bonus2}</div>
+                        <div>L3: {board.bonus3}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* ================= DESKTOP (YOUR ORIGINAL PREMIUM TABLE) ================= */}
+                <div className="hidden md:block overflow-x-auto">
                   <table className="w-full text-left">
                     <thead>
                       <tr className="bg-slate-50 border-b border-slate-100">
@@ -943,6 +986,7 @@ export default function App() {
                         </th>
                       </tr>
                     </thead>
+
                     <tbody className="divide-y divide-slate-50">
                       {boardBenefits.map((board, i) => (
                         <tr
@@ -956,17 +1000,20 @@ export default function App() {
                                   i === 3
                                     ? "bg-amber-100 text-amber-600"
                                     : "bg-slate-100 text-slate-600 group-hover:bg-cyan-100 group-hover:text-cyan-600"
-                                } transition-colors`}
+                                }`}
                               >
                                 {i + 1}
                               </div>
                               <span
-                                className={`font-black text-base md:text-lg tracking-tight ${i === 3 ? "text-amber-500" : "text-slate-900"}`}
+                                className={`font-black text-base md:text-lg ${
+                                  i === 3 ? "text-amber-500" : "text-slate-900"
+                                }`}
                               >
                                 {board.level.split(" ")[1]}
                               </span>
                             </div>
                           </td>
+
                           <td className="py-5 px-4 text-slate-500 font-bold text-sm">
                             {board.bonus1}
                           </td>
@@ -976,9 +1023,12 @@ export default function App() {
                           <td className="py-5 px-4 text-slate-500 font-bold text-sm">
                             {board.bonus3.split(" ")[0]}
                           </td>
+
                           <td className="py-5 px-6 text-right">
                             <span
-                              className={`font-black text-base md:text-xl tracking-tighter ${i === 3 ? "text-cyan-600" : "text-slate-900"}`}
+                              className={`font-black text-base md:text-xl ${
+                                i === 3 ? "text-cyan-600" : "text-slate-900"
+                              }`}
                             >
                               {board.total.includes("+")
                                 ? board.total.split(" ")[0]
@@ -991,19 +1041,21 @@ export default function App() {
                   </table>
                 </div>
 
-                <div className="mt-auto p-8 bg-slate-50/50 border-t border-slate-100">
-                  <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+                {/* Footer */}
+                <div className="mt-auto p-6 sm:p-8 bg-slate-50/50 border-t border-slate-100">
+                  <div className="flex flex-col md:flex-row items-center justify-between gap-4 sm:gap-6">
                     <div className="flex items-center gap-3">
                       <div className="w-3 h-3 rounded-full bg-cyan-500 animate-pulse" />
-                      <span className="text-slate-600 text-sm font-bold uppercase tracking-widest">
+                      <span className="text-slate-600 text-xs sm:text-sm font-bold uppercase tracking-widest">
                         Active Pool Status
                       </span>
                     </div>
+
                     <div className="text-center md:text-right">
                       <div className="text-slate-500 text-[10px] font-black uppercase tracking-widest mb-1">
                         Total System Liquidity
                       </div>
-                      <div className="text-2xl font-black text-slate-950 tracking-tighter bg-cyan-100 px-4 py-1 rounded-xl">
+                      <div className="text-xl sm:text-2xl font-black text-slate-950 tracking-tighter bg-cyan-100 px-4 py-1 rounded-xl">
                         $195,000 USDT
                       </div>
                     </div>

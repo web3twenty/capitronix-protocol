@@ -50,7 +50,7 @@ export function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-2">
-            <Image src="/icon-300x100.png" alt="Logo" width={170} height={75} />
+            <Image src="/icon-300x100.png" alt="Logo" width={150} height={75} />
           </div>
 
           {/* Desktop Nav */}
@@ -117,14 +117,14 @@ export function Footer() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-20">
-          <div className="space-y-8">
-            <div className="flex items-center gap-3">
-              <div className="bg-cyan-500 p-2 rounded-xl shadow-lg shadow-cyan-500/20">
-                <Rocket className="w-6 h-6 text-white" />
-              </div>
-              <span className="text-2xl font-black text-white tracking-tight">
-                Capitronix
-              </span>
+          <div className="space-y-6">
+            <div className="flex items-center gap-2">
+              <Image
+                src="/icon-300x100.png"
+                alt="Logo"
+                width={150}
+                height={75}
+              />
             </div>
             <p className="text-slate-400 leading-relaxed text-sm md:text-base">
               Next-generation token marketing system designed for long-term
