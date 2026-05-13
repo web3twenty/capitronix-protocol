@@ -50,14 +50,7 @@ export function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-2">
-            <a href="/">
-              <Image
-                src="/icon-300x100.png"
-                alt="Logo"
-                width={150}
-                height={75}
-              />
-            </a>
+            <Image src="/icon-300x100.png" alt="Logo" width={150} height={75} />
           </div>
 
           {/* Desktop Nav */}
