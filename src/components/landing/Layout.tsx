@@ -64,11 +64,13 @@ export function Navbar() {
                 {link.name}
               </a>
             ))}
-            <a href="/auth/login">
-              <Button variant="primary" size="sm">
-                Launch App
-              </Button>
-            </a>
+            <Button
+              variant="primary"
+              size="sm"
+              onClick={() => (location.href = "/auth/login")}
+            >
+              Launch App
+            </Button>
           </div>
 
           {/* Mobile Menu Toggle */}
@@ -94,11 +96,14 @@ export function Navbar() {
               {link.name}
             </a>
           ))}
-          <a href="/auth/login">
-            <Button variant="primary" size="md" className="w-full">
-              Launch App
-            </Button>
-          </a>
+          <Button
+            variant="primary"
+            size="md"
+            className="w-full"
+            onClick={() => (location.href = "/auth/login")}
+          >
+            Launch App
+          </Button>
         </div>
       )}
     </nav>

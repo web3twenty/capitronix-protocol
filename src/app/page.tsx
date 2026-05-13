@@ -536,7 +536,7 @@ export default function App() {
           <Card className="relative overflow-hidden border-white/5 bg-white/5 backdrop-blur-md shadow-2xl p-0">
             <div className="absolute top-0 right-0 w-96 h-96 bg-cyan-500/10 blur-[120px] -z-10" />
             <div className="grid lg:grid-cols-2 gap-0 items-stretch">
-              <div className="p-8 md:p-12 lg:p-16">
+              <div className="p-2 md:p-6 lg:p-10">
                 <Badge className="mb-6 bg-cyan-500/20 text-cyan-400 border-cyan-500/30">
                   Activation Rewards
                 </Badge>
@@ -590,11 +590,12 @@ export default function App() {
                   variant="primary"
                   size="lg"
                   className="mt-12 h-14 px-10"
+                  onClick={() => (location.href = "/auth/login")}
                 >
                   Activate Your Account
                 </Button>
               </div>
-              <div className="relative p-8 md:p-12 lg:p-16 bg-white/5 border-l border-white/10 flex flex-col justify-center">
+              <div className="relative p-4 md:p-6 lg:p-10 bg-white/5 border-l border-white/10 flex flex-col justify-center">
                 <div className="space-y-8">
                   <div className="flex items-center gap-4">
                     <div className="w-12 h-1 bg-cyan-500 rounded-full" />
