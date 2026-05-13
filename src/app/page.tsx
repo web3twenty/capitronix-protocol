@@ -210,8 +210,7 @@ export default function App() {
                 transition={{ duration: 0.7, delay: 0.2 }}
                 className="text-xl text-slate-700 max-w-lg mb-14 leading-relaxed"
               >
-                Connecting high-potential startups with a global network of
-                dedicated investors through our strategic growth engine.
+                {`Capitronix Launchpad Protocol is a next-generation token marketing system engineered to solve the "Visibility Gap" in Web3.`}
               </motion.p>
 
               <motion.div

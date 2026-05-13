@@ -50,7 +50,7 @@ export const metadata = {
       "The first protocol where community growth meets token innovation. Join Capitronix to access exclusive presales and earn through our advanced network marketing system.",
     site: "@Capitronix",
     creator: "@Capitronix",
-    images: ["https://capitronix.com/twitter-image.jpg"],
+    images: ["https://capitronix.com/og-image.jpg"],
   },
   robots: {
     index: true,

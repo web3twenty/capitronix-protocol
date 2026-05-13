@@ -88,9 +88,9 @@ export default function Home() {
       value: `$${Number(stats?.boardEarnings || 0).toFixed(2)}`,
     },
     {
-      icon: "mgc_ferris_wheel_line",
-      label: "Lottery",
-      value: "Upcoming..",
+      icon: "mgc_coin_3_line",
+      label: "NFT Collections",
+      value: "0 Units",
     },
   ];
 
