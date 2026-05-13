@@ -280,7 +280,7 @@ export default function App() {
 
                 <div className="relative w-[110%] xl:w-full h-[540px] rounded-[48px] border border-white bg-white/40 backdrop-blur-xl shadow-[0_32px_64px_-12px_rgba(0,163,255,0.15)] p-5 overflow-hidden">
                   <img
-                    src="https://images.unsplash.com/photo-1642104704074-907c0698cbd9?auto=format&fit=crop&q=80&w=2232"
+                    src="/hero.jpg"
                     alt="Capitronix Ecosystem"
                     className="w-full h-full object-cover rounded-[36px] shadow-sm contrast-[1.05]"
                   />
