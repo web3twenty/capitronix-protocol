@@ -338,7 +338,7 @@ export default function App() {
       </section>
 
       {/* Stats Section - Ultra-Thin, Minimal Gap */}
-      <section className="py-2 bg-slate-50/80 backdrop-blur-md relative z-40">
+      <section className="py-2 bg-slate-50/80 backdrop-blur-md relative z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 md:gap-4">
             {[
@@ -397,7 +397,7 @@ export default function App() {
       </section>
 
       {/* Launchpad Section */}
-      <div className="-mt-8 relative z-30">
+      <div className=" relative z-30">
         <Launchpad />
       </div>
 
@@ -595,7 +595,7 @@ export default function App() {
                   Activate Your Account
                 </Button>
               </div>
-              <div className="relative p-4 md:p-6 lg:p-10 bg-white/5 border-l border-white/10 flex flex-col justify-center">
+              <div className="relative p-3 md:p-6 lg:p-10 bg-white/5 border-l border-white/10 flex flex-col justify-center">
                 <div className="space-y-8">
                   <div className="flex items-center gap-4">
                     <div className="w-12 h-1 bg-cyan-500 rounded-full" />
@@ -603,7 +603,7 @@ export default function App() {
                       Affiliate Bonus
                     </h3>
                   </div>
-                  <div className="bg-slate-950 rounded-[32px] p-8 border border-white/5 shadow-2xl">
+                  <div className="bg-slate-950 rounded-[32px] p-4 border border-white/5 shadow-2xl">
                     <div className="flex justify-between items-center mb-8">
                       <span className="text-slate-400 text-xs font-black uppercase tracking-widest">
                         Total Reward Cap
@@ -845,29 +845,31 @@ export default function App() {
               </div>
 
               <div className="relative group">
-                <Card className="bg-slate-950 border-white/10 rounded-2xl sm:rounded-[32px] overflow-hidden shadow-lg">
+                <Card className="bg-white border-slate-200 rounded-2xl sm:rounded-[32px] overflow-hidden shadow-md">
                   {/* MOBILE */}
                   <div className="block sm:hidden p-5 space-y-5">
                     <div className="flex justify-between items-center">
-                      <Badge className="bg-amber-500/20 text-amber-500 text-xs">
+                      <Badge className="bg-amber-100 text-amber-600 text-xs">
                         Tier 4 Completion
                       </Badge>
-                      <Car size={20} className="text-cyan-400" />
+                      <Car size={20} className="text-cyan-600" />
                     </div>
 
                     <div>
-                      <h4 className="text-2xl font-black text-white">
+                      <h4 className="text-2xl font-black text-slate-900">
                         $150,000
                       </h4>
-                      <p className="text-slate-400 text-sm">+ Car reward</p>
+                      <p className="text-slate-500 text-sm">+ Car reward</p>
                     </div>
 
                     <div>
                       <div className="flex justify-between text-xs mb-2">
                         <span className="text-slate-500">Cash Bonus</span>
-                        <span className="text-cyan-400">$100,000</span>
+                        <span className="text-cyan-600 font-semibold">
+                          $100,000
+                        </span>
                       </div>
-                      <div className="h-2 bg-white/10 rounded-full overflow-hidden">
+                      <div className="h-2 bg-slate-200 rounded-full overflow-hidden">
                         <motion.div
                           initial={{ width: 0 }}
                           whileInView={{ width: "100%" }}
@@ -876,38 +878,38 @@ export default function App() {
                       </div>
                     </div>
 
-                    <div className="flex justify-between items-center bg-white/5 p-4 rounded-xl">
-                      <span className="text-sm text-slate-300">Total</span>
-                      <span className="text-white font-bold">$195K+</span>
+                    <div className="flex justify-between items-center bg-slate-100 p-4 rounded-xl">
+                      <span className="text-sm text-slate-600">Total</span>
+                      <span className="text-slate-900 font-bold">$195K+</span>
                     </div>
                   </div>
 
                   {/* DESKTOP */}
                   <div className="hidden sm:flex flex-col p-8 md:p-12">
                     <div className="mb-8">
-                      <Badge className="mb-4 bg-amber-500/20 text-amber-500">
+                      <Badge className="mb-4 bg-amber-100 text-amber-600">
                         Tier 4 Completion
                       </Badge>
 
-                      <h4 className="text-4xl md:text-5xl font-black text-white">
+                      <h4 className="text-4xl md:text-5xl font-black text-slate-900">
                         $150,000{" "}
                         <span className="text-slate-500 text-2xl">+ Car</span>
                       </h4>
 
-                      <p className="text-slate-400 mt-2">
+                      <p className="text-slate-500 mt-2">
                         The ultimate milestone.
                       </p>
                     </div>
 
                     <div className="mb-6">
                       <div className="flex justify-between mb-2">
-                        <span className="text-slate-400">Cash Bonus</span>
-                        <span className="text-cyan-400 font-bold">
+                        <span className="text-slate-500">Cash Bonus</span>
+                        <span className="text-cyan-600 font-bold">
                           $100,000
                         </span>
                       </div>
 
-                      <div className="h-3 bg-white/10 rounded-full overflow-hidden">
+                      <div className="h-3 bg-slate-200 rounded-full overflow-hidden">
                         <motion.div
                           initial={{ width: 0 }}
                           whileInView={{ width: "100%" }}
@@ -916,11 +918,11 @@ export default function App() {
                       </div>
                     </div>
 
-                    <div className="bg-white/5 p-6 rounded-2xl flex justify-between">
-                      <span className="text-slate-300">
+                    <div className="bg-slate-100 p-6 rounded-2xl flex justify-between">
+                      <span className="text-slate-600">
                         Total Potential Reward
                       </span>
-                      <span className="text-white text-2xl font-black">
+                      <span className="text-slate-900 text-2xl font-black">
                         $195,000+
                       </span>
                     </div>

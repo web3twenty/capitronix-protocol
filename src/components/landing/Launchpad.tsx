@@ -56,7 +56,7 @@ function ProjectModal({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-[100] flex items-center justify-center p-4"
+      className="fixed inset-0 z-100 flex items-center justify-center p-4"
     >
       <motion.div
         initial={{ opacity: 0 }}
@@ -494,7 +494,8 @@ function LaunchCard({
 }
 
 export function Launchpad() {
-  const [selectedProject] = useState<LaunchItemProps | null>(null);
+  const [selectedProject, setSelectedProject] =
+    useState<LaunchItemProps | null>(null);
   const [whitelistProject, setWhitelistProject] = useState<string | null>(null);
 
   // Only show Active and Upcoming projects in the Launchpad section, limited to 3 for home page
@@ -554,7 +555,7 @@ export function Launchpad() {
             >
               <LaunchCard
                 item={project}
-                onClick={() => {}}
+                onClick={() => setSelectedProject(project)}
                 onWhitelist={() => setWhitelistProject(project.title)}
               />
             </motion.div>
@@ -617,6 +618,15 @@ export function Launchpad() {
           ))}
         </div>
       </div>
+
+      <AnimatePresence>
+        {selectedProject && (
+          <ProjectModal
+            item={selectedProject}
+            onClose={() => setSelectedProject(null)}
+          />
+        )}
+      </AnimatePresence>
     </section>
   );
 }
