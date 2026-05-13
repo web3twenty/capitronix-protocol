@@ -131,7 +131,7 @@ export default function Deposit() {
                 </h3>
               </div>
               <small className="text-[#E6E6E7] pt-0">
-                Transaction charge: {stats?.DEPOSIT_SETTINGS?.minimumWithdraw}%
+                Transaction charge: {stats?.DEPOSIT_SETTINGS?.withdrawCharge}%
                 (Minimum {stats?.DEPOSIT_SETTINGS?.minimumWithdraw} USDT)
               </small>
             </div>
