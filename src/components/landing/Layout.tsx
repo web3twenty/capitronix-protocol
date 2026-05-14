@@ -1,18 +1,10 @@
 "use client";
 
 import { ReactNode, useState, useEffect } from "react";
-import {
-  Rocket,
-  Menu,
-  X,
-  Mail,
-  MapPin,
-  Twitter,
-  Github,
-  Linkedin,
-} from "lucide-react";
+import { Menu, X, Mail, MapPin } from "lucide-react";
 import { Button } from "./UI";
 import Image from "next/image";
+import { Telegram, Twitter, YouTube, Facebook } from "./icons";
 
 interface LayoutProps {
   children: ReactNode;
@@ -137,22 +129,28 @@ export function Footer() {
             </p>
             <div className="flex gap-4">
               <a
-                href="#"
+                href="https://t.me/capitronixglobal"
                 className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:text-cyan-500 hover:bg-white/10 hover:border-cyan-500/30 transition-all duration-300 shadow-sm"
               >
-                <Twitter size={18} />
+                <Telegram />
               </a>
               <a
-                href="#"
+                href="https://www.facebook.com/capitronixglobal"
                 className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:text-cyan-500 hover:bg-white/10 hover:border-cyan-500/30 transition-all duration-300 shadow-sm"
               >
-                <Github size={18} />
+                <Facebook />
               </a>
               <a
-                href="#"
+                href="https://x.com/Capitronix2026"
                 className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:text-cyan-500 hover:bg-white/10 hover:border-cyan-500/30 transition-all duration-300 shadow-sm"
               >
-                <Linkedin size={18} />
+                <Twitter />
+              </a>
+              <a
+                href="https://www.youtube.com/@CapitronixGlobal"
+                className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:text-cyan-500 hover:bg-white/10 hover:border-cyan-500/30 transition-all duration-300 shadow-sm"
+              >
+                <YouTube />
               </a>
             </div>
           </div>
