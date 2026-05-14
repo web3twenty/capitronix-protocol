@@ -194,7 +194,7 @@ export function Footer() {
 
           <div>
             <h4 className="text-white font-black uppercase tracking-widest text-xs mb-8">
-              Support
+              Resources
             </h4>
             <ul className="space-y-4">
               <li>
@@ -203,7 +203,7 @@ export function Footer() {
                   className="text-slate-400 hover:text-white transition-colors flex items-center gap-2 group"
                 >
                   <div className="w-1 h-1 rounded-full bg-cyan-600/50 group-hover:w-2 transition-all" />{" "}
-                  Documentation
+                  Capitronix NFT
                 </a>
               </li>
               <li>
@@ -212,7 +212,7 @@ export function Footer() {
                   className="text-slate-400 hover:text-white transition-colors flex items-center gap-2 group"
                 >
                   <div className="w-1 h-1 rounded-full bg-cyan-600/50 group-hover:w-2 transition-all" />{" "}
-                  Help Center
+                  Support
                 </a>
               </li>
               <li>
@@ -221,7 +221,7 @@ export function Footer() {
                   className="text-slate-400 hover:text-white transition-colors flex items-center gap-2 group"
                 >
                   <div className="w-1 h-1 rounded-full bg-cyan-600/50 group-hover:w-2 transition-all" />{" "}
-                  Terms of Service
+                  Terms & Conditions
                 </a>
               </li>
             </ul>
