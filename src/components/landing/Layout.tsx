@@ -215,7 +215,7 @@ export function Footer() {
               </li>
               <li>
                 <a
-                  href="#"
+                  href="/terms-and-conditions"
                   className="text-slate-400 hover:text-white transition-colors flex items-center gap-2 group"
                 >
                   <div className="w-1 h-1 rounded-full bg-cyan-600/50 group-hover:w-2 transition-all" />{" "}
