@@ -232,8 +232,9 @@ export default function App() {
                   variant="outline"
                   size="lg"
                   className="w-full sm:w-auto h-16 px-12 text-lg font-bold border-slate-200 bg-white/50 backdrop-blur-sm"
+                  onClick={() => open("/Capitronix-Global.pdf", "_blank")}
                 >
-                  Explore Hub
+                  Whitepaper
                 </Button>
               </motion.div>
 
@@ -477,7 +478,7 @@ export default function App() {
               <div className="absolute -inset-4 bg-gradient-to-tr from-cyan-500/20 to-blue-600/20 blur-[80px] opacity-20 -z-10" />
               <div className="relative p-2 bg-white rounded-[40px] shadow-2xl border border-slate-100">
                 <img
-                  src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fit=crop&q=80&w=2232&ixlib=rb-4.0.3"
+                  src="/about.png"
                   alt="Web3 Visualization"
                   className="rounded-[32px] shadow-sm"
                 />

@@ -9,8 +9,7 @@ export const projects: LaunchItemProps[] = [
     progress: 78,
     totalRaised: "21,000,000 $3TWENTY",
     status: "Active",
-    image:
-      "https://images.unsplash.com/photo-1621761191319-c6fb62004040?auto=format&fit=crop&q=80&w=1000",
+    image: "/image-01.jpg",
     fullDescription:
       "3Twenty Coin is the utility backbone of the Capitronix ecosystem. It powers cross-chain transactions, community rewards, and allows users to participate in the most exclusive token launches with reduced fees.",
     websiteUrl: "https://capitronix.com/3twenty",
@@ -33,8 +32,7 @@ export const projects: LaunchItemProps[] = [
     progress: 42,
     totalRaised: "10,000 Items",
     status: "Active",
-    image:
-      "https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?auto=format&fit=crop&q=80&w=1000",
+    image: "/image-02.jpg",
     fullDescription:
       "The Genesis NFT collection represents founding membership in the Capitronix Protocol. Holders receive permanent allocation bonuses in all future launchpad projects and exclusive access to the VIP Ambassador Pool.",
     websiteUrl: "https://capitronix.com/genesis-nft",
@@ -102,8 +100,7 @@ export const projects: LaunchItemProps[] = [
     progress: 0,
     status: "Upcoming",
     countdown: "03d : 14h : 22m",
-    image:
-      "https://images.unsplash.com/photo-1639762681057-408e52192e55?auto=format&fit=crop&q=80&w=1000",
+    image: "/image-03.jpg",
     fullDescription:
       "CapiNode is a decentralized node infrastructure layer designed to optimize global marketing bandwidth. It allows the Community Growth Engine to scale infinitely by rewarding node operators for network visibility tasks.",
     websiteUrl: "https://capitronix.com/capinode",
